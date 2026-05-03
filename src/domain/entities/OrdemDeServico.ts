@@ -46,6 +46,9 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   get dataFinalizacao(): Date | undefined {
     return this.props.dataFinalizacao;
   }
+  get dataAtualizacao(): Date {
+    return this.props.dataAtualizacao;
+  }
 
   // Estados
   private transicionar(para: StatusOS): void {
@@ -101,7 +104,7 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   }
 
   aprovarOrcamento(): void {
-    // Transição eh controlada pelo próximo comando
+    this.transicionar(StatusOS.EM_EXECUCAO);
   }
 
   iniciarExecucao(): void {
