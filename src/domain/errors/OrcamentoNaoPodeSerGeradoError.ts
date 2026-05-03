@@ -1,7 +1,7 @@
 import { DomainError } from '../../shared/domain/DomainError';
 
 export class OrcamentoNaoPodeSerGeradoError extends DomainError {
-  constructor(orcamento: string) {
-    super(`Ocorreu um erro ao tentar gerar o seu orçamento: ${orcamento}`);
+  constructor() {
+    super(`Ocorreu um erro ao tentar gerar o seu orçamento`);
   }
 }
