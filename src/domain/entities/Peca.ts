@@ -1,6 +1,8 @@
 import { Entity } from '../../shared/domain/Entity';
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
+import { EstoqueInsuficienteError } from '../errors/EstoqueInsuficienteError';
 import { Dinheiro } from '../value-objects/Dinheiro';
+import { Quantidade } from '../value-objects/Quantidade';
 
 interface PecaProps {
   nome: string;
@@ -33,6 +35,18 @@ export class Peca extends Entity<PecaProps> {
 
   get dataAtualizacao(): Date {
     return this.props.dataAtualizacao;
+  }
+
+  possuiEstoqueSuficiente(quantidade: Quantidade): boolean {
+    return this.props.quantidadeEstoque >= quantidade.valor;
+  }
+
+  baixarEstoque(quantidade: Quantidade): void {
+    if (!this.possuiEstoqueSuficiente(quantidade)) {
+      throw new EstoqueInsuficienteError();
+    }
+    this.props.quantidadeEstoque -= quantidade.valor;
+    this.props.dataAtualizacao = new Date();
   }
 
   static criar(nome: string, preco: Dinheiro, quantidadeEstoque: number): Peca {

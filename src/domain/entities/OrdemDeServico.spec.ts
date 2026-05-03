@@ -6,6 +6,8 @@ import { TransicaoStatusInvalidaError } from '../errors/TransicaoStatusInvalidaE
 import { OrcamentoNaoPodeSerGeradoError } from '../errors/OrcamentoNaoPodeSerGeradoError';
 import { OrdemDeServicoSemServicoError } from '../errors/OrdemDeServicoSemServicoError';
 import { ExecucaoNaoPodeSerIniciadaError } from '../errors/ExecucaoNaoPodeSerIniciadaError';
+import { OrcamentoNaoAprovadoError } from '../errors/OrcamentoNaoAprovadoError';
+import { OrcamentoNaoGeradoError } from '../errors/OrcamentoNaoGeradoError';
 
 describe('OrdemDeServico - state machine', () => {
   it('deve iniciar com status RECEBIDA', () => {
@@ -22,6 +24,8 @@ describe('OrdemDeServico - state machine', () => {
   it('deve transicionar EM_DIAGNOSTICO -> AGUARDANDO_APROVACAO', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
     expect(os.status).toBe(StatusOS.AGUARDANDO_APROVACAO);
   });
@@ -29,23 +33,32 @@ describe('OrdemDeServico - state machine', () => {
   it('deve transicionar AGUARDANDO_APROVACAO -> EM_EXECUCAO', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     expect(os.status).toBe(StatusOS.EM_EXECUCAO);
   });
 
-  it('deve transicionar AGUARDANDO_APROVACAO -> EM_EXECUCAO com aprovarOrcamento', () => {
+  it('deve aprovar orcamento sem iniciar execucao automaticamente', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
     os.aprovarOrcamento();
-    expect(os.status).toBe(StatusOS.EM_EXECUCAO);
+    expect(os.status).toBe(StatusOS.AGUARDANDO_APROVACAO);
+    expect(os.orcamentoAprovado).toBe(true);
   });
 
   it('deve transicionar EM_EXECUCAO -> FINALIZADA', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     os.finalizarServico();
     expect(os.status).toBe(StatusOS.FINALIZADA);
@@ -54,18 +67,19 @@ describe('OrdemDeServico - state machine', () => {
   it('deve transicionar FINALIZADA -> ENTREGUE', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     os.finalizarServico();
     os.entregarVeiculo();
     expect(os.status).toBe(StatusOS.ENTREGUE);
   });
 
-  it('deve lancar TransicaoStatusInvalidaError ao pular etapa', () => {
+  it('deve lancar OrcamentoNaoGeradoError ao enviar sem orcamento gerado', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
-    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(
-      TransicaoStatusInvalidaError,
-    );
+    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(OrcamentoNaoGeradoError);
   });
 
   it('deve lancar TransicaoStatusInvalidaError ao voltar etapa', () => {
@@ -77,7 +91,10 @@ describe('OrdemDeServico - state machine', () => {
   it('nao deve permitir transicao a partir de ENTREGUE', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     os.finalizarServico();
     os.entregarVeiculo();
@@ -87,7 +104,10 @@ describe('OrdemDeServico - state machine', () => {
   it('deve preencher dataInicioExecucao ao iniciarExecucao', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     expect(os.dataInicioExecucao).toBeInstanceOf(Date);
   });
@@ -100,10 +120,22 @@ describe('OrdemDeServico - state machine', () => {
   it('deve preencher dataFinalizacao ao finalizarServico', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
     os.enviarOrcamentoParaAprovacao();
+    os.aprovarOrcamento();
     os.iniciarExecucao();
     os.finalizarServico();
     expect(os.dataFinalizacao).toBeInstanceOf(Date);
+  });
+
+  it('deve lancar OrcamentoNaoAprovadoError ao iniciar execucao sem aprovacao', () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
+    os.enviarOrcamentoParaAprovacao();
+    expect(() => os.iniciarExecucao()).toThrow(OrcamentoNaoAprovadoError);
   });
 
   it('deve lancar OrcamentoNaoPodeSerGeradoError se status != EM_DIAGNOSTICO', () => {

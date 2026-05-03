@@ -77,6 +77,9 @@ describe('Entidades basicas do dominio', () => {
     expect(metodosDeInstancia(Cliente)).toEqual([]);
     expect(metodosDeInstancia(Veiculo)).toEqual([]);
     expect(metodosDeInstancia(Servico)).toEqual([]);
-    expect(metodosDeInstancia(Peca)).toEqual([]);
+    expect(metodosDeInstancia(Peca)).toEqual([
+      'possuiEstoqueSuficiente',
+      'baixarEstoque',
+    ]);
   });
 });
