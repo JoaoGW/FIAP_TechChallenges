@@ -1,5 +1,6 @@
 import { Cliente } from '../../../domain/entities/Cliente';
 import { ClienteRepository } from '../../../domain/repositories/ClienteRepository';
+import { ActiveFilter } from '../../../domain/repositories/types';
 
 export class InMemoryClienteRepository implements ClienteRepository {
   public items: Cliente[] = [];
@@ -19,8 +20,16 @@ export class InMemoryClienteRepository implements ClienteRepository {
     return this.items.find((item) => item.getId() === id) ?? null;
   }
 
-  async findAll(): Promise<Cliente[]> {
-    return [...this.items];
+  async findAll(params?: ActiveFilter): Promise<Cliente[]> {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 20;
+    const ativo = params?.ativo;
+    const filtered =
+      ativo === undefined
+        ? this.items
+        : this.items.filter((item) => item.ativo === ativo);
+    const start = (page - 1) * limit;
+    return filtered.slice(start, start + limit);
   }
 
   async findByDocumento(documento: string): Promise<Cliente | null> {

@@ -19,11 +19,13 @@ function metodosDeInstancia(ctor: { prototype: object }): string[] {
 describe('Entidades basicas do dominio', () => {
   it('deve criar Cliente via factory com Documento VO', () => {
     const documento = new Documento('52998224725');
-    const cliente = Cliente.criar('Ana Souza', documento, 'PF');
+    const cliente = Cliente.criar('Ana Souza', documento, 'PF', 'ana@email.com');
 
     expect(cliente.nome).toBe('Ana Souza');
     expect(cliente.documento).toBe(documento);
     expect(cliente.tipo).toBe('PF');
+    expect(cliente.contato).toBe('ana@email.com');
+    expect(cliente.ativo).toBe(true);
     expect(cliente.dataCriacao).toBeInstanceOf(Date);
     expect(cliente.dataAtualizacao).toBeInstanceOf(Date);
   });
@@ -43,6 +45,7 @@ describe('Entidades basicas do dominio', () => {
     expect(veiculo.marca).toBe('Volkswagen');
     expect(veiculo.modelo).toBe('Gol');
     expect(veiculo.ano).toBe(2020);
+    expect(veiculo.ativo).toBe(true);
     expect(veiculo.dataCriacao).toBeInstanceOf(Date);
     expect(veiculo.dataAtualizacao).toBeInstanceOf(Date);
   });
@@ -58,6 +61,7 @@ describe('Entidades basicas do dominio', () => {
     expect(servico.nome).toBe('Alinhamento');
     expect(servico.descricao).toBe('Alinhamento computadorizado');
     expect(servico.preco).toBe(preco);
+    expect(servico.ativo).toBe(true);
     expect(servico.dataCriacao).toBeInstanceOf(Date);
     expect(servico.dataAtualizacao).toBeInstanceOf(Date);
   });
@@ -69,17 +73,36 @@ describe('Entidades basicas do dominio', () => {
     expect(peca.nome).toBe('Filtro de oleo');
     expect(peca.preco).toBe(preco);
     expect(peca.quantidadeEstoque).toBe(12);
+    expect(peca.ativo).toBe(true);
     expect(peca.dataCriacao).toBeInstanceOf(Date);
     expect(peca.dataAtualizacao).toBeInstanceOf(Date);
   });
 
   it('nao deve expor metodos de processamento/transicao nas entidades basicas', () => {
-    expect(metodosDeInstancia(Cliente)).toEqual([]);
-    expect(metodosDeInstancia(Veiculo)).toEqual([]);
-    expect(metodosDeInstancia(Servico)).toEqual([]);
+    expect(metodosDeInstancia(Cliente)).toEqual([
+      'atualizarNome',
+      'atualizarContato',
+      'desativar',
+    ]);
+    expect(metodosDeInstancia(Veiculo)).toEqual([
+      'atualizarMarca',
+      'atualizarModelo',
+      'atualizarAno',
+      'desativar',
+    ]);
+    expect(metodosDeInstancia(Servico)).toEqual([
+      'atualizarNome',
+      'atualizarDescricao',
+      'atualizarPreco',
+      'desativar',
+    ]);
     expect(metodosDeInstancia(Peca)).toEqual([
       'possuiEstoqueSuficiente',
       'baixarEstoque',
+      'ajustarEstoque',
+      'atualizarNome',
+      'atualizarPreco',
+      'desativar',
     ]);
   });
 });

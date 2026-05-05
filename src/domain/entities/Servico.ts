@@ -6,6 +6,7 @@ interface ServicoProps {
   nome: string;
   descricao: string;
   preco: Dinheiro;
+  ativo: boolean;
   dataCriacao: Date;
   dataAtualizacao: Date;
 }
@@ -26,6 +27,9 @@ export class Servico extends Entity<ServicoProps> {
   get preco(): Dinheiro {
     return this.props.preco;
   }
+  get ativo(): boolean {
+    return this.props.ativo;
+  }
 
   get dataCriacao(): Date {
     return this.props.dataCriacao;
@@ -35,12 +39,33 @@ export class Servico extends Entity<ServicoProps> {
     return this.props.dataAtualizacao;
   }
 
+  atualizarNome(nome: string): void {
+    this.props.nome = nome;
+    this.props.dataAtualizacao = new Date();
+  }
+
+  atualizarDescricao(descricao: string): void {
+    this.props.descricao = descricao;
+    this.props.dataAtualizacao = new Date();
+  }
+
+  atualizarPreco(preco: Dinheiro): void {
+    this.props.preco = preco;
+    this.props.dataAtualizacao = new Date();
+  }
+
+  desativar(): void {
+    this.props.ativo = false;
+    this.props.dataAtualizacao = new Date();
+  }
+
   static criar(nome: string, descricao: string, preco: Dinheiro): Servico {
     const agora = new Date();
     return new Servico({
       nome,
       descricao,
       preco,
+      ativo: true,
       dataCriacao: agora,
       dataAtualizacao: agora,
     });

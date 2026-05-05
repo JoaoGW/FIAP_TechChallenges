@@ -1,5 +1,6 @@
 import { OrdemDeServico } from '../../../domain/entities/OrdemDeServico';
 import { OrdemDeServicoRepository } from '../../../domain/repositories/OrdemDeServicoRepository';
+import { PaginationParams } from '../../../domain/repositories/types';
 
 export class InMemoryOrdemDeServicoRepository
   implements OrdemDeServicoRepository
@@ -21,8 +22,20 @@ export class InMemoryOrdemDeServicoRepository
     return this.items.find((item) => item.getId() === id) ?? null;
   }
 
-  async findAll(): Promise<OrdemDeServico[]> {
-    return [...this.items];
+  async findAll(
+    params?: PaginationParams & {
+      status?: string;
+    },
+  ): Promise<OrdemDeServico[]> {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 20;
+    const status = params?.status;
+    const filtered =
+      status === undefined
+        ? this.items
+        : this.items.filter((item) => item.status === status);
+    const start = (page - 1) * limit;
+    return filtered.slice(start, start + limit);
   }
 
   async findByClienteId(clienteId: string): Promise<OrdemDeServico[]> {

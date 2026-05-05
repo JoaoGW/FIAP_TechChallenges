@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id        String    @id
+  nome      String
+  documento String    @unique
+  tipo      String
+  contato   String
+  ativo     Boolean   @default(true)
+  veiculos  Veiculo[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Veiculo {
+  id        String   @id
+  clienteId String
+  placa     String   @unique
+  marca     String
+  modelo    String
+  ano       Int
+  ativo     Boolean  @default(true)
+  cliente   Cliente  @relation(fields: [clienteId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Servico {
+  id        String   @id
+  nome      String
+  descricao String
+  preco     Int
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Peca {
+  id                String   @id
+  nome              String
+  preco             Int
+  quantidadeEstoque Int
+  ativo             Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model OrdemDeServico {
+  id                 String          @id
+  clienteId          String
+  veiculoId          String
+  status             String
+  valorTotal         Int             @default(0)
+  orcamentoGerado    Boolean         @default(false)
+  orcamentoAprovado  Boolean         @default(false)
+  dataInicioExecucao DateTime?
+  dataFinalizacao    DateTime?
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+  itens              ItemOS[]
+  servicos           ItemServicoOS[]
+}
+
+model ItemOS {
+  id            String         @id @default(cuid())
+  osId          String
+  pecaId        String
+  quantidade    Int
+  precoUnitario Int
+  os            OrdemDeServico @relation(fields: [osId], references: [id])
+}
+
+model ItemServicoOS {
+  id            String         @id @default(cuid())
+  osId          String
+  servicoId     String
+  precoUnitario Int
+  os            OrdemDeServico @relation(fields: [osId], references: [id])
+}

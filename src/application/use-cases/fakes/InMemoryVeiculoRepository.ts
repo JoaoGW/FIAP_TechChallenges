@@ -1,5 +1,6 @@
 import { Veiculo } from '../../../domain/entities/Veiculo';
 import { VeiculoRepository } from '../../../domain/repositories/VeiculoRepository';
+import { ActiveFilter } from '../../../domain/repositories/types';
 
 export class InMemoryVeiculoRepository implements VeiculoRepository {
   public items: Veiculo[] = [];
@@ -19,12 +20,25 @@ export class InMemoryVeiculoRepository implements VeiculoRepository {
     return this.items.find((item) => item.getId() === id) ?? null;
   }
 
-  async findAll(): Promise<Veiculo[]> {
-    return [...this.items];
+  async findAll(params?: ActiveFilter): Promise<Veiculo[]> {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 20;
+    const ativo = params?.ativo;
+    const filtered =
+      ativo === undefined
+        ? this.items
+        : this.items.filter((item) => item.ativo === ativo);
+    const start = (page - 1) * limit;
+    return filtered.slice(start, start + limit);
   }
 
-  async findByClienteId(clienteId: string): Promise<Veiculo[]> {
-    return this.items.filter((item) => item.clienteId === clienteId);
+  async findByClienteId(
+    clienteId: string,
+    params?: { ativo?: boolean },
+  ): Promise<Veiculo[]> {
+    const filtered = this.items.filter((item) => item.clienteId === clienteId);
+    if (params?.ativo === undefined) return filtered;
+    return filtered.filter((item) => item.ativo === params.ativo);
   }
 
   async findByPlaca(placa: string): Promise<Veiculo | null> {
