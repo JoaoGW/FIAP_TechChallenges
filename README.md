@@ -57,6 +57,60 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Seguranca
+
+A API utiliza autenticacao JWT para proteger rotas administrativas.
+
+### Login administrativo
+
+`POST /auth/login`
+
+Body:
+
+```json
+{
+  "username": "admin",
+  "password": "sua-senha"
+}
+```
+
+Resposta:
+
+```json
+{
+  "accessToken": "jwt-token"
+}
+```
+
+### Rotas protegidas
+
+As rotas administrativas exigem:
+
+`Authorization: Bearer <token>`
+
+### Rota publica
+
+A rota de consulta publica de status da OS nao exige autenticacao:
+
+`GET /consulta/os/:codigoAcompanhamento/status`
+
+### Variaveis de ambiente
+
+Use `.env` local (nao versionado) e mantenha `.env.example` versionado sem valores reais.
+
+### Scans de seguranca
+
+Relatorios gerados em `reports/security/`:
+
+- `npm-audit.json`
+- `npm-audit.txt`
+- `snyk-report.json`
+- `snyk-report.txt`
+
+Relatorio consolidado:
+
+- `docs/relatorio-vulnerabilidades.md`
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.

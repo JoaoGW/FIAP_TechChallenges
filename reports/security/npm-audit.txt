@@ -1,0 +1,10 @@
+npm audit execution failed due insufficient disk space (ENOSPC).
+Error summary:
+- ENOSPC: no space left on device, write
+- The scan could not complete in this environment until disk space is freed.
+
+Preliminary vulnerability counters observed during dependency installation:
+- Critical: 0
+- High: 11
+- Moderate: 18
+- Low: 5

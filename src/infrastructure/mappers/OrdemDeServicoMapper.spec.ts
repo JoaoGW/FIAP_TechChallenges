@@ -5,6 +5,7 @@ describe('OrdemDeServicoMapper', () => {
   it('deve reconstruir agregado com itens, servicos e datas opcionais', () => {
     const raw = {
       id: 'os-1',
+      codigoAcompanhamento: 'OS-2026-A8K92P',
       clienteId: 'cliente-1',
       veiculoId: 'veiculo-1',
       status: StatusOS.EM_EXECUCAO,
@@ -22,6 +23,7 @@ describe('OrdemDeServicoMapper', () => {
     const os = OrdemDeServicoMapper.toDomain(raw);
 
     expect(os.getId()).toBe('os-1');
+    expect(os.codigoAcompanhamento.valor).toBe('OS-2026-A8K92P');
     expect(os.status).toBe(StatusOS.EM_EXECUCAO);
     expect(os.valorTotal.centavos).toBe(23000);
     expect(os.itens).toHaveLength(1);
@@ -38,6 +40,7 @@ describe('OrdemDeServicoMapper', () => {
   it('deve usar RECEBIDA para status invalido', () => {
     const raw = {
       id: 'os-2',
+      codigoAcompanhamento: 'OS-2026-Z9Y8X7',
       clienteId: 'cliente-2',
       veiculoId: 'veiculo-2',
       status: 'STATUS_INVALIDO',

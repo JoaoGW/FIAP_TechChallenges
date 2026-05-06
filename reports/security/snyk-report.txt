@@ -1,0 +1,11 @@
+Snyk scan execution failed due insufficient disk space (ENOSPC).
+
+Attempt:
+- npx snyk test --json
+- npx snyk test
+
+Observed error:
+- ENOSPC: no space left on device (during npx snyk package installation)
+
+Action required:
+- Free disk space and rerun Snyk scan.

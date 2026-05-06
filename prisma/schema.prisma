@@ -54,6 +54,7 @@ model Peca {
 
 model OrdemDeServico {
   id                 String          @id
+  codigoAcompanhamento String        @unique
   clienteId          String
   veiculoId          String
   status             String

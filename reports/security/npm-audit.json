@@ -1,0 +1,7 @@
+﻿{
+  "error": {
+    "code": "ENOSPC",
+    "summary": "ENOSPC: no space left on device, write",
+    "detail": "There appears to be insufficient space on your system to finish.\nClear up some disk space and try again."
+  }
+}

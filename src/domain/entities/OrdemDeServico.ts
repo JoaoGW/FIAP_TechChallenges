@@ -11,10 +11,12 @@ import { ExecucaoNaoPodeSerIniciadaError } from '../errors/ExecucaoNaoPodeSerIni
 import { OrdemDeServicoSemServicoError } from '../errors/OrdemDeServicoSemServicoError';
 import { OrcamentoNaoAprovadoError } from '../errors/OrcamentoNaoAprovadoError';
 import { OrcamentoNaoGeradoError } from '../errors/OrcamentoNaoGeradoError';
+import { CodigoAcompanhamento } from '../value-objects/CodigoAcompanhamento';
 
 interface OrdemDeServicoProps {
   clienteId: string;
   veiculoId: string;
+  codigoAcompanhamento: CodigoAcompanhamento;
   status: StatusOS;
   servicos: ItemServicoOS[];
   itens: ItemOS[];
@@ -41,6 +43,9 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   }
   get veiculoId(): string {
     return this.props.veiculoId;
+  }
+  get codigoAcompanhamento(): CodigoAcompanhamento {
+    return this.props.codigoAcompanhamento;
   }
   get valorTotal(): Dinheiro {
     return this.props.valorTotal;
@@ -172,10 +177,15 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   }
 
   // Factory
-  static criar(clienteId: string, veiculoId: string): OrdemDeServico {
+  static criar(
+    clienteId: string,
+    veiculoId: string,
+    codigoAcompanhamento?: CodigoAcompanhamento,
+  ): OrdemDeServico {
     return new OrdemDeServico({
       clienteId,
       veiculoId,
+      codigoAcompanhamento: codigoAcompanhamento ?? CodigoAcompanhamento.gerar(),
       status: StatusOS.RECEBIDA,
       servicos: [],
       itens: [],

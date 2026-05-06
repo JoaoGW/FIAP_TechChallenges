@@ -4,10 +4,10 @@ import {
   ApiOperation,
   ApiQuery,
   ApiTags,
-} from '../swagger/swagger.decorators';
-import { JwtAuthGuard } from '../guards/JwtAuthGuard';
-import { ListarOrdensDeServicoUseCase } from '../../application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
-import { BuscarOrdemDeServicoPorIdUseCase } from '../../application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
+import { ListarOrdensDeServicoUseCase } from '../../../application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
+import { BuscarOrdemDeServicoPorIdUseCase } from '../../../application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
 
 @ApiTags('Ordens de Servico')
 @ApiBearerAuth()

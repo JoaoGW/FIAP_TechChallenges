@@ -14,15 +14,15 @@ import {
   ApiOperation,
   ApiQuery,
   ApiTags,
-} from '../swagger/swagger.decorators';
-import { JwtAuthGuard } from '../guards/JwtAuthGuard';
-import { CriarServicoDto } from '../dtos/servico/CriarServicoDto';
-import { AtualizarServicoDto } from '../dtos/servico/AtualizarServicoDto';
-import { CriarServicoUseCase } from '../../application/use-cases/servico/CriarServicoUseCase';
-import { BuscarServicoPorIdUseCase } from '../../application/use-cases/servico/BuscarServicoPorIdUseCase';
-import { ListarServicosUseCase } from '../../application/use-cases/servico/ListarServicosUseCase';
-import { AtualizarServicoUseCase } from '../../application/use-cases/servico/AtualizarServicoUseCase';
-import { RemoverServicoUseCase } from '../../application/use-cases/servico/RemoverServicoUseCase';
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
+import { CriarServicoDto } from '../../dtos/servico/CriarServicoDto';
+import { AtualizarServicoDto } from '../../dtos/servico/AtualizarServicoDto';
+import { CriarServicoUseCase } from '../../../application/use-cases/servico/CriarServicoUseCase';
+import { BuscarServicoPorIdUseCase } from '../../../application/use-cases/servico/BuscarServicoPorIdUseCase';
+import { ListarServicosUseCase } from '../../../application/use-cases/servico/ListarServicosUseCase';
+import { AtualizarServicoUseCase } from '../../../application/use-cases/servico/AtualizarServicoUseCase';
+import { RemoverServicoUseCase } from '../../../application/use-cases/servico/RemoverServicoUseCase';
 
 @ApiTags('Servicos')
 @ApiBearerAuth()

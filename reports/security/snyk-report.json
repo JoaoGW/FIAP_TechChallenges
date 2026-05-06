@@ -1,0 +1,7 @@
+{
+  "error": {
+    "code": "ENOSPC",
+    "summary": "Snyk execution failed while installing npx package due no space left on device.",
+    "detail": "The environment ran out of disk space before Snyk could be installed and executed."
+  }
+}

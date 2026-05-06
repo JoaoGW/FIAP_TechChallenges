@@ -1,5 +1,6 @@
 import { OrdemDeServico } from '../../domain/entities/OrdemDeServico';
 import { StatusOS } from '../../domain/enums/StatusOS';
+import { CodigoAcompanhamento } from '../../domain/value-objects/CodigoAcompanhamento';
 import { Dinheiro } from '../../domain/value-objects/Dinheiro';
 import { ItemOS } from '../../domain/value-objects/ItemOS';
 import { ItemServicoOS } from '../../domain/value-objects/ItemServicoOS';
@@ -33,6 +34,9 @@ export class OrdemDeServicoMapper {
       {
         clienteId: raw.clienteId,
         veiculoId: raw.veiculoId,
+        codigoAcompanhamento: raw.codigoAcompanhamento
+          ? CodigoAcompanhamento.criar(raw.codigoAcompanhamento)
+          : CodigoAcompanhamento.gerar(),
         status,
         servicos,
         itens,
