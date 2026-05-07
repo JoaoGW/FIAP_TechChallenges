@@ -5,6 +5,16 @@ import { AppService } from './app.service';
 import { validateEnv } from './infrastructure/config/env.validation';
 import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
 import { ListarOrdensDeServicoUseCase } from './application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
+import { CriarOrdemDeServicoUseCase } from './application/use-cases/CriarOrdemDeServicoUseCase';
+import { IniciarDiagnosticoUseCase } from './application/use-cases/IniciarDiagnosticoUseCase';
+import { AdicionarServicoOSUseCase } from './application/use-cases/AdicionarServicoOSUseCase';
+import { AdicionarPecaOSUseCase } from './application/use-cases/AdicionarPecaOSUseCase';
+import { GerarOrcamentoUseCase } from './application/use-cases/GerarOrcamentoUseCase';
+import { EnviarOrcamentoParaAprovacaoUseCase } from './application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
+import { AprovarOrcamentoUseCase } from './application/use-cases/AprovarOrcamentoUseCase';
+import { IniciarExecucaoUseCase } from './application/use-cases/IniciarExecucaoUseCase';
+import { FinalizarServicoUseCase } from './application/use-cases/FinalizarServicoUseCase';
+import { EntregarVeiculoUseCase } from './application/use-cases/EntregarVeiculoUseCase';
 import { AjustarEstoqueUseCase } from './application/use-cases/peca/AjustarEstoqueUseCase';
 import { AtualizarPecaUseCase } from './application/use-cases/peca/AtualizarPecaUseCase';
 import { BuscarPecaPorIdUseCase } from './application/use-cases/peca/BuscarPecaPorIdUseCase';
@@ -208,6 +218,79 @@ import { RepositoryModule } from './modules/repository.module';
       provide: BuscarOrdemDeServicoPorIdUseCase,
       useFactory: (repo: PrismaOrdemDeServicoRepository) =>
         new BuscarOrdemDeServicoPorIdUseCase(repo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: CriarOrdemDeServicoUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        clienteRepo: PrismaClienteRepository,
+        veiculoRepo: PrismaVeiculoRepository,
+      ) => new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo),
+      inject: [
+        PrismaOrdemDeServicoRepository,
+        PrismaClienteRepository,
+        PrismaVeiculoRepository,
+      ],
+    },
+    {
+      provide: IniciarDiagnosticoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new IniciarDiagnosticoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: AdicionarServicoOSUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        servicoRepo: PrismaServicoRepository,
+      ) => new AdicionarServicoOSUseCase(osRepo, servicoRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaServicoRepository],
+    },
+    {
+      provide: AdicionarPecaOSUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) => new AdicionarPecaOSUseCase(osRepo, pecaRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaPecaRepository],
+    },
+    {
+      provide: GerarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new GerarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: EnviarOrcamentoParaAprovacaoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new EnviarOrcamentoParaAprovacaoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: AprovarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new AprovarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: IniciarExecucaoUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) => new IniciarExecucaoUseCase(osRepo, pecaRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaPecaRepository],
+    },
+    {
+      provide: FinalizarServicoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new FinalizarServicoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: EntregarVeiculoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new EntregarVeiculoUseCase(osRepo),
       inject: [PrismaOrdemDeServicoRepository],
     },
   ],

@@ -28,7 +28,7 @@ import { AjustarEstoqueUseCase } from '../../../application/use-cases/peca/Ajust
 import { RemoverPecaUseCase } from '../../../application/use-cases/peca/RemoverPecaUseCase';
 
 @ApiTags('Pecas')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT')
 @Controller('pecas')
 @UseGuards(JwtAuthGuard)
 export class PecaController {

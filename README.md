@@ -1,152 +1,381 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Sistema Integrado de Oficina — Tech Challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Descrição
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto implementa o MVP do back-end de um Sistema Integrado de Atendimento e Execução de Serviços para uma oficina mecânica.
 
-## Description
+O sistema permite gerenciar clientes, veículos, serviços, peças e ordens de serviço, além de permitir que clientes acompanhem publicamente o status de uma OS por meio de um código de acompanhamento.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+O projeto foi desenvolvido aplicando conceitos de Domain-Driven Design, arquitetura em camadas, autenticação JWT, validação de dados, testes automatizados e containerização com Docker.
 
-## Project setup
+## Objetivos do MVP
 
-```bash
-$ npm install
+- Cadastrar e administrar clientes, veículos, serviços e peças.
+- Controlar o ciclo completo da Ordem de Serviço.
+- Permitir consulta pública do status da OS por código de acompanhamento.
+- Proteger rotas administrativas com JWT.
+- Disponibilizar documentação Swagger e suíte de testes automatizados.
+
+## Tecnologias utilizadas
+
+- Node.js
+- TypeScript
+- NestJS
+- PostgreSQL
+- Prisma
+- Docker
+- Docker Compose
+- JWT
+- Passport
+- Swagger
+- Jest
+- bcrypt
+- Zod
+
+## Arquitetura
+
+O projeto utiliza arquitetura em camadas inspirada em DDD e Clean Architecture.
+
+```txt
+src/
+ ├── domain/
+ │   ├── entities/
+ │   ├── value-objects/
+ │   ├── enums/
+ │   ├── errors/
+ │   └── repositories/
+ │
+ ├── application/
+ │   └── use-cases/
+ │
+ ├── infrastructure/
+ │   ├── database/
+ │   ├── repositories/
+ │   └── mappers/
+ │
+ ├── interfaces/
+ │   ├── controllers/
+ │   ├── dtos/
+ │   ├── guards/
+ │   └── strategies/
+ │
+ └── modules/
 ```
 
-## Compile and run the project
+### Responsabilidades
 
-```bash
-# development
-$ npm run start
+- `domain`: regras de negócio puras.
+- `application`: orquestração dos casos de uso.
+- `infrastructure`: persistência, mapeamento e integração técnica.
+- `interfaces`: controllers HTTP, DTOs e segurança de borda.
+- `modules`: composição dos módulos NestJS e DI.
 
-# watch mode
-$ npm run start:dev
+## Modelagem DDD
 
-# production mode
-$ npm run start:prod
+A entidade central é a `OrdemDeServico` (Aggregate Root), responsável por controlar:
+
+- status da OS;
+- serviços adicionados com snapshot de preço;
+- peças adicionadas com quantidade e snapshot de preço;
+- geração e aprovação de orçamento;
+- execução, finalização e entrega.
+
+## State Machine da Ordem de Serviço
+
+```txt
+RECEBIDA
+   ↓
+EM_DIAGNOSTICO
+   ↓
+AGUARDANDO_APROVACAO
+   ↓
+EM_EXECUCAO
+   ↓
+FINALIZADA
+   ↓
+ENTREGUE
 ```
 
-## Run tests
+Qualquer transição fora do fluxo definido gera erro de domínio.
+
+## Requisitos atendidos
+
+- CRUD administrativo de clientes, veículos, serviços e peças.
+- Ajuste manual de estoque.
+- Fluxo completo de OS.
+- Consulta pública de status sem JWT.
+- Relatório administrativo de tempo médio de execução com JWT.
+- Testes unitários, de use case e e2e.
+
+## Variáveis de ambiente
+
+Use dois arquivos:
+- `.env` para execucao local (`DATABASE_URL` com `localhost`)
+- `.env.docker` para Docker Compose (`DATABASE_URL` com host `postgres`)
+
+| Variável              | Descrição                           |
+| --------------------- | ----------------------------------- |
+| `DATABASE_URL`        | URL de conexão com PostgreSQL       |
+| `POSTGRES_USER`       | Usuário do PostgreSQL (Docker)      |
+| `POSTGRES_PASSWORD`   | Senha do PostgreSQL (Docker)        |
+| `POSTGRES_DB`         | Nome do banco                       |
+| `JWT_SECRET`          | Segredo do JWT                      |
+| `JWT_EXPIRES_IN`      | Expiração do JWT                    |
+| `ADMIN_USERNAME`      | Usuário administrativo              |
+| `ADMIN_PASSWORD_HASH` | Hash bcrypt da senha administrativa |
+
+## Como rodar com Docker
+
+1. Copie o arquivo de ambiente Docker:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env.docker
 ```
 
-## Seguranca
+2. Ajuste os valores no `.env.docker` (principalmente `JWT_SECRET` e `ADMIN_PASSWORD_HASH`).
+3. Suba o ambiente:
 
-A API utiliza autenticacao JWT para proteger rotas administrativas.
+```bash
+docker compose up --build
+```
 
-### Login administrativo
+API: `http://localhost:3000`  
+Swagger UI: `http://localhost:3000/docs`  
+Swagger JSON: `http://localhost:3000/docs-json`
 
-`POST /auth/login`
+Observação: em versões antigas, use `docker-compose up --build`.
 
-Body:
+## Migrations
+
+No Docker, as migrations são aplicadas automaticamente no startup da API com:
+
+```txt
+npx prisma migrate deploy
+```
+
+## Como rodar localmente
+
+1. Instale dependências:
+
+```bash
+npm install
+```
+
+2. Copie ambiente local:
+
+```bash
+cp .env.example .env
+```
+
+3. Suba apenas o banco:
+
+```bash
+docker compose up postgres -d
+```
+
+4. Rode migrations:
+
+```bash
+npx prisma migrate deploy
+```
+
+5. Gere Prisma Client:
+
+```bash
+npx prisma generate
+```
+
+6. Execute a API:
+
+```bash
+npm run start:dev
+```
+
+## Como gerar hash da senha administrativa
+
+Nunca armazene senha em texto puro.
+
+```bash
+node -e "const bcrypt = require('bcrypt'); bcrypt.hash('admin12345', 10).then(console.log)"
+```
+
+Use o hash gerado no `.env`:
+
+```env
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD_HASH="hash-gerado-aqui"
+```
+
+No login, use a senha original:
 
 ```json
 {
   "username": "admin",
-  "password": "sua-senha"
+  "password": "admin12345"
 }
 ```
 
-Resposta:
+## Como acessar o Swagger
 
-```json
-{
-  "accessToken": "jwt-token"
-}
-```
+- Swagger UI: `http://localhost:3000/docs`
+- Swagger JSON: `http://localhost:3000/docs-json`
 
-### Rotas protegidas
+## Fluxo rápido de validação pelo Swagger
 
-As rotas administrativas exigem:
+1. `POST /auth/login`
+2. Copiar `accessToken`
+3. `Authorize` com `Bearer <token>`
+4. `POST /clientes`
+5. `POST /veiculos`
+6. `POST /servicos`
+7. `POST /pecas`
+8. `POST /ordens-servico`
+9. `POST /ordens-servico/:id/iniciar-diagnostico`
+10. `POST /ordens-servico/:id/servicos`
+11. `POST /ordens-servico/:id/pecas`
+12. `POST /ordens-servico/:id/gerar-orcamento`
+13. `POST /ordens-servico/:id/enviar-orcamento`
+14. `POST /ordens-servico/:id/aprovar-orcamento`
+15. `POST /ordens-servico/:id/iniciar-execucao`
+16. `POST /ordens-servico/:id/finalizar`
+17. `POST /ordens-servico/:id/entregar`
+18. `GET /consulta/os/:codigoAcompanhamento/status`
+19. `GET /relatorios/tempo-medio-execucao`
 
-`Authorization: Bearer <token>`
+## Rotas principais
 
-### Rota publica
+### Autenticação
 
-A rota de consulta publica de status da OS nao exige autenticacao:
+- `POST /auth/login`
 
-`GET /consulta/os/:codigoAcompanhamento/status`
+### Clientes
 
-### Variaveis de ambiente
+- `POST /clientes`
+- `GET /clientes`
+- `GET /clientes?documento=`
+- `GET /clientes/:id`
+- `PUT /clientes/:id`
+- `DELETE /clientes/:id`
 
-Use `.env` local (nao versionado) e mantenha `.env.example` versionado sem valores reais.
+### Veículos
 
-### Scans de seguranca
+- `POST /veiculos`
+- `GET /veiculos`
+- `GET /veiculos/:id`
+- `GET /veiculos/cliente/:clienteId`
+- `PUT /veiculos/:id`
+- `DELETE /veiculos/:id`
 
-Relatorios gerados em `reports/security/`:
+### Serviços
 
-- `npm-audit.json`
-- `npm-audit.txt`
-- `snyk-report.json`
-- `snyk-report.txt`
+- `POST /servicos`
+- `GET /servicos`
+- `GET /servicos/:id`
+- `PUT /servicos/:id`
+- `DELETE /servicos/:id`
 
-Relatorio consolidado:
+### Peças
 
-- `docs/relatorio-vulnerabilidades.md`
+- `POST /pecas`
+- `GET /pecas`
+- `GET /pecas/:id`
+- `PUT /pecas/:id`
+- `PATCH /pecas/:id/estoque`
+- `DELETE /pecas/:id`
 
-## Deployment
+### Ordens de Serviço
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- `POST /ordens-servico`
+- `GET /ordens-servico`
+- `GET /ordens-servico/:id`
+- `POST /ordens-servico/:id/iniciar-diagnostico`
+- `POST /ordens-servico/:id/servicos`
+- `POST /ordens-servico/:id/pecas`
+- `POST /ordens-servico/:id/gerar-orcamento`
+- `POST /ordens-servico/:id/enviar-orcamento`
+- `POST /ordens-servico/:id/aprovar-orcamento`
+- `POST /ordens-servico/:id/iniciar-execucao`
+- `POST /ordens-servico/:id/finalizar`
+- `POST /ordens-servico/:id/entregar`
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Consulta pública
+
+- `GET /consulta/os/:codigoAcompanhamento/status`
+
+### Relatórios
+
+- `GET /relatorios/tempo-medio-execucao`
+
+## Testes
+
+Unitários:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run test
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Cobertura:
 
-## Resources
+```bash
+npm run test:cov
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+E2E:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+docker compose -f docker-compose.test.yml up -d
+npm run test:e2e
+docker compose -f docker-compose.test.yml down
+```
 
-## Support
+Cobertura mínima exigida: 80% (domínios críticos).
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Segurança
 
-## Stay in touch
+- Rotas administrativas protegidas com JWT.
+- `ValidationPipe` global com `whitelist`, `forbidNonWhitelisted` e `transform`.
+- Variaveis sensiveis via `.env` (local) e `.env.docker` (compose).
+- `ADMIN_PASSWORD_HASH` com bcrypt.
+- Rota pública sem JWT com payload mínimo de retorno.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Relatório de vulnerabilidades
 
-## License
+- Arquivo: `docs/relatorio-vulnerabilidades.md`
+- Evidências de scan em: `reports/security/`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Documentação DDD
+
+Link do Miro: `INSERIR_LINK_DO_MIRO_AQUI`
+
+Inclui:
+
+- Event Storming
+- Linguagem ubíqua
+- Entidades e agregados
+- Value Objects
+- Fluxos de OS e estoque
+
+## Entregáveis
+
+- Código-fonte
+- Dockerfile
+- docker-compose.yml
+- README
+- Swagger
+- Documentação DDD
+- Relatório de vulnerabilidades
+- Vídeo demonstrativo
+
+## Grupo e participantes
+
+| Nome | Discord |
+| João Pedro do Carmo Ribeiro | joaogw |
+
+## Links importantes
+
+| Item                          | Link                                          |
+| ----------------------------- | --------------------------------------------- |
+| Repositório                   | https://github.com/JoaoGW/FIAP_TechChallenges |
+| Documentação DDD              | INSERIR_LINK_DO_MIRO                          |
+| Swagger local                 | http://localhost:3000/docs                    |
+| Relatório de vulnerabilidades | docs/relatorio-vulnerabilidades.md            |

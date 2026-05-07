@@ -394,6 +394,7 @@ Temporary Items
 
 # Local
 .env
+.env.docker
 dist
 .webpack
 .serverless/**/*.zip

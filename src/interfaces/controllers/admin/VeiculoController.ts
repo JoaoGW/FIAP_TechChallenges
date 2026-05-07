@@ -26,7 +26,7 @@ import { AtualizarVeiculoUseCase } from '../../../application/use-cases/veiculo/
 import { RemoverVeiculoUseCase } from '../../../application/use-cases/veiculo/RemoverVeiculoUseCase';
 
 @ApiTags('Veiculos')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT')
 @Controller('veiculos')
 @UseGuards(JwtAuthGuard)
 export class VeiculoController {

@@ -9,7 +9,7 @@ import { ObterTempoMedioExecucaoUseCase } from '../../../application/use-cases/O
 import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
 
 @ApiTags('Relatorios')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT')
 @Controller('relatorios')
 @UseGuards(JwtAuthGuard)
 export class RelatorioController {

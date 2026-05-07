@@ -17,14 +17,26 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Sistema Integrado de Oficina')
     .setDescription(
-      'API REST para gestao de ordens de servico, clientes, veiculos, servicos e pecas.',
+      'API REST para gestao de ordens de servico, clientes, veiculos, servicos e pecas de uma oficina mecanica.',
     )
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Informe o token JWT recebido no login administrativo.',
+        in: 'header',
+      },
+      'JWT',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('docs', app, document, {
+    jsonDocumentUrl: 'docs-json',
+  });
 
   await app.listen(3000);
 }
