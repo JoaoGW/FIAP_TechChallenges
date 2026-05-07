@@ -49,7 +49,7 @@ describe('AuthController', () => {
         username: 'admin',
         password: 'Admin@123456',
       })
-      .expect(201);
+      .expect(200);
 
     expect(response.body).toEqual({ accessToken: 'token-123' });
   });

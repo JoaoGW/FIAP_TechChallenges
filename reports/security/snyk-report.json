@@ -1,7 +1,7 @@
 {
-  "error": {
-    "code": "ENOSPC",
-    "summary": "Snyk execution failed while installing npx package due no space left on device.",
-    "detail": "The environment ran out of disk space before Snyk could be installed and executed."
-  }
+  "ok": false,
+  "error": "Use `snyk auth` to authenticate.",
+  "status": 401,
+  "code": "SNYK-0005",
+  "path": "E:\\Coding\\NestJS\\tech-challenge-01"
 }

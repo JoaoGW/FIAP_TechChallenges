@@ -12,6 +12,9 @@ interface Output {
   accessToken: string;
 }
 
+// LoginUseCase e uma excecao justificada:
+// depende de JwtService e ConfigService do NestJS.
+// Em producao, abstrairia por interfaces TokenService e ConfigPort.
 @Injectable()
 export class LoginUseCase {
   constructor(

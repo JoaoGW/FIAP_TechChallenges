@@ -1,11 +1,12 @@
-Snyk scan execution failed due insufficient disk space (ENOSPC).
+﻿
+ ERROR   Authentication error (SNYK-0005)
+         Authentication credentials not recognized, or user access is not provisioned.  
+         Revise credentials and try again, or request access from your Snyk             
+         administrator.                                                                 
+                                                                                        
+           Use `snyk auth` to authenticate.                                             
 
-Attempt:
-- npx snyk test --json
-- npx snyk test
-
-Observed error:
-- ENOSPC: no space left on device (during npx snyk package installation)
-
-Action required:
-- Free disk space and rerun Snyk scan.
+Status:  401 Unauthorized 
+Docs:    https://docs.snyk.io/scan-with-snyk/error-catalog#snyk-0005 
+                                                                     
+ID:      urn:snyk:interaction:1dd6e094-89ac-40c7-ae22-828edc50ee2c 

@@ -25,9 +25,9 @@ Este relatorio apresenta a analise de vulnerabilidades do MVP do sistema da ofic
 Arquivo gerado: `reports/security/npm-audit.json` e `reports/security/npm-audit.txt`.
 
 Status da execucao:
-- Falha por ENOSPC (sem espaco em disco no ambiente de execucao)
+- Executado com sucesso.
 
-Contagem preliminar observada durante `npm install`:
+Contagem de vulnerabilidades:
 - Critical: 0
 - High: 11
 - Moderate: 18
@@ -38,14 +38,15 @@ Contagem preliminar observada durante `npm install`:
 Arquivos gerados: `reports/security/snyk-report.json` e `reports/security/snyk-report.txt`.
 
 Status da execucao:
-- Falha por ENOSPC durante instalacao via `npx snyk`
+- Falha por autenticacao (`401 Unauthorized`).
+- Mensagem da ferramenta: `Use snyk auth to authenticate.`
 
 ## 7. Vulnerabilidades encontradas
 
 | Ferramenta | Pacote | Severidade | Descricao | Mitigacao |
 |---|---|---|---|---|
-| npm audit | (multiplos) | high/moderate/low | Contagem preliminar registrada durante instalacao de dependencias | Executar `npm audit` completo apos liberar espaco e aplicar atualizacoes seguras |
-| Snyk | N/A | N/A | Scan nao concluido por falta de espaco em disco | Liberar espaco, autenticar Snyk e rerodar scan |
+| npm audit | (multiplos) | high/moderate/low | 34 vulnerabilidades no total (0 critical, 11 high, 18 moderate, 5 low) | Corrigir com atualizacoes de dependencias e reexecutar audit |
+| Snyk | N/A | N/A | Scan nao concluido por autenticacao ausente (`SNYK-0005`) | Executar `snyk auth` e rerodar scan |
 
 ## 8. Mitigacoes realizadas
 
@@ -63,8 +64,8 @@ Status da execucao:
 
 ## 9. Riscos aceitos
 
-- Scan de vulnerabilidades incompleto por limitacao operacional de disco (ENOSPC) no ambiente local atual.
-- Contagem detalhada por pacote e CVE do npm audit/Snyk pendente de nova execucao apos liberacao de espaco.
+- Scan do Snyk incompleto por falta de autenticacao no ambiente local atual.
+- Vulnerabilidades reportadas por `npm audit` ainda pendentes de tratativa (mitigacao/upgrade por pacote).
 
 ## 10. Medidas preventivas aplicadas no projeto
 
@@ -79,4 +80,4 @@ Status da execucao:
 
 ## 11. Conclusao
 
-O MVP recebeu controles essenciais de autenticacao, autorizacao e validacao de entrada. A superficie de ataque administrativa foi reduzida com JWT e restricao de payload. A etapa restante para fechamento total da analise de seguranca e rerodar `npm audit` e Snyk apos liberar espaco em disco, para consolidar o inventario completo de vulnerabilidades por pacote/CVE.
+O MVP recebeu controles essenciais de autenticacao, autorizacao e validacao de entrada. A superficie de ataque administrativa foi reduzida com JWT e restricao de payload. O `npm audit` foi executado e armazenado. Para fechar totalmente a analise exigida, falta autenticar o Snyk no ambiente e rerodar o scan para consolidar os achados dessa ferramenta.
