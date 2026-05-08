@@ -15,19 +15,19 @@ import {
   ApiQuery,
   ApiResponse,
   ApiTags,
-} from '../swagger/swagger.decorators';
-import { JwtAuthGuard } from '../guards/JwtAuthGuard';
-import { CriarClienteDto } from '../dtos/cliente/CriarClienteDto';
-import { AtualizarClienteDto } from '../dtos/cliente/AtualizarClienteDto';
-import { CriarClienteUseCase } from '../../application/use-cases/cliente/CriarClienteUseCase';
-import { BuscarClientePorIdUseCase } from '../../application/use-cases/cliente/BuscarClientePorIdUseCase';
-import { BuscarClientePorDocumentoUseCase } from '../../application/use-cases/cliente/BuscarClientePorDocumentoUseCase';
-import { ListarClientesUseCase } from '../../application/use-cases/cliente/ListarClientesUseCase';
-import { AtualizarClienteUseCase } from '../../application/use-cases/cliente/AtualizarClienteUseCase';
-import { RemoverClienteUseCase } from '../../application/use-cases/cliente/RemoverClienteUseCase';
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
+import { CriarClienteDto } from '../../dtos/cliente/CriarClienteDto';
+import { AtualizarClienteDto } from '../../dtos/cliente/AtualizarClienteDto';
+import { CriarClienteUseCase } from '../../../application/use-cases/cliente/CriarClienteUseCase';
+import { BuscarClientePorIdUseCase } from '../../../application/use-cases/cliente/BuscarClientePorIdUseCase';
+import { BuscarClientePorDocumentoUseCase } from '../../../application/use-cases/cliente/BuscarClientePorDocumentoUseCase';
+import { ListarClientesUseCase } from '../../../application/use-cases/cliente/ListarClientesUseCase';
+import { AtualizarClienteUseCase } from '../../../application/use-cases/cliente/AtualizarClienteUseCase';
+import { RemoverClienteUseCase } from '../../../application/use-cases/cliente/RemoverClienteUseCase';
 
 @ApiTags('Clientes')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT')
 @Controller('clientes')
 @UseGuards(JwtAuthGuard)
 export class ClienteController {

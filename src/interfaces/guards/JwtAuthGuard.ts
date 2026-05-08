@@ -1,10 +1,5 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class JwtAuthGuard implements CanActivate {
-  canActivate(_context: ExecutionContext): boolean {
-    // Temporary allow-all guard for phase scaffolding.
-    // This will be replaced by a real JWT strategy in a later phase.
-    return true;
-  }
-}
+export class JwtAuthGuard extends AuthGuard('jwt') {}

@@ -79,6 +79,7 @@ describe('CriarOrdemDeServicoUseCase', () => {
     });
 
     expect(output.id).toBeDefined();
+    expect(output.codigoAcompanhamento).toMatch(/^OS-\d{4}-[A-Z0-9]{6}$/);
     expect(output.status).toBe('RECEBIDA');
     expect(output.dataCriacao).toBeInstanceOf(Date);
     expect(osRepo.items).toHaveLength(1);

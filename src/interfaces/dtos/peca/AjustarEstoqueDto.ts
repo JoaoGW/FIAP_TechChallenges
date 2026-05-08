@@ -1,5 +1,5 @@
 import { IsInt, Min } from 'class-validator';
-import { ApiProperty } from '../../swagger/swagger.decorators';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class AjustarEstoqueDto {
   @ApiProperty({ example: 20 })

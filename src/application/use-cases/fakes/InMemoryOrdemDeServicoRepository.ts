@@ -22,6 +22,16 @@ export class InMemoryOrdemDeServicoRepository
     return this.items.find((item) => item.getId() === id) ?? null;
   }
 
+  async findByCodigoAcompanhamento(
+    codigoAcompanhamento: string,
+  ): Promise<OrdemDeServico | null> {
+    return (
+      this.items.find(
+        (item) => item.codigoAcompanhamento.valor === codigoAcompanhamento,
+      ) ?? null
+    );
+  }
+
   async findAll(
     params?: PaginationParams & {
       status?: string;
@@ -40,5 +50,13 @@ export class InMemoryOrdemDeServicoRepository
 
   async findByClienteId(clienteId: string): Promise<OrdemDeServico[]> {
     return this.items.filter((item) => item.clienteId === clienteId);
+  }
+
+  async findFinalizadasComPeriodoExecucao(): Promise<OrdemDeServico[]> {
+    return this.items.filter(
+      (item) =>
+        item.dataInicioExecucao !== undefined &&
+        item.dataFinalizacao !== undefined,
+    );
   }
 }

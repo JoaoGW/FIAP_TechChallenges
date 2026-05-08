@@ -1,5 +1,5 @@
 import { IsInt, IsOptional, IsString, Min } from 'class-validator';
-import { ApiPropertyOptional } from '../../swagger/swagger.decorators';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AtualizarServicoDto {
   @ApiPropertyOptional({ example: 'Troca de oleo premium' })

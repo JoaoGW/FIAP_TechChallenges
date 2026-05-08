@@ -15,20 +15,20 @@ import {
   ApiOperation,
   ApiQuery,
   ApiTags,
-} from '../swagger/swagger.decorators';
-import { JwtAuthGuard } from '../guards/JwtAuthGuard';
-import { CriarPecaDto } from '../dtos/peca/CriarPecaDto';
-import { AtualizarPecaDto } from '../dtos/peca/AtualizarPecaDto';
-import { AjustarEstoqueDto } from '../dtos/peca/AjustarEstoqueDto';
-import { CriarPecaUseCase } from '../../application/use-cases/peca/CriarPecaUseCase';
-import { BuscarPecaPorIdUseCase } from '../../application/use-cases/peca/BuscarPecaPorIdUseCase';
-import { ListarPecasUseCase } from '../../application/use-cases/peca/ListarPecasUseCase';
-import { AtualizarPecaUseCase } from '../../application/use-cases/peca/AtualizarPecaUseCase';
-import { AjustarEstoqueUseCase } from '../../application/use-cases/peca/AjustarEstoqueUseCase';
-import { RemoverPecaUseCase } from '../../application/use-cases/peca/RemoverPecaUseCase';
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
+import { CriarPecaDto } from '../../dtos/peca/CriarPecaDto';
+import { AtualizarPecaDto } from '../../dtos/peca/AtualizarPecaDto';
+import { AjustarEstoqueDto } from '../../dtos/peca/AjustarEstoqueDto';
+import { CriarPecaUseCase } from '../../../application/use-cases/peca/CriarPecaUseCase';
+import { BuscarPecaPorIdUseCase } from '../../../application/use-cases/peca/BuscarPecaPorIdUseCase';
+import { ListarPecasUseCase } from '../../../application/use-cases/peca/ListarPecasUseCase';
+import { AtualizarPecaUseCase } from '../../../application/use-cases/peca/AtualizarPecaUseCase';
+import { AjustarEstoqueUseCase } from '../../../application/use-cases/peca/AjustarEstoqueUseCase';
+import { RemoverPecaUseCase } from '../../../application/use-cases/peca/RemoverPecaUseCase';
 
 @ApiTags('Pecas')
-@ApiBearerAuth()
+@ApiBearerAuth('JWT')
 @Controller('pecas')
 @UseGuards(JwtAuthGuard)
 export class PecaController {

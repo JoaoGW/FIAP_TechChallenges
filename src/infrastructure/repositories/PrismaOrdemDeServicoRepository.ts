@@ -14,6 +14,7 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
       where: { id: os.getId() },
       create: {
         id: os.getId(),
+        codigoAcompanhamento: os.codigoAcompanhamento.valor,
         clienteId: os.clienteId,
         veiculoId: os.veiculoId,
         status: os.status,
@@ -71,6 +72,17 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
     return OrdemDeServicoMapper.toDomain(raw);
   }
 
+  async findByCodigoAcompanhamento(
+    codigoAcompanhamento: string,
+  ): Promise<OrdemDeServico | null> {
+    const raw = await this.prisma.ordemDeServico.findUnique?.({
+      where: { codigoAcompanhamento },
+      include: { itens: true, servicos: true },
+    });
+    if (!raw) return null;
+    return OrdemDeServicoMapper.toDomain(raw);
+  }
+
   async findAll(
     params?: PaginationParams & {
       status?: string;
@@ -94,6 +106,18 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
     const raws =
       (await this.prisma.ordemDeServico.findMany?.({
         where: { clienteId },
+        include: { itens: true, servicos: true },
+      })) ?? [];
+    return raws.map((raw) => OrdemDeServicoMapper.toDomain(raw));
+  }
+
+  async findFinalizadasComPeriodoExecucao(): Promise<OrdemDeServico[]> {
+    const raws =
+      (await this.prisma.ordemDeServico.findMany?.({
+        where: {
+          dataInicioExecucao: { not: null },
+          dataFinalizacao: { not: null },
+        },
         include: { itens: true, servicos: true },
       })) ?? [];
     return raws.map((raw) => OrdemDeServicoMapper.toDomain(raw));

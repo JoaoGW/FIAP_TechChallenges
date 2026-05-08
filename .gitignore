@@ -392,9 +392,12 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-=======
 # Local
 .env
+.env.docker
 dist
 .webpack
 .serverless/**/*.zip
+.env.local
+.env.*.local
+!.env.example

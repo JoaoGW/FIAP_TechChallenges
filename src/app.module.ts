@@ -1,46 +1,70 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClienteController } from './interfaces/controllers/ClienteController';
-import { VeiculoController } from './interfaces/controllers/VeiculoController';
-import { ServicoController } from './interfaces/controllers/ServicoController';
-import { PecaController } from './interfaces/controllers/PecaController';
-import { OrdemDeServicoController } from './interfaces/controllers/OrdemDeServicoController';
-import { JwtAuthGuard } from './interfaces/guards/JwtAuthGuard';
-import { PrismaService } from './infrastructure/database/PrismaService';
-import { PrismaClienteRepository } from './infrastructure/repositories/PrismaClienteRepository';
-import { PrismaVeiculoRepository } from './infrastructure/repositories/PrismaVeiculoRepository';
-import { PrismaServicoRepository } from './infrastructure/repositories/PrismaServicoRepository';
-import { PrismaPecaRepository } from './infrastructure/repositories/PrismaPecaRepository';
-import { PrismaOrdemDeServicoRepository } from './infrastructure/repositories/PrismaOrdemDeServicoRepository';
-import { CriarClienteUseCase } from './application/use-cases/cliente/CriarClienteUseCase';
-import { BuscarClientePorIdUseCase } from './application/use-cases/cliente/BuscarClientePorIdUseCase';
-import { BuscarClientePorDocumentoUseCase } from './application/use-cases/cliente/BuscarClientePorDocumentoUseCase';
-import { ListarClientesUseCase } from './application/use-cases/cliente/ListarClientesUseCase';
-import { AtualizarClienteUseCase } from './application/use-cases/cliente/AtualizarClienteUseCase';
-import { RemoverClienteUseCase } from './application/use-cases/cliente/RemoverClienteUseCase';
-import { CriarVeiculoUseCase } from './application/use-cases/veiculo/CriarVeiculoUseCase';
-import { BuscarVeiculoPorIdUseCase } from './application/use-cases/veiculo/BuscarVeiculoPorIdUseCase';
-import { ListarVeiculosUseCase } from './application/use-cases/veiculo/ListarVeiculosUseCase';
-import { ListarVeiculosPorClienteUseCase } from './application/use-cases/veiculo/ListarVeiculosPorClienteUseCase';
-import { AtualizarVeiculoUseCase } from './application/use-cases/veiculo/AtualizarVeiculoUseCase';
-import { RemoverVeiculoUseCase } from './application/use-cases/veiculo/RemoverVeiculoUseCase';
-import { CriarServicoUseCase } from './application/use-cases/servico/CriarServicoUseCase';
-import { BuscarServicoPorIdUseCase } from './application/use-cases/servico/BuscarServicoPorIdUseCase';
-import { ListarServicosUseCase } from './application/use-cases/servico/ListarServicosUseCase';
-import { AtualizarServicoUseCase } from './application/use-cases/servico/AtualizarServicoUseCase';
-import { RemoverServicoUseCase } from './application/use-cases/servico/RemoverServicoUseCase';
-import { CriarPecaUseCase } from './application/use-cases/peca/CriarPecaUseCase';
-import { BuscarPecaPorIdUseCase } from './application/use-cases/peca/BuscarPecaPorIdUseCase';
-import { ListarPecasUseCase } from './application/use-cases/peca/ListarPecasUseCase';
-import { AtualizarPecaUseCase } from './application/use-cases/peca/AtualizarPecaUseCase';
-import { AjustarEstoqueUseCase } from './application/use-cases/peca/AjustarEstoqueUseCase';
-import { RemoverPecaUseCase } from './application/use-cases/peca/RemoverPecaUseCase';
-import { ListarOrdensDeServicoUseCase } from './application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
+import { validateEnv } from './infrastructure/config/env.validation';
 import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
+import { ListarOrdensDeServicoUseCase } from './application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
+import { CriarOrdemDeServicoUseCase } from './application/use-cases/CriarOrdemDeServicoUseCase';
+import { IniciarDiagnosticoUseCase } from './application/use-cases/IniciarDiagnosticoUseCase';
+import { AdicionarServicoOSUseCase } from './application/use-cases/AdicionarServicoOSUseCase';
+import { AdicionarPecaOSUseCase } from './application/use-cases/AdicionarPecaOSUseCase';
+import { GerarOrcamentoUseCase } from './application/use-cases/GerarOrcamentoUseCase';
+import { EnviarOrcamentoParaAprovacaoUseCase } from './application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
+import { AprovarOrcamentoUseCase } from './application/use-cases/AprovarOrcamentoUseCase';
+import { IniciarExecucaoUseCase } from './application/use-cases/IniciarExecucaoUseCase';
+import { FinalizarServicoUseCase } from './application/use-cases/FinalizarServicoUseCase';
+import { EntregarVeiculoUseCase } from './application/use-cases/EntregarVeiculoUseCase';
+import { AjustarEstoqueUseCase } from './application/use-cases/peca/AjustarEstoqueUseCase';
+import { AtualizarPecaUseCase } from './application/use-cases/peca/AtualizarPecaUseCase';
+import { BuscarPecaPorIdUseCase } from './application/use-cases/peca/BuscarPecaPorIdUseCase';
+import { CriarPecaUseCase } from './application/use-cases/peca/CriarPecaUseCase';
+import { ListarPecasUseCase } from './application/use-cases/peca/ListarPecasUseCase';
+import { RemoverPecaUseCase } from './application/use-cases/peca/RemoverPecaUseCase';
+import { AtualizarServicoUseCase } from './application/use-cases/servico/AtualizarServicoUseCase';
+import { BuscarServicoPorIdUseCase } from './application/use-cases/servico/BuscarServicoPorIdUseCase';
+import { CriarServicoUseCase } from './application/use-cases/servico/CriarServicoUseCase';
+import { ListarServicosUseCase } from './application/use-cases/servico/ListarServicosUseCase';
+import { RemoverServicoUseCase } from './application/use-cases/servico/RemoverServicoUseCase';
+import { AtualizarVeiculoUseCase } from './application/use-cases/veiculo/AtualizarVeiculoUseCase';
+import { BuscarVeiculoPorIdUseCase } from './application/use-cases/veiculo/BuscarVeiculoPorIdUseCase';
+import { CriarVeiculoUseCase } from './application/use-cases/veiculo/CriarVeiculoUseCase';
+import { ListarVeiculosPorClienteUseCase } from './application/use-cases/veiculo/ListarVeiculosPorClienteUseCase';
+import { ListarVeiculosUseCase } from './application/use-cases/veiculo/ListarVeiculosUseCase';
+import { RemoverVeiculoUseCase } from './application/use-cases/veiculo/RemoverVeiculoUseCase';
+import { AtualizarClienteUseCase } from './application/use-cases/cliente/AtualizarClienteUseCase';
+import { BuscarClientePorDocumentoUseCase } from './application/use-cases/cliente/BuscarClientePorDocumentoUseCase';
+import { BuscarClientePorIdUseCase } from './application/use-cases/cliente/BuscarClientePorIdUseCase';
+import { CriarClienteUseCase } from './application/use-cases/cliente/CriarClienteUseCase';
+import { ListarClientesUseCase } from './application/use-cases/cliente/ListarClientesUseCase';
+import { RemoverClienteUseCase } from './application/use-cases/cliente/RemoverClienteUseCase';
+import { PrismaClienteRepository } from './infrastructure/repositories/PrismaClienteRepository';
+import { PrismaOrdemDeServicoRepository } from './infrastructure/repositories/PrismaOrdemDeServicoRepository';
+import { PrismaPecaRepository } from './infrastructure/repositories/PrismaPecaRepository';
+import { PrismaServicoRepository } from './infrastructure/repositories/PrismaServicoRepository';
+import { PrismaVeiculoRepository } from './infrastructure/repositories/PrismaVeiculoRepository';
+import { ClienteController } from './interfaces/controllers/admin/ClienteController';
+import { OrdemDeServicoController } from './interfaces/controllers/admin/OrdemDeServicoController';
+import { PecaController } from './interfaces/controllers/admin/PecaController';
+import { ServicoController } from './interfaces/controllers/admin/ServicoController';
+import { VeiculoController } from './interfaces/controllers/admin/VeiculoController';
+import { JwtAuthGuard } from './interfaces/guards/JwtAuthGuard';
+import { AuthModule } from './modules/auth.module';
+import { PublicoModule } from './modules/publico.module';
+import { RelatorioModule } from './modules/relatorio.module';
+import { RepositoryModule } from './modules/repository.module';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate: validateEnv,
+    }),
+    RepositoryModule,
+    AuthModule,
+    PublicoModule,
+    RelatorioModule,
+  ],
   controllers: [
     AppController,
     ClienteController,
@@ -52,12 +76,6 @@ import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-
   providers: [
     AppService,
     JwtAuthGuard,
-    PrismaService,
-    PrismaClienteRepository,
-    PrismaVeiculoRepository,
-    PrismaServicoRepository,
-    PrismaPecaRepository,
-    PrismaOrdemDeServicoRepository,
     {
       provide: CriarClienteUseCase,
       useFactory: (repo: PrismaClienteRepository) => new CriarClienteUseCase(repo),
@@ -200,6 +218,79 @@ import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-
       provide: BuscarOrdemDeServicoPorIdUseCase,
       useFactory: (repo: PrismaOrdemDeServicoRepository) =>
         new BuscarOrdemDeServicoPorIdUseCase(repo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: CriarOrdemDeServicoUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        clienteRepo: PrismaClienteRepository,
+        veiculoRepo: PrismaVeiculoRepository,
+      ) => new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo),
+      inject: [
+        PrismaOrdemDeServicoRepository,
+        PrismaClienteRepository,
+        PrismaVeiculoRepository,
+      ],
+    },
+    {
+      provide: IniciarDiagnosticoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new IniciarDiagnosticoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: AdicionarServicoOSUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        servicoRepo: PrismaServicoRepository,
+      ) => new AdicionarServicoOSUseCase(osRepo, servicoRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaServicoRepository],
+    },
+    {
+      provide: AdicionarPecaOSUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) => new AdicionarPecaOSUseCase(osRepo, pecaRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaPecaRepository],
+    },
+    {
+      provide: GerarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new GerarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: EnviarOrcamentoParaAprovacaoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new EnviarOrcamentoParaAprovacaoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: AprovarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new AprovarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: IniciarExecucaoUseCase,
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) => new IniciarExecucaoUseCase(osRepo, pecaRepo),
+      inject: [PrismaOrdemDeServicoRepository, PrismaPecaRepository],
+    },
+    {
+      provide: FinalizarServicoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new FinalizarServicoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: EntregarVeiculoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new EntregarVeiculoUseCase(osRepo),
       inject: [PrismaOrdemDeServicoRepository],
     },
   ],

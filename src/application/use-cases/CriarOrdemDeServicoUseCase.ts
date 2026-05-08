@@ -13,6 +13,7 @@ interface Input {
 
 interface Output {
   id: string;
+  codigoAcompanhamento: string;
   status: string;
   dataCriacao: Date;
 }
@@ -41,6 +42,7 @@ export class CriarOrdemDeServicoUseCase {
 
     return {
       id: os.getId(),
+      codigoAcompanhamento: os.codigoAcompanhamento.valor,
       status: os.status,
       dataCriacao: os.dataCriacao,
     };

@@ -1,5 +1,5 @@
 import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
-import { ApiProperty } from '../../swagger/swagger.decorators';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CriarServicoDto {
   @ApiProperty({ example: 'Troca de oleo' })
