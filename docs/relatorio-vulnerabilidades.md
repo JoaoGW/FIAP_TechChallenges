@@ -12,6 +12,8 @@ Este relatorio apresenta a analise de vulnerabilidades do MVP do sistema da ofic
 ## 3. Data da analise
 
 - 2026-05-06
+- Atualizacao de procedimento: 2026-05-07
+- Execucao completa do Snyk: 2026-05-07
 
 ## 4. Escopo analisado
 
@@ -38,15 +40,53 @@ Contagem de vulnerabilidades:
 Arquivos gerados: `reports/security/snyk-report.json` e `reports/security/snyk-report.txt`.
 
 Status da execucao:
-- Falha por autenticacao (`401 Unauthorized`).
-- Mensagem da ferramenta: `Use snyk auth to authenticate.`
+- Executado com sucesso com autenticacao via `SNYK_TOKEN`.
+- Resultado: 9 issues unicas encontradas em 14 caminhos vulneraveis.
+
+Contagem por severidade (issues unicas):
+- Critical: 1
+- High: 7
+- Medium: 1
+- Low: 0
+
+Procedimento oficial para scan completo:
+- Definir `SNYK_TOKEN` no ambiente ou no arquivo `.env`.
+- Executar `npm run security:snyk`.
+- Evidencias geradas automaticamente em `reports/security/snyk-report.txt` e `reports/security/snyk-report.json`.
 
 ## 7. Vulnerabilidades encontradas
 
-| Ferramenta | Pacote | Severidade | Descricao | Mitigacao |
-|---|---|---|---|---|
-| npm audit | (multiplos) | high/moderate/low | 34 vulnerabilidades no total (0 critical, 11 high, 18 moderate, 5 low) | Corrigir com atualizacoes de dependencias e reexecutar audit |
-| Snyk | N/A | N/A | Scan nao concluido por autenticacao ausente (`SNYK-0005`) | Executar `snyk auth` e rerodar scan |
+<!-- prettier-ignore-start -->
+### npm audit
+- Pacotes afetados: multiplos
+- Severidade: high/moderate/low
+- Resultado: 34 vulnerabilidades no total
+  - 0 critical
+  - 11 high
+  - 18 moderate
+  - 5 low
+- Mitigacao: corrigir com atualizacoes de dependencias e reexecutar audit
+
+### Snyk
+- Pacotes afetados:
+  - `@nestjs/core`
+  - `@nestjs/platform-express`
+  - `prisma`
+  - `effect`
+  - `path-to-regexp`
+  - `multer`
+  - `qs`
+- Severidade: critical/high/medium
+- Resultado: 9 issues unicas em 14 caminhos vulneraveis
+  - 1 critical
+  - 7 high
+  - 1 medium
+- Mitigacao recomendada:
+  - `@nestjs/core` -> `11.1.18`
+  - `@nestjs/platform-express` -> `11.1.18`
+  - `prisma` -> `6.19.3`
+  - `qs` -> `>=6.14.2`
+<!-- prettier-ignore-end -->
 
 ## 8. Mitigacoes realizadas
 
@@ -64,8 +104,8 @@ Status da execucao:
 
 ## 9. Riscos aceitos
 
-- Scan do Snyk incompleto por falta de autenticacao no ambiente local atual.
 - Vulnerabilidades reportadas por `npm audit` ainda pendentes de tratativa (mitigacao/upgrade por pacote).
+- Vulnerabilidades reportadas por `snyk test` ainda pendentes de tratativa (upgrade de dependencias diretas e transitivas).
 
 ## 10. Medidas preventivas aplicadas no projeto
 
@@ -80,4 +120,4 @@ Status da execucao:
 
 ## 11. Conclusao
 
-O MVP recebeu controles essenciais de autenticacao, autorizacao e validacao de entrada. A superficie de ataque administrativa foi reduzida com JWT e restricao de payload. O `npm audit` foi executado e armazenado. Para fechar totalmente a analise exigida, falta autenticar o Snyk no ambiente e rerodar o scan para consolidar os achados dessa ferramenta.
+O MVP recebeu controles essenciais de autenticacao, autorizacao e validacao de entrada. A superficie de ataque administrativa foi reduzida com JWT e restricao de payload. O `npm audit` foi executado e armazenado. O `snyk test` foi executado com sucesso e consolidou achados adicionais, com prioridade para o item critical em cadeia do `prisma` (via `effect`) e para os itens high em `multer` e `path-to-regexp`. O proximo passo e aplicar os upgrades mapeados, rerodar os scans e registrar a reducao de risco residual.

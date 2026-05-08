@@ -1,7 +1,8 @@
-# Sistema Integrado de Oficina — Tech Challenge
+# Sistema Integrado de Oficina - Tech Challenge
 
 ## Descrição
 
+Postech FIAP - Tech Challenge 01
 Este projeto implementa o MVP do back-end de um Sistema Integrado de Atendimento e Execução de Serviços para uma oficina mecânica.
 
 O sistema permite gerenciar clientes, veículos, serviços, peças e ordens de serviço, além de permitir que clientes acompanhem publicamente o status de uma OS por meio de um código de acompanhamento.
@@ -110,6 +111,9 @@ Qualquer transição fora do fluxo definido gera erro de domínio.
 ## Variáveis de ambiente
 
 Use dois arquivos:
+
+A separacao existe porque o host do banco muda entre os ambientes: local usa localhost, enquanto no Docker Compose a API acessa o servico postgres pela rede interna.
+
 - `.env` para execucao local (`DATABASE_URL` com `localhost`)
 - `.env.docker` para Docker Compose (`DATABASE_URL` com host `postgres`)
 
@@ -330,6 +334,28 @@ docker compose -f docker-compose.test.yml down
 
 Cobertura mínima exigida: 80% (domínios críticos).
 
+## Scan completo com Snyk
+
+1. Gere um token no Snyk (Account Settings -> API Token).
+2. Configure o token no `.env`:
+
+```bash
+SNYK_TOKEN="seu-token"
+```
+
+3. Execute o scan:
+
+```bash
+npm run security:snyk
+```
+
+Opcional: a variavel exportada no terminal tambem funciona e tem prioridade sobre o `.env`.
+
+Arquivos gerados:
+
+- `reports/security/snyk-report.txt`
+- `reports/security/snyk-report.json`
+
 ## Segurança
 
 - Rotas administrativas protegidas com JWT.
@@ -345,7 +371,7 @@ Cobertura mínima exigida: 80% (domínios críticos).
 
 ## Documentação DDD
 
-Link do Miro: `INSERIR_LINK_DO_MIRO_AQUI`
+Link do Miro: https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=289441836876
 
 Inclui:
 
@@ -368,14 +394,15 @@ Inclui:
 
 ## Grupo e participantes
 
-| Nome | Discord |
-| João Pedro do Carmo Ribeiro | joaogw |
+Nome: João Pedro do Carmo Ribeiro | Discord: joaogw |
 
 ## Links importantes
 
-| Item                          | Link                                          |
-| ----------------------------- | --------------------------------------------- |
-| Repositório                   | https://github.com/JoaoGW/FIAP_TechChallenges |
-| Documentação DDD              | INSERIR_LINK_DO_MIRO                          |
-| Swagger local                 | http://localhost:3000/docs                    |
-| Relatório de vulnerabilidades | docs/relatorio-vulnerabilidades.md            |
+<!-- prettier-ignore-start -->
+| Item                          | Link                                                                |
+| ----------------------------- | ------------------------------------------------------------------- |
+| Repositorio                   | https://github.com/JoaoGW/FIAP_TechChallenges                       |
+| Documentacao DDD              | https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=289441836876 |
+| Swagger local (localhost)     | http://localhost:3000/docs                                          |
+| Relatorio de vulnerabilidades | docs/relatorio-vulnerabilidades.md                                  |
+<!-- prettier-ignore-end -->
