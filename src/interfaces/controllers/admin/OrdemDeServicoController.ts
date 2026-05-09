@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -22,6 +32,9 @@ import { EntregarVeiculoUseCase } from '../../../application/use-cases/EntregarV
 import { CriarOrdemDeServicoDto } from '../../dtos/ordem-servico/CriarOrdemDeServicoDto';
 import { AdicionarServicoOSDto } from '../../dtos/ordem-servico/AdicionarServicoOSDto';
 import { AdicionarPecaOSDto } from '../../dtos/ordem-servico/AdicionarPecaOSDto';
+import { OrdemDeServicoNaoEncontradaError } from '../../../domain/errors/OrdemDeServicoNaoEncontradaError';
+import { OrcamentoNaoPodeSerGeradoError } from '../../../domain/errors/OrcamentoNaoPodeSerGeradoError';
+import { OrdemDeServicoSemServicoError } from '../../../domain/errors/OrdemDeServicoSemServicoError';
 
 @ApiTags('Ordens de Servico')
 @ApiBearerAuth('JWT')
@@ -127,11 +140,24 @@ export class OrdemDeServicoController {
   @Post(':id/gerar-orcamento')
   @ApiOperation({ summary: 'Gerar orcamento da OS' })
   @ApiResponse({ status: 200, description: 'Orcamento gerado com sucesso' })
-  @ApiResponse({ status: 400, description: 'OS fora de estado para gerar orcamento' })
+  @ApiResponse({ status: 400, description: 'OS fora de estado para gerar orcamento ou sem servicos' })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
   async gerarOrcamentoOS(@Param('id') id: string): Promise<{ valorTotal: number }> {
-    return this.gerarOrcamento.execute({ osId: id });
+    try {
+      return await this.gerarOrcamento.execute({ osId: id });
+    } catch (error) {
+      if (error instanceof OrdemDeServicoNaoEncontradaError) {
+        throw new NotFoundException(error.message);
+      }
+      if (
+        error instanceof OrcamentoNaoPodeSerGeradoError ||
+        error instanceof OrdemDeServicoSemServicoError
+      ) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 
   @Post(':id/enviar-orcamento')
