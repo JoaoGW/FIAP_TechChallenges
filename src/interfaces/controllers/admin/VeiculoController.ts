@@ -1,8 +1,11 @@
 import {
+  BadRequestException,
   Body,
+  ConflictException,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -13,6 +16,7 @@ import {
   ApiBearerAuth,
   ApiOperation,
   ApiQuery,
+  ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
@@ -24,6 +28,9 @@ import { ListarVeiculosUseCase } from '../../../application/use-cases/veiculo/Li
 import { ListarVeiculosPorClienteUseCase } from '../../../application/use-cases/veiculo/ListarVeiculosPorClienteUseCase';
 import { AtualizarVeiculoUseCase } from '../../../application/use-cases/veiculo/AtualizarVeiculoUseCase';
 import { RemoverVeiculoUseCase } from '../../../application/use-cases/veiculo/RemoverVeiculoUseCase';
+import { ClienteNaoEncontradoError } from '../../../domain/errors/ClienteNaoEncontradoError';
+import { PlacaJaCadastradaError } from '../../../domain/errors/PlacaJaCadastradaError';
+import { PlacaVeiculoInvalidaError } from '../../../domain/errors/PlacaVeiculoInvalidaError';
 
 @ApiTags('Veiculos')
 @ApiBearerAuth('JWT')
@@ -41,8 +48,25 @@ export class VeiculoController {
 
   @Post()
   @ApiOperation({ summary: 'Criar veiculo' })
+  @ApiResponse({ status: 201, description: 'Veiculo criado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Placa invalida' })
+  @ApiResponse({ status: 404, description: 'Cliente nao encontrado' })
+  @ApiResponse({ status: 409, description: 'Placa ja cadastrada' })
   async criar(@Body() body: CriarVeiculoDto): Promise<{ id: string }> {
-    return this.criarVeiculo.execute(body);
+    try {
+      return await this.criarVeiculo.execute(body);
+    } catch (error) {
+      if (error instanceof PlacaVeiculoInvalidaError) {
+        throw new BadRequestException(error.message);
+      }
+      if (error instanceof ClienteNaoEncontradoError) {
+        throw new NotFoundException(error.message);
+      }
+      if (error instanceof PlacaJaCadastradaError) {
+        throw new ConflictException(error.message);
+      }
+      throw error;
+    }
   }
 
   @Get()
