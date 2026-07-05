@@ -26,6 +26,7 @@ import { AdicionarPecaOSUseCase } from '../../../application/use-cases/Adicionar
 import { GerarOrcamentoUseCase } from '../../../application/use-cases/GerarOrcamentoUseCase';
 import { EnviarOrcamentoParaAprovacaoUseCase } from '../../../application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
 import { AprovarOrcamentoUseCase } from '../../../application/use-cases/AprovarOrcamentoUseCase';
+import { RecusarOrcamentoUseCase } from '../../../application/use-cases/RecusarOrcamentoUseCase';
 import { IniciarExecucaoUseCase } from '../../../application/use-cases/IniciarExecucaoUseCase';
 import { FinalizarServicoUseCase } from '../../../application/use-cases/FinalizarServicoUseCase';
 import { EntregarVeiculoUseCase } from '../../../application/use-cases/EntregarVeiculoUseCase';
@@ -49,6 +50,7 @@ export class OrdemDeServicoController {
     private readonly gerarOrcamento: GerarOrcamentoUseCase,
     private readonly enviarOrcamento: EnviarOrcamentoParaAprovacaoUseCase,
     private readonly aprovarOrcamento: AprovarOrcamentoUseCase,
+    private readonly recusarOrcamento: RecusarOrcamentoUseCase,
     private readonly iniciarExecucao: IniciarExecucaoUseCase,
     private readonly finalizarServico: FinalizarServicoUseCase,
     private readonly entregarVeiculo: EntregarVeiculoUseCase,
@@ -57,7 +59,12 @@ export class OrdemDeServicoController {
   ) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar ordem de servico' })
+  @ApiOperation({
+    summary: 'Abrir ordem de servico',
+    description:
+      'Recebe cliente, veiculo e opcionalmente servicos e pecas. ' +
+      'Servicos e pecas tambem podem ser adicionados posteriormente via endpoints do fluxo.',
+  })
   @ApiResponse({ status: 201, description: 'Ordem de servico criada com sucesso' })
   @ApiResponse({ status: 400, description: 'Dados invalidos' })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
@@ -178,6 +185,20 @@ export class OrdemDeServicoController {
   @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
   async aprovarOrcamentoOS(@Param('id') id: string) {
     return this.aprovarOrcamento.execute({ osId: id });
+  }
+
+  @Post(':id/recusar-orcamento')
+  @ApiOperation({
+    summary: 'Recusar orcamento da OS (rota administrativa)',
+    description:
+      'Recusa administrativa do orcamento. Para recusa via link de email pelo cliente, use o webhook da Fase 2.3.',
+  })
+  @ApiResponse({ status: 200, description: 'Orcamento recusado, OS cancelada' })
+  @ApiResponse({ status: 400, description: 'Status invalido para recusa' })
+  @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
+  @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
+  async recusarOrcamentoOS(@Param('id') id: string) {
+    return this.recusarOrcamento.execute({ osId: id });
   }
 
   @Post(':id/iniciar-execucao')

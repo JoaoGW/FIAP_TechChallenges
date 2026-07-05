@@ -29,15 +29,15 @@ export class PrismaPecaRepository implements PecaRepository {
   }
 
   async findById(id: string): Promise<Peca | null> {
-    const raw = await this.prisma.peca.findUnique?.({ where: { id } });
-    if (!raw) return null;
-    return PecaMapper.toDomain(raw);
+    const pecaData = await this.prisma.peca.findUnique?.({ where: { id } });
+    if (!pecaData) return null;
+    return PecaMapper.toDomain(pecaData);
   }
 
   async findAll(params?: ActiveFilter): Promise<Peca[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const raws =
+    const pecasData =
       (await this.prisma.peca.findMany?.({
         where: {
           ativo: params?.ativo ?? true,
@@ -45,6 +45,6 @@ export class PrismaPecaRepository implements PecaRepository {
         skip: (page - 1) * limit,
         take: limit,
       })) ?? [];
-    return raws.map((raw) => PecaMapper.toDomain(raw));
+    return pecasData.map((pecaData) => PecaMapper.toDomain(pecaData));
   }
 }

@@ -6,7 +6,9 @@ import { PrismaService } from '../database/PrismaService';
 import { OrdemDeServicoMapper } from '../mappers/OrdemDeServicoMapper';
 
 @Injectable()
-export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository {
+export class PrismaOrdemDeServicoRepository
+  implements OrdemDeServicoRepository
+{
   constructor(private readonly prisma: PrismaService) {}
 
   async save(os: OrdemDeServico): Promise<void> {
@@ -64,23 +66,23 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
   }
 
   async findById(id: string): Promise<OrdemDeServico | null> {
-    const raw = await this.prisma.ordemDeServico.findUnique?.({
+    const ordemData = await this.prisma.ordemDeServico.findUnique?.({
       where: { id },
       include: { itens: true, servicos: true },
     });
-    if (!raw) return null;
-    return OrdemDeServicoMapper.toDomain(raw);
+    if (!ordemData) return null;
+    return OrdemDeServicoMapper.toDomain(ordemData);
   }
 
   async findByCodigoAcompanhamento(
     codigoAcompanhamento: string,
   ): Promise<OrdemDeServico | null> {
-    const raw = await this.prisma.ordemDeServico.findUnique?.({
+    const ordemData = await this.prisma.ordemDeServico.findUnique?.({
       where: { codigoAcompanhamento },
       include: { itens: true, servicos: true },
     });
-    if (!raw) return null;
-    return OrdemDeServicoMapper.toDomain(raw);
+    if (!ordemData) return null;
+    return OrdemDeServicoMapper.toDomain(ordemData);
   }
 
   async findAll(
@@ -90,7 +92,7 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
   ): Promise<OrdemDeServico[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const raws =
+    const ordensData =
       (await this.prisma.ordemDeServico.findMany?.({
         where: {
           status: params?.status,
@@ -99,20 +101,24 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
         skip: (page - 1) * limit,
         take: limit,
       })) ?? [];
-    return raws.map((raw) => OrdemDeServicoMapper.toDomain(raw));
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 
   async findByClienteId(clienteId: string): Promise<OrdemDeServico[]> {
-    const raws =
+    const ordensData =
       (await this.prisma.ordemDeServico.findMany?.({
         where: { clienteId },
         include: { itens: true, servicos: true },
       })) ?? [];
-    return raws.map((raw) => OrdemDeServicoMapper.toDomain(raw));
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 
   async findFinalizadasComPeriodoExecucao(): Promise<OrdemDeServico[]> {
-    const raws =
+    const ordensData =
       (await this.prisma.ordemDeServico.findMany?.({
         where: {
           dataInicioExecucao: { not: null },
@@ -120,6 +126,8 @@ export class PrismaOrdemDeServicoRepository implements OrdemDeServicoRepository 
         },
         include: { itens: true, servicos: true },
       })) ?? [];
-    return raws.map((raw) => OrdemDeServicoMapper.toDomain(raw));
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 }

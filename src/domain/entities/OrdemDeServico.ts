@@ -34,7 +34,6 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     super(props, id);
   }
 
-  // GETs
   get status(): StatusOS {
     return this.props.status;
   }
@@ -78,17 +77,15 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     return this.props.orcamentoAprovado;
   }
 
-  // Estados
   private transicionar(para: StatusOS): void {
-    const permitido = transicoesValidas[this.props.status];
-    if (permitido !== para) {
+    const permitidos = transicoesValidas[this.props.status];
+    if (!permitidos.includes(para)) {
       throw new TransicaoStatusInvalidaError(this.props.status, para);
     }
     this.props.status = para;
     this.props.dataAtualizacao = new Date();
   }
 
-  // Métodos do Domínio
   iniciarDiagnostico(): void {
     this.transicionar(StatusOS.EM_DIAGNOSTICO);
   }
@@ -96,7 +93,9 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   adicionarServico(servicoId: string): void;
   adicionarServico(servicoId: string, preco: Dinheiro): void;
   adicionarServico(servicoId: string, preco?: Dinheiro): void {
-    this.props.servicos.push(new ItemServicoOS(servicoId, preco ?? Dinheiro.zero()));
+    this.props.servicos.push(
+      new ItemServicoOS(servicoId, preco ?? Dinheiro.zero()),
+    );
     this.props.orcamentoGerado = false;
     this.props.orcamentoAprovado = false;
     this.props.dataAtualizacao = new Date();
@@ -107,8 +106,8 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     quantidade: Quantidade,
     precoUnitario: Dinheiro,
   ): void {
-    const item = new ItemOS(pecaId, quantidade, precoUnitario);
-    this.props.itens.push(item);
+    const peca = new ItemOS(pecaId, quantidade, precoUnitario);
+    this.props.itens.push(peca);
     this.props.orcamentoGerado = false;
     this.props.orcamentoAprovado = false;
     this.props.dataAtualizacao = new Date();
@@ -117,25 +116,34 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
   gerarOrcamento(): void;
   gerarOrcamento(precosServicos: Dinheiro[]): void;
   gerarOrcamento(precosServicos?: Dinheiro[]): void {
+    this.validarOrcamentoPodeSerGerado();
+    this.props.valorTotal = this.calcularValorTotal(precosServicos);
+    this.props.orcamentoGerado = true;
+    this.props.orcamentoAprovado = false;
+    this.props.dataAtualizacao = new Date();
+  }
+
+  private validarOrcamentoPodeSerGerado(): void {
     if (this.props.status !== StatusOS.EM_DIAGNOSTICO) {
       throw new OrcamentoNaoPodeSerGeradoError();
     }
     if (this.props.servicos.length === 0) {
       throw new OrdemDeServicoSemServicoError();
     }
-    const precos = precosServicos ?? this.props.servicos.map((servico) => servico.preco);
+  }
+
+  private calcularValorTotal(precosServicos?: Dinheiro[]): Dinheiro {
+    const precos =
+      precosServicos ?? this.props.servicos.map((servico) => servico.preco);
     const totalServicos = precos.reduce(
-      (acc, p) => acc.somar(p),
+      (total, preco) => total.somar(preco),
       Dinheiro.zero(),
     );
     const totalPecas = this.props.itens.reduce(
-      (acc, item) => acc.somar(item.subtotal),
+      (total, peca) => total.somar(peca.subtotal),
       Dinheiro.zero(),
     );
-    this.props.valorTotal = totalServicos.somar(totalPecas);
-    this.props.orcamentoGerado = true;
-    this.props.orcamentoAprovado = false;
-    this.props.dataAtualizacao = new Date();
+    return totalServicos.somar(totalPecas);
   }
 
   enviarOrcamentoParaAprovacao(): void {
@@ -154,6 +162,10 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     }
     this.props.orcamentoAprovado = true;
     this.props.dataAtualizacao = new Date();
+  }
+
+  recusarOrcamento(): void {
+    this.transicionar(StatusOS.CANCELADA);
   }
 
   iniciarExecucao(): void {
@@ -176,7 +188,6 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     this.transicionar(StatusOS.ENTREGUE);
   }
 
-  // Factory
   static criar(
     clienteId: string,
     veiculoId: string,
@@ -185,7 +196,8 @@ export class OrdemDeServico extends Entity<OrdemDeServicoProps> {
     return new OrdemDeServico({
       clienteId,
       veiculoId,
-      codigoAcompanhamento: codigoAcompanhamento ?? CodigoAcompanhamento.gerar(),
+      codigoAcompanhamento:
+        codigoAcompanhamento ?? CodigoAcompanhamento.gerar(),
       status: StatusOS.RECEBIDA,
       servicos: [],
       itens: [],

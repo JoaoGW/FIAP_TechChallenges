@@ -3,18 +3,24 @@ import { Documento } from '../../domain/value-objects/Documento';
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
 
 export class ClienteMapper {
-  static toDomain(raw: any): Cliente {
+  static toDomain(clienteData: any): Cliente {
     return new Cliente(
       {
-        nome: raw.nome,
-        documento: new Documento(raw.documento),
-        tipo: raw.tipo ?? (raw.documento?.length === 11 ? 'PF' : 'PJ'),
-        contato: raw.contato ?? '',
-        ativo: raw.ativo ?? true,
-        dataCriacao: raw.createdAt ? new Date(raw.createdAt) : new Date(),
-        dataAtualizacao: raw.updatedAt ? new Date(raw.updatedAt) : new Date(),
+        nome: clienteData.nome,
+        documento: new Documento(clienteData.documento),
+        tipo:
+          clienteData.tipo ??
+          (clienteData.documento?.length === 11 ? 'PF' : 'PJ'),
+        contato: clienteData.contato ?? '',
+        ativo: clienteData.ativo ?? true,
+        dataCriacao: clienteData.createdAt
+          ? new Date(clienteData.createdAt)
+          : new Date(),
+        dataAtualizacao: clienteData.updatedAt
+          ? new Date(clienteData.updatedAt)
+          : new Date(),
       },
-      new UniqueEntityId(raw.id),
+      new UniqueEntityId(clienteData.id),
     );
   }
 }

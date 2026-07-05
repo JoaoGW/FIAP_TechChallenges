@@ -12,6 +12,7 @@ import { AdicionarPecaOSUseCase } from './application/use-cases/AdicionarPecaOSU
 import { GerarOrcamentoUseCase } from './application/use-cases/GerarOrcamentoUseCase';
 import { EnviarOrcamentoParaAprovacaoUseCase } from './application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
 import { AprovarOrcamentoUseCase } from './application/use-cases/AprovarOrcamentoUseCase';
+import { RecusarOrcamentoUseCase } from './application/use-cases/RecusarOrcamentoUseCase';
 import { IniciarExecucaoUseCase } from './application/use-cases/IniciarExecucaoUseCase';
 import { FinalizarServicoUseCase } from './application/use-cases/FinalizarServicoUseCase';
 import { EntregarVeiculoUseCase } from './application/use-cases/EntregarVeiculoUseCase';
@@ -226,11 +227,22 @@ import { RepositoryModule } from './modules/repository.module';
         osRepo: PrismaOrdemDeServicoRepository,
         clienteRepo: PrismaClienteRepository,
         veiculoRepo: PrismaVeiculoRepository,
-      ) => new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo),
+        servicoRepo: PrismaServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) =>
+        new CriarOrdemDeServicoUseCase(
+          osRepo,
+          clienteRepo,
+          veiculoRepo,
+          servicoRepo,
+          pecaRepo,
+        ),
       inject: [
         PrismaOrdemDeServicoRepository,
         PrismaClienteRepository,
         PrismaVeiculoRepository,
+        PrismaServicoRepository,
+        PrismaPecaRepository,
       ],
     },
     {
@@ -271,6 +283,12 @@ import { RepositoryModule } from './modules/repository.module';
       provide: AprovarOrcamentoUseCase,
       useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
         new AprovarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: RecusarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new RecusarOrcamentoUseCase(osRepo),
       inject: [PrismaOrdemDeServicoRepository],
     },
     {

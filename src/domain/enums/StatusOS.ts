@@ -5,13 +5,18 @@ export enum StatusOS {
   EM_EXECUCAO = 'EM_EXECUCAO',
   FINALIZADA = 'FINALIZADA',
   ENTREGUE = 'ENTREGUE',
+  CANCELADA = 'CANCELADA',
 }
 
-export const transicoesValidas: Record<StatusOS, StatusOS | null> = {
-  [StatusOS.RECEBIDA]: StatusOS.EM_DIAGNOSTICO,
-  [StatusOS.EM_DIAGNOSTICO]: StatusOS.AGUARDANDO_APROVACAO,
-  [StatusOS.AGUARDANDO_APROVACAO]: StatusOS.EM_EXECUCAO,
-  [StatusOS.EM_EXECUCAO]: StatusOS.FINALIZADA,
-  [StatusOS.FINALIZADA]: StatusOS.ENTREGUE,
-  [StatusOS.ENTREGUE]: null,
+export const transicoesValidas: Record<StatusOS, StatusOS[]> = {
+  [StatusOS.RECEBIDA]: [StatusOS.EM_DIAGNOSTICO],
+  [StatusOS.EM_DIAGNOSTICO]: [StatusOS.AGUARDANDO_APROVACAO],
+  [StatusOS.AGUARDANDO_APROVACAO]: [
+    StatusOS.EM_EXECUCAO,
+    StatusOS.CANCELADA,
+  ],
+  [StatusOS.EM_EXECUCAO]: [StatusOS.FINALIZADA],
+  [StatusOS.FINALIZADA]: [StatusOS.ENTREGUE],
+  [StatusOS.ENTREGUE]: [],
+  [StatusOS.CANCELADA]: [],
 };

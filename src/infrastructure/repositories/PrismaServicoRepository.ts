@@ -29,15 +29,17 @@ export class PrismaServicoRepository implements ServicoRepository {
   }
 
   async findById(id: string): Promise<Servico | null> {
-    const raw = await this.prisma.servico.findUnique?.({ where: { id } });
-    if (!raw) return null;
-    return ServicoMapper.toDomain(raw);
+    const servicoData = await this.prisma.servico.findUnique?.({
+      where: { id },
+    });
+    if (!servicoData) return null;
+    return ServicoMapper.toDomain(servicoData);
   }
 
   async findAll(params?: ActiveFilter): Promise<Servico[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const raws =
+    const servicosData =
       (await this.prisma.servico.findMany?.({
         where: {
           ativo: params?.ativo ?? true,
@@ -45,6 +47,8 @@ export class PrismaServicoRepository implements ServicoRepository {
         skip: (page - 1) * limit,
         take: limit,
       })) ?? [];
-    return raws.map((raw) => ServicoMapper.toDomain(raw));
+    return servicosData.map((servicoData) =>
+      ServicoMapper.toDomain(servicoData),
+    );
   }
 }

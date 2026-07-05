@@ -71,6 +71,21 @@ src/
 - `interfaces`: controllers HTTP, DTOs e segurança de borda.
 - `modules`: composição dos módulos NestJS e DI.
 
+## Arquitetura - Fase 2
+
+A aplicacao segue Clean Architecture com ports/adapters para integracoes externas.
+A regra de dependencia adotada e:
+
+- `domain/` nao depende de nenhuma camada.
+- `application/` depende apenas de `domain/` e de suas proprias `ports/`.
+- `infrastructure/` implementa interfaces definidas em `domain/` e `application/ports/`.
+- `interfaces/` expoe HTTP, DTOs, guards e strategies, chamando apenas use cases.
+
+Integracoes externas, como email e notificacoes, sao abstraidas por contratos em
+`application/ports/output/` e implementadas por adaptadores em
+`infrastructure/adapters/`. O `LoginUseCase` e a unica excecao documentada por
+usar diretamente `JwtService` e `ConfigService` do NestJS no MVP.
+
 ## Modelagem DDD
 
 A entidade central é a `OrdemDeServico` (Aggregate Root), responsável por controlar:

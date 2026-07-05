@@ -40,6 +40,8 @@ export class ConsultarStatusOSUseCase {
       [StatusOS.FINALIZADA]:
         'O servico foi finalizado e o veiculo esta aguardando entrega.',
       [StatusOS.ENTREGUE]: 'O veiculo foi entregue ao cliente.',
+      [StatusOS.CANCELADA]:
+        'O orcamento foi recusado e a ordem de servico foi cancelada.',
     };
 
     return descricoes[status];
