@@ -107,7 +107,9 @@ describe('OrdemDeServico - state machine', () => {
 
   it('deve lancar OrcamentoNaoGeradoError ao enviar sem orcamento gerado', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
-    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(OrcamentoNaoGeradoError);
+    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(
+      OrcamentoNaoGeradoError,
+    );
   });
 
   it('deve lancar TransicaoStatusInvalidaError ao voltar etapa', () => {

@@ -52,4 +52,20 @@ describe('OrdemDeServicoMapper', () => {
     const os = OrdemDeServicoMapper.toDomain(ordemData);
     expect(os.status).toBe(StatusOS.RECEBIDA);
   });
+
+  it('deve reconstruir OS cancelada', () => {
+    const ordemData = {
+      id: 'os-3',
+      codigoAcompanhamento: 'OS-2026-C4NCLD',
+      clienteId: 'cliente-3',
+      veiculoId: 'veiculo-3',
+      status: StatusOS.CANCELADA,
+      valorTotal: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const os = OrdemDeServicoMapper.toDomain(ordemData);
+    expect(os.status).toBe(StatusOS.CANCELADA);
+  });
 });

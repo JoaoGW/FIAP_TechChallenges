@@ -11,10 +11,7 @@ export enum StatusOS {
 export const transicoesValidas: Record<StatusOS, StatusOS[]> = {
   [StatusOS.RECEBIDA]: [StatusOS.EM_DIAGNOSTICO],
   [StatusOS.EM_DIAGNOSTICO]: [StatusOS.AGUARDANDO_APROVACAO],
-  [StatusOS.AGUARDANDO_APROVACAO]: [
-    StatusOS.EM_EXECUCAO,
-    StatusOS.CANCELADA,
-  ],
+  [StatusOS.AGUARDANDO_APROVACAO]: [StatusOS.EM_EXECUCAO, StatusOS.CANCELADA],
   [StatusOS.EM_EXECUCAO]: [StatusOS.FINALIZADA],
   [StatusOS.FINALIZADA]: [StatusOS.ENTREGUE],
   [StatusOS.ENTREGUE]: [],

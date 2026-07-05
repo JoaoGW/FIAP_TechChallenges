@@ -65,12 +65,13 @@ export class OrdemDeServicoController {
       'Recebe cliente, veiculo e opcionalmente servicos e pecas. ' +
       'Servicos e pecas tambem podem ser adicionados posteriormente via endpoints do fluxo.',
   })
-  @ApiResponse({ status: 201, description: 'Ordem de servico criada com sucesso' })
+  @ApiResponse({
+    status: 201,
+    description: 'Ordem de servico criada com sucesso',
+  })
   @ApiResponse({ status: 400, description: 'Dados invalidos' })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
-  async criar(
-    @Body() body: CriarOrdemDeServicoDto,
-  ): Promise<{
+  async criar(@Body() body: CriarOrdemDeServicoDto): Promise<{
     id: string;
     codigoAcompanhamento: string;
     status: string;
@@ -84,7 +85,10 @@ export class OrdemDeServicoController {
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'limit', required: false })
   @ApiQuery({ name: 'status', required: false })
-  @ApiResponse({ status: 200, description: 'Lista de ordens retornada com sucesso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de ordens retornada com sucesso',
+  })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   async listar(
     @Query('page') page?: number,
@@ -127,16 +131,25 @@ export class OrdemDeServicoController {
     @Param('id') id: string,
     @Body() body: AdicionarServicoOSDto,
   ) {
-    return this.adicionarServico.execute({ osId: id, servicoId: body.servicoId });
+    return this.adicionarServico.execute({
+      osId: id,
+      servicoId: body.servicoId,
+    });
   }
 
   @Post(':id/pecas')
   @ApiOperation({ summary: 'Adicionar peca na OS' })
   @ApiResponse({ status: 200, description: 'Peca adicionada com sucesso' })
-  @ApiResponse({ status: 400, description: 'Dados invalidos ou estoque insuficiente' })
+  @ApiResponse({
+    status: 400,
+    description: 'Dados invalidos ou estoque insuficiente',
+  })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'OS ou peca nao encontrada' })
-  async adicionarPecaOS(@Param('id') id: string, @Body() body: AdicionarPecaOSDto) {
+  async adicionarPecaOS(
+    @Param('id') id: string,
+    @Body() body: AdicionarPecaOSDto,
+  ) {
     return this.adicionarPeca.execute({
       osId: id,
       pecaId: body.pecaId,
@@ -147,10 +160,15 @@ export class OrdemDeServicoController {
   @Post(':id/gerar-orcamento')
   @ApiOperation({ summary: 'Gerar orcamento da OS' })
   @ApiResponse({ status: 200, description: 'Orcamento gerado com sucesso' })
-  @ApiResponse({ status: 400, description: 'OS fora de estado para gerar orcamento ou sem servicos' })
+  @ApiResponse({
+    status: 400,
+    description: 'OS fora de estado para gerar orcamento ou sem servicos',
+  })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
-  async gerarOrcamentoOS(@Param('id') id: string): Promise<{ valorTotal: number }> {
+  async gerarOrcamentoOS(
+    @Param('id') id: string,
+  ): Promise<{ valorTotal: number }> {
     try {
       return await this.gerarOrcamento.execute({ osId: id });
     } catch (error) {
@@ -170,7 +188,10 @@ export class OrdemDeServicoController {
   @Post(':id/enviar-orcamento')
   @ApiOperation({ summary: 'Enviar orcamento para aprovacao' })
   @ApiResponse({ status: 200, description: 'Orcamento enviado para aprovacao' })
-  @ApiResponse({ status: 400, description: 'Orcamento nao gerado ou status invalido' })
+  @ApiResponse({
+    status: 400,
+    description: 'Orcamento nao gerado ou status invalido',
+  })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
   async enviarOrcamentoOS(@Param('id') id: string) {
@@ -204,7 +225,10 @@ export class OrdemDeServicoController {
   @Post(':id/iniciar-execucao')
   @ApiOperation({ summary: 'Iniciar execucao da OS' })
   @ApiResponse({ status: 200, description: 'Execucao iniciada com sucesso' })
-  @ApiResponse({ status: 400, description: 'OS nao aprovada ou estoque insuficiente' })
+  @ApiResponse({
+    status: 400,
+    description: 'OS nao aprovada ou estoque insuficiente',
+  })
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'OS ou peca nao encontrada' })
   async iniciarExecucaoOS(@Param('id') id: string) {

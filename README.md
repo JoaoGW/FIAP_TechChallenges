@@ -255,11 +255,12 @@ No login, use a senha original:
 12. `POST /ordens-servico/:id/gerar-orcamento`
 13. `POST /ordens-servico/:id/enviar-orcamento`
 14. `POST /ordens-servico/:id/aprovar-orcamento`
-15. `POST /ordens-servico/:id/iniciar-execucao`
-16. `POST /ordens-servico/:id/finalizar`
-17. `POST /ordens-servico/:id/entregar`
-18. `GET /consulta/os/:codigoAcompanhamento/status`
-19. `GET /relatorios/tempo-medio-execucao`
+15. `POST /ordens-servico/:id/recusar-orcamento`
+16. `POST /ordens-servico/:id/iniciar-execucao`
+17. `POST /ordens-servico/:id/finalizar`
+18. `POST /ordens-servico/:id/entregar`
+19. `GET /consulta/os/:codigoAcompanhamento/status`
+20. `GET /relatorios/tempo-medio-execucao`
 
 ## Rotas principais
 
@@ -313,9 +314,16 @@ No login, use a senha original:
 - `POST /ordens-servico/:id/gerar-orcamento`
 - `POST /ordens-servico/:id/enviar-orcamento`
 - `POST /ordens-servico/:id/aprovar-orcamento`
+- `POST /ordens-servico/:id/recusar-orcamento`
 - `POST /ordens-servico/:id/iniciar-execucao`
 - `POST /ordens-servico/:id/finalizar`
 - `POST /ordens-servico/:id/entregar`
+
+Observacao Fase 2: `POST /ordens-servico` aceita `servicos[]` e `pecas[]`
+opcionais na abertura da OS. A listagem administrativa prioriza OS em execucao,
+aguardando aprovacao, diagnostico e recebidas, sempre das mais antigas para as
+mais recentes dentro do mesmo status, excluindo OS finalizadas, entregues e
+canceladas.
 
 ### Consulta pública
 

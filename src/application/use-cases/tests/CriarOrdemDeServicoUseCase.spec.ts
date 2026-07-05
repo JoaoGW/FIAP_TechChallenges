@@ -40,7 +40,10 @@ describe('CriarOrdemDeServicoUseCase', () => {
     await veiculoRepo.save(veiculo);
 
     await expect(
-      useCase.execute({ clienteId: cliente.getId(), veiculoId: veiculo.getId() }),
+      useCase.execute({
+        clienteId: cliente.getId(),
+        veiculoId: veiculo.getId(),
+      }),
     ).rejects.toBeInstanceOf(ClienteNaoEncontradoError);
   });
 
@@ -51,7 +54,10 @@ describe('CriarOrdemDeServicoUseCase', () => {
     await clienteRepo.save(cliente);
 
     await expect(
-      useCase.execute({ clienteId: cliente.getId(), veiculoId: 'veiculo-inexistente' }),
+      useCase.execute({
+        clienteId: cliente.getId(),
+        veiculoId: 'veiculo-inexistente',
+      }),
     ).rejects.toBeInstanceOf(VeiculoNaoEncontradoError);
   });
 
@@ -71,7 +77,10 @@ describe('CriarOrdemDeServicoUseCase', () => {
     await veiculoRepo.save(veiculo);
 
     await expect(
-      useCase.execute({ clienteId: clienteA.getId(), veiculoId: veiculo.getId() }),
+      useCase.execute({
+        clienteId: clienteA.getId(),
+        veiculoId: veiculo.getId(),
+      }),
     ).rejects.toBeInstanceOf(VeiculoNaoPertenceAoClienteError);
   });
 
@@ -96,14 +105,8 @@ describe('CriarOrdemDeServicoUseCase', () => {
   });
 
   it('deve criar OS com servicos e pecas opcionais', async () => {
-    const {
-      osRepo,
-      clienteRepo,
-      veiculoRepo,
-      servicoRepo,
-      pecaRepo,
-      useCase,
-    } = makeSut();
+    const { osRepo, clienteRepo, veiculoRepo, servicoRepo, pecaRepo, useCase } =
+      makeSut();
     const cliente = makeCliente();
     const veiculo = makeVeiculo(cliente.getId());
     const servico = makeServico('Troca de oleo', 12000);
