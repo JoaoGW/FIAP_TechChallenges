@@ -1,5 +1,4 @@
 # Email Adapter
 
-Implementacao prevista para a Fase 2.3.
-
-Esta pasta recebera o adaptador concreto que implementa `NotificacaoPort`.
+Implementacao concreta de `NotificacaoPort` para envio de notificacoes de
+orcamento por SMTP via Nodemailer.
