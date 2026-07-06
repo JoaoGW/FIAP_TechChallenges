@@ -3,6 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { validateEnv } from './infrastructure/config/env.validation';
+import {
+  NOTIFICACAO_PORT,
+  ORCAMENTO_WEBHOOK_TOKEN_PORT,
+} from './application/ports/output/PortTokens';
 import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
 import { ListarOrdensDeServicoUseCase } from './application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
 import { CriarOrdemDeServicoUseCase } from './application/use-cases/CriarOrdemDeServicoUseCase';
@@ -44,6 +48,8 @@ import { PrismaOrdemDeServicoRepository } from './infrastructure/repositories/Pr
 import { PrismaPecaRepository } from './infrastructure/repositories/PrismaPecaRepository';
 import { PrismaServicoRepository } from './infrastructure/repositories/PrismaServicoRepository';
 import { PrismaVeiculoRepository } from './infrastructure/repositories/PrismaVeiculoRepository';
+import { EmailAdapter } from './infrastructure/adapters/email/EmailAdapter';
+import { JwtOrcamentoWebhookTokenAdapter } from './infrastructure/adapters/webhook/JwtOrcamentoWebhookTokenAdapter';
 import { ClienteController } from './interfaces/controllers/admin/ClienteController';
 import { OrdemDeServicoController } from './interfaces/controllers/admin/OrdemDeServicoController';
 import { PecaController } from './interfaces/controllers/admin/PecaController';
@@ -77,6 +83,16 @@ import { RepositoryModule } from './modules/repository.module';
   providers: [
     AppService,
     JwtAuthGuard,
+    EmailAdapter,
+    JwtOrcamentoWebhookTokenAdapter,
+    {
+      provide: NOTIFICACAO_PORT,
+      useExisting: EmailAdapter,
+    },
+    {
+      provide: ORCAMENTO_WEBHOOK_TOKEN_PORT,
+      useExisting: JwtOrcamentoWebhookTokenAdapter,
+    },
     {
       provide: CriarClienteUseCase,
       useFactory: (repo: PrismaClienteRepository) =>
@@ -285,9 +301,24 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: EnviarOrcamentoParaAprovacaoUseCase,
-      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
-        new EnviarOrcamentoParaAprovacaoUseCase(osRepo),
-      inject: [PrismaOrdemDeServicoRepository],
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        clienteRepo: PrismaClienteRepository,
+        notificacao: EmailAdapter,
+        webhookTokens: JwtOrcamentoWebhookTokenAdapter,
+      ) =>
+        new EnviarOrcamentoParaAprovacaoUseCase(
+          osRepo,
+          clienteRepo,
+          notificacao,
+          webhookTokens,
+        ),
+      inject: [
+        PrismaOrdemDeServicoRepository,
+        PrismaClienteRepository,
+        NOTIFICACAO_PORT,
+        ORCAMENTO_WEBHOOK_TOKEN_PORT,
+      ],
     },
     {
       provide: AprovarOrcamentoUseCase,

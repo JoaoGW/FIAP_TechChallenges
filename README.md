@@ -132,16 +132,24 @@ A separacao existe porque o host do banco muda entre os ambientes: local usa loc
 - `.env` para execucao local (`DATABASE_URL` com `localhost`)
 - `.env.docker` para Docker Compose (`DATABASE_URL` com host `postgres`)
 
-| Variável              | Descrição                           |
-| --------------------- | ----------------------------------- |
-| `DATABASE_URL`        | URL de conexão com PostgreSQL       |
-| `POSTGRES_USER`       | Usuário do PostgreSQL (Docker)      |
-| `POSTGRES_PASSWORD`   | Senha do PostgreSQL (Docker)        |
-| `POSTGRES_DB`         | Nome do banco                       |
-| `JWT_SECRET`          | Segredo do JWT                      |
-| `JWT_EXPIRES_IN`      | Expiração do JWT                    |
-| `ADMIN_USERNAME`      | Usuário administrativo              |
-| `ADMIN_PASSWORD_HASH` | Hash bcrypt da senha administrativa |
+| Variável                   | Descrição                           |
+| -------------------------- | ----------------------------------- |
+| `DATABASE_URL`             | URL de conexão com PostgreSQL       |
+| `POSTGRES_USER`            | Usuário do PostgreSQL (Docker)      |
+| `POSTGRES_PASSWORD`        | Senha do PostgreSQL (Docker)        |
+| `POSTGRES_DB`              | Nome do banco                       |
+| `JWT_SECRET`               | Segredo do JWT                      |
+| `JWT_EXPIRES_IN`           | Expiração do JWT                    |
+| `ADMIN_USERNAME`           | Usuário administrativo              |
+| `ADMIN_PASSWORD_HASH`      | Hash bcrypt da senha administrativa |
+| `MAIL_HOST`                | Host SMTP para envio de email       |
+| `MAIL_PORT`                | Porta SMTP                          |
+| `MAIL_USER`                | Usuario SMTP                        |
+| `MAIL_PASS`                | Senha/token SMTP                    |
+| `MAIL_FROM`                | Remetente dos emails                |
+| `WEBHOOK_SECRET`           | Segredo dos tokens de webhook       |
+| `WEBHOOK_TOKEN_EXPIRES_IN` | Expiracao dos tokens de webhook     |
+| `APP_URL`                  | URL publica/base da aplicacao       |
 
 ## Como rodar com Docker
 
@@ -328,6 +336,14 @@ canceladas.
 ### Consulta pública
 
 - `GET /consulta/os/:codigoAcompanhamento/status`
+
+### Webhook de orcamento
+
+- `GET /webhook/orcamento/aprovar?token=`
+- `GET /webhook/orcamento/recusar?token=`
+
+Os links sao gerados no envio do orcamento por email. Cada token inclui a OS e a
+acao esperada (`aprovar` ou `recusar`), evitando uso cruzado entre os endpoints.
 
 ### Relatórios
 

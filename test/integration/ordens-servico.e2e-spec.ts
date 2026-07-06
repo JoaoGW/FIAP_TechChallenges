@@ -111,7 +111,21 @@ describe('Ordens de Servico (e2e)', () => {
     const adicionarServico = new AdicionarServicoOSUseCase(osRepo, servicoRepo);
     const adicionarPeca = new AdicionarPecaOSUseCase(osRepo, pecaRepo);
     const gerarOrcamento = new GerarOrcamentoUseCase(osRepo);
-    const enviarOrcamento = new EnviarOrcamentoParaAprovacaoUseCase(osRepo);
+    const notificacaoFake = {
+      enviarNotificacaoOrcamento: jest.fn().mockResolvedValue(undefined),
+    };
+    const webhookTokensFake = {
+      gerarToken: jest
+        .fn()
+        .mockImplementation(({ acao }) => Promise.resolve(`token-${acao}`)),
+      validarToken: jest.fn(),
+    };
+    const enviarOrcamento = new EnviarOrcamentoParaAprovacaoUseCase(
+      osRepo,
+      clienteRepo,
+      notificacaoFake,
+      webhookTokensFake,
+    );
     const aprovarOrcamento = new AprovarOrcamentoUseCase(osRepo);
     const iniciarExecucao = new IniciarExecucaoUseCase(osRepo, pecaRepo);
     const finalizar = new FinalizarServicoUseCase(osRepo);
