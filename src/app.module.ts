@@ -12,6 +12,7 @@ import { AdicionarPecaOSUseCase } from './application/use-cases/AdicionarPecaOSU
 import { GerarOrcamentoUseCase } from './application/use-cases/GerarOrcamentoUseCase';
 import { EnviarOrcamentoParaAprovacaoUseCase } from './application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
 import { AprovarOrcamentoUseCase } from './application/use-cases/AprovarOrcamentoUseCase';
+import { RecusarOrcamentoUseCase } from './application/use-cases/RecusarOrcamentoUseCase';
 import { IniciarExecucaoUseCase } from './application/use-cases/IniciarExecucaoUseCase';
 import { FinalizarServicoUseCase } from './application/use-cases/FinalizarServicoUseCase';
 import { EntregarVeiculoUseCase } from './application/use-cases/EntregarVeiculoUseCase';
@@ -78,7 +79,8 @@ import { RepositoryModule } from './modules/repository.module';
     JwtAuthGuard,
     {
       provide: CriarClienteUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new CriarClienteUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new CriarClienteUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -95,7 +97,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarClientesUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new ListarClientesUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new ListarClientesUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -106,7 +109,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: RemoverClienteUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new RemoverClienteUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new RemoverClienteUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -125,7 +129,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarVeiculosUseCase,
-      useFactory: (repo: PrismaVeiculoRepository) => new ListarVeiculosUseCase(repo),
+      useFactory: (repo: PrismaVeiculoRepository) =>
+        new ListarVeiculosUseCase(repo),
       inject: [PrismaVeiculoRepository],
     },
     {
@@ -142,12 +147,14 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: RemoverVeiculoUseCase,
-      useFactory: (repo: PrismaVeiculoRepository) => new RemoverVeiculoUseCase(repo),
+      useFactory: (repo: PrismaVeiculoRepository) =>
+        new RemoverVeiculoUseCase(repo),
       inject: [PrismaVeiculoRepository],
     },
     {
       provide: CriarServicoUseCase,
-      useFactory: (repo: PrismaServicoRepository) => new CriarServicoUseCase(repo),
+      useFactory: (repo: PrismaServicoRepository) =>
+        new CriarServicoUseCase(repo),
       inject: [PrismaServicoRepository],
     },
     {
@@ -158,7 +165,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarServicosUseCase,
-      useFactory: (repo: PrismaServicoRepository) => new ListarServicosUseCase(repo),
+      useFactory: (repo: PrismaServicoRepository) =>
+        new ListarServicosUseCase(repo),
       inject: [PrismaServicoRepository],
     },
     {
@@ -182,7 +190,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: BuscarPecaPorIdUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new BuscarPecaPorIdUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new BuscarPecaPorIdUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
@@ -192,12 +201,14 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: AtualizarPecaUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new AtualizarPecaUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new AtualizarPecaUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
       provide: AjustarEstoqueUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new AjustarEstoqueUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new AjustarEstoqueUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
@@ -226,11 +237,22 @@ import { RepositoryModule } from './modules/repository.module';
         osRepo: PrismaOrdemDeServicoRepository,
         clienteRepo: PrismaClienteRepository,
         veiculoRepo: PrismaVeiculoRepository,
-      ) => new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo),
+        servicoRepo: PrismaServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) =>
+        new CriarOrdemDeServicoUseCase(
+          osRepo,
+          clienteRepo,
+          veiculoRepo,
+          servicoRepo,
+          pecaRepo,
+        ),
       inject: [
         PrismaOrdemDeServicoRepository,
         PrismaClienteRepository,
         PrismaVeiculoRepository,
+        PrismaServicoRepository,
+        PrismaPecaRepository,
       ],
     },
     {
@@ -271,6 +293,12 @@ import { RepositoryModule } from './modules/repository.module';
       provide: AprovarOrcamentoUseCase,
       useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
         new AprovarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: RecusarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new RecusarOrcamentoUseCase(osRepo),
       inject: [PrismaOrdemDeServicoRepository],
     },
     {

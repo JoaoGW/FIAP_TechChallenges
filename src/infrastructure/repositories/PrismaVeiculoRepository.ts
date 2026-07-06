@@ -31,35 +31,41 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
   }
 
   async findById(id: string): Promise<Veiculo | null> {
-    const raw = await this.prisma.veiculo.findUnique?.({ where: { id } });
-    if (!raw) return null;
-    return VeiculoMapper.toDomain(raw);
+    const veiculoData = await this.prisma.veiculo.findUnique?.({
+      where: { id },
+    });
+    if (!veiculoData) return null;
+    return VeiculoMapper.toDomain(veiculoData);
   }
 
   async findByPlaca(placa: string): Promise<Veiculo | null> {
-    const raw = await this.prisma.veiculo.findUnique?.({ where: { placa } });
-    if (!raw) return null;
-    return VeiculoMapper.toDomain(raw);
+    const veiculoData = await this.prisma.veiculo.findUnique?.({
+      where: { placa },
+    });
+    if (!veiculoData) return null;
+    return VeiculoMapper.toDomain(veiculoData);
   }
 
   async findByClienteId(
     clienteId: string,
     params?: { ativo?: boolean },
   ): Promise<Veiculo[]> {
-    const raws =
+    const veiculosData =
       (await this.prisma.veiculo.findMany?.({
         where: {
           clienteId,
           ativo: params?.ativo ?? true,
         },
       })) ?? [];
-    return raws.map((raw) => VeiculoMapper.toDomain(raw));
+    return veiculosData.map((veiculoData) =>
+      VeiculoMapper.toDomain(veiculoData),
+    );
   }
 
   async findAll(params?: ActiveFilter): Promise<Veiculo[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const raws =
+    const veiculosData =
       (await this.prisma.veiculo.findMany?.({
         where: {
           ativo: params?.ativo ?? true,
@@ -67,6 +73,8 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
         skip: (page - 1) * limit,
         take: limit,
       })) ?? [];
-    return raws.map((raw) => VeiculoMapper.toDomain(raw));
+    return veiculosData.map((veiculoData) =>
+      VeiculoMapper.toDomain(veiculoData),
+    );
   }
 }

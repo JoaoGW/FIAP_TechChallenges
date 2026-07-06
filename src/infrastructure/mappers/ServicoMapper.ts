@@ -3,17 +3,21 @@ import { Dinheiro } from '../../domain/value-objects/Dinheiro';
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
 
 export class ServicoMapper {
-  static toDomain(raw: any): Servico {
+  static toDomain(servicoData: any): Servico {
     return new Servico(
       {
-        nome: raw.nome,
-        descricao: raw.descricao,
-        preco: new Dinheiro(raw.preco),
-        ativo: raw.ativo ?? true,
-        dataCriacao: raw.createdAt ? new Date(raw.createdAt) : new Date(),
-        dataAtualizacao: raw.updatedAt ? new Date(raw.updatedAt) : new Date(),
+        nome: servicoData.nome,
+        descricao: servicoData.descricao,
+        preco: new Dinheiro(servicoData.preco),
+        ativo: servicoData.ativo ?? true,
+        dataCriacao: servicoData.createdAt
+          ? new Date(servicoData.createdAt)
+          : new Date(),
+        dataAtualizacao: servicoData.updatedAt
+          ? new Date(servicoData.updatedAt)
+          : new Date(),
       },
-      new UniqueEntityId(raw.id),
+      new UniqueEntityId(servicoData.id),
     );
   }
 }

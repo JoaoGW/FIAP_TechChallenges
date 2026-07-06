@@ -34,12 +34,13 @@ export class ConsultarStatusOSUseCase {
     const descricoes: Record<StatusOS, string> = {
       [StatusOS.RECEBIDA]: 'Sua ordem de servico foi recebida pela oficina.',
       [StatusOS.EM_DIAGNOSTICO]: 'Seu veiculo esta em diagnostico.',
-      [StatusOS.AGUARDANDO_APROVACAO]:
-        'O orcamento esta aguardando aprovacao.',
+      [StatusOS.AGUARDANDO_APROVACAO]: 'O orcamento esta aguardando aprovacao.',
       [StatusOS.EM_EXECUCAO]: 'Seu veiculo esta em execucao de servico.',
       [StatusOS.FINALIZADA]:
         'O servico foi finalizado e o veiculo esta aguardando entrega.',
       [StatusOS.ENTREGUE]: 'O veiculo foi entregue ao cliente.',
+      [StatusOS.CANCELADA]:
+        'O orcamento foi recusado e a ordem de servico foi cancelada.',
     };
 
     return descricoes[status];

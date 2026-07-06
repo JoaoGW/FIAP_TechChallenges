@@ -100,7 +100,13 @@ describe('Ordens de Servico (e2e)', () => {
       .expect(201);
     const pecaId = pecaResponse.body.id as string;
 
-    const criarOS = new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo);
+    const criarOS = new CriarOrdemDeServicoUseCase(
+      osRepo,
+      clienteRepo,
+      veiculoRepo,
+      servicoRepo,
+      pecaRepo,
+    );
     const iniciarDiagnostico = new IniciarDiagnosticoUseCase(osRepo);
     const adicionarServico = new AdicionarServicoOSUseCase(osRepo, servicoRepo);
     const adicionarPeca = new AdicionarPecaOSUseCase(osRepo, pecaRepo);
@@ -136,8 +142,7 @@ describe('Ordens de Servico (e2e)', () => {
       .get('/ordens-servico')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
-    expect(listaOs.body).toHaveLength(1);
-    expect(listaOs.body[0].props.status).toBe('ENTREGUE');
+    expect(listaOs.body).toHaveLength(0);
 
     const detalheOs = await request(app.getHttpServer())
       .get(`/ordens-servico/${osCriada.id}`)

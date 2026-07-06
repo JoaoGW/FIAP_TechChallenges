@@ -71,6 +71,21 @@ src/
 - `interfaces`: controllers HTTP, DTOs e segurança de borda.
 - `modules`: composição dos módulos NestJS e DI.
 
+## Arquitetura - Fase 2
+
+A aplicacao segue Clean Architecture com ports/adapters para integracoes externas.
+A regra de dependencia adotada e:
+
+- `domain/` nao depende de nenhuma camada.
+- `application/` depende apenas de `domain/` e de suas proprias `ports/`.
+- `infrastructure/` implementa interfaces definidas em `domain/` e `application/ports/`.
+- `interfaces/` expoe HTTP, DTOs, guards e strategies, chamando apenas use cases.
+
+Integracoes externas, como email e notificacoes, sao abstraidas por contratos em
+`application/ports/output/` e implementadas por adaptadores em
+`infrastructure/adapters/`. O `LoginUseCase` e a unica excecao documentada por
+usar diretamente `JwtService` e `ConfigService` do NestJS no MVP.
+
 ## Modelagem DDD
 
 A entidade central é a `OrdemDeServico` (Aggregate Root), responsável por controlar:
@@ -240,11 +255,12 @@ No login, use a senha original:
 12. `POST /ordens-servico/:id/gerar-orcamento`
 13. `POST /ordens-servico/:id/enviar-orcamento`
 14. `POST /ordens-servico/:id/aprovar-orcamento`
-15. `POST /ordens-servico/:id/iniciar-execucao`
-16. `POST /ordens-servico/:id/finalizar`
-17. `POST /ordens-servico/:id/entregar`
-18. `GET /consulta/os/:codigoAcompanhamento/status`
-19. `GET /relatorios/tempo-medio-execucao`
+15. `POST /ordens-servico/:id/recusar-orcamento`
+16. `POST /ordens-servico/:id/iniciar-execucao`
+17. `POST /ordens-servico/:id/finalizar`
+18. `POST /ordens-servico/:id/entregar`
+19. `GET /consulta/os/:codigoAcompanhamento/status`
+20. `GET /relatorios/tempo-medio-execucao`
 
 ## Rotas principais
 
@@ -298,9 +314,16 @@ No login, use a senha original:
 - `POST /ordens-servico/:id/gerar-orcamento`
 - `POST /ordens-servico/:id/enviar-orcamento`
 - `POST /ordens-servico/:id/aprovar-orcamento`
+- `POST /ordens-servico/:id/recusar-orcamento`
 - `POST /ordens-servico/:id/iniciar-execucao`
 - `POST /ordens-servico/:id/finalizar`
 - `POST /ordens-servico/:id/entregar`
+
+Observacao Fase 2: `POST /ordens-servico` aceita `servicos[]` e `pecas[]`
+opcionais na abertura da OS. A listagem administrativa prioriza OS em execucao,
+aguardando aprovacao, diagnostico e recebidas, sempre das mais antigas para as
+mais recentes dentro do mesmo status, excluindo OS finalizadas, entregues e
+canceladas.
 
 ### Consulta pública
 
