@@ -28,6 +28,8 @@ O projeto foi desenvolvido aplicando conceitos de Domain-Driven Design, arquitet
 - Docker Compose
 - Kubernetes
 - HPA
+- Terraform
+- Kind
 - JWT
 - Passport
 - Swagger
@@ -276,6 +278,35 @@ kubectl delete pod load -n oficina
 Kubernetes nao possui `depends_on` como Docker Compose. A API pode reiniciar
 algumas vezes ate o Postgres estar pronto. Isso e esperado: o `readinessProbe`
 garante que o trafego so seja direcionado quando a API estiver respondendo.
+
+## Infraestrutura com Terraform
+
+Os scripts de IaC ficam em `infra/` e provisionam um cluster Kubernetes local
+com Kind. O Terraform cria:
+
+- cluster Kind com 1 control-plane e workers configuraveis;
+- namespace `oficina`;
+- secret Kubernetes com credenciais sensiveis do banco;
+- exportacao automatica do kubeconfig para uso com `kubectl`.
+
+O PostgreSQL da aplicacao e criado pelos manifestos Kubernetes em `k8s/`, pois
+o ambiente alvo desta entrega e local com Kind. Em cloud, esse desenho poderia
+ser trocado por um banco gerenciado provisionado via Terraform.
+
+Fluxo basico:
+
+```bash
+cd infra
+terraform init
+terraform plan -var="db_password=sua_senha_segura"
+terraform apply -var="db_password=sua_senha_segura"
+kind export kubeconfig --name oficina-cluster
+kubectl get nodes
+```
+
+Depois do cluster pronto, aplique os manifestos da aplicacao conforme a secao
+Deploy em Kubernetes. A documentacao completa da infraestrutura esta em
+`infra/README.md`.
 
 ## Migrations
 
