@@ -308,6 +308,80 @@ Depois do cluster pronto, aplique os manifestos da aplicacao conforme a secao
 Deploy em Kubernetes. A documentacao completa da infraestrutura esta em
 `infra/README.md`.
 
+## CI/CD - GitHub Actions
+
+Os workflows ficam em `.github/workflows/`:
+
+- `ci.yml`: roda em todo push e pull request para `main`.
+- `cd.yml`: roda em push para `main`, normalmente apos merge aprovado.
+
+### CI
+
+O workflow de CI executa:
+
+- checkout do codigo;
+- setup do Node.js 20;
+- `npm ci`;
+- `npx prisma generate`;
+- build da aplicacao;
+- migrations em banco PostgreSQL isolado;
+- testes unitarios;
+- cobertura de testes;
+- testes e2e.
+
+### CD
+
+O workflow de CD executa:
+
+- login no Docker Hub;
+- build e push da imagem Docker com tags `latest` e `sha-<hash>`;
+- configuracao do `kubectl` via kubeconfig em base64;
+- materializacao do `k8s/secret.yaml` a partir de secret do GitHub;
+- deploy do banco de dados pelos manifestos Kubernetes do Postgres;
+- deploy da API com a nova imagem;
+- aplicacao do HPA;
+- verificacao de rollout e estado final do namespace.
+
+### Secrets necessarios
+
+Configure em `Settings -> Secrets and variables -> Actions`:
+
+| Secret | Descricao |
+|---|---|
+| `DOCKER_USERNAME` | Usuario Docker Hub |
+| `DOCKER_PASSWORD` | Token Docker Hub |
+| `DOCKER_IMAGE_NAME` | Nome da imagem, por exemplo `usuario/oficina-api` |
+| `KUBECONFIG` | Conteudo do kubeconfig em base64 |
+| `K8S_SECRET_YAML_BASE64` | Conteudo do `k8s/secret.yaml` real em base64 |
+| `TEST_ADMIN_PASSWORD_HASH` | Hash bcrypt para testes |
+| `TEST_JWT_SECRET` | JWT secret isolado para testes |
+| `TEST_WEBHOOK_SECRET` | Webhook secret isolado para testes |
+
+Como gerar o `KUBECONFIG` em base64:
+
+```bash
+cat ~/.kube/config | base64 | tr -d '\n'
+```
+
+Como gerar o `K8S_SECRET_YAML_BASE64`:
+
+```bash
+cat k8s/secret.yaml | base64 | tr -d '\n'
+```
+
+No Windows PowerShell:
+
+```powershell
+[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((Get-Content -Raw k8s/secret.yaml)))
+```
+
+### Variaveis sensiveis da aplicacao
+
+Variaveis como `JWT_SECRET`, `MAIL_USER`, `MAIL_PASS`, `WEBHOOK_SECRET` e
+`ADMIN_PASSWORD_HASH` continuam fora do Git. Elas entram no cluster pelo
+manifesto `k8s/secret.yaml`, enviado ao GitHub Actions como
+`K8S_SECRET_YAML_BASE64`.
+
 ## Migrations
 
 No Docker, as migrations são aplicadas automaticamente no startup da API com:
