@@ -26,6 +26,8 @@ O projeto foi desenvolvido aplicando conceitos de Domain-Driven Design, arquitet
 - Prisma
 - Docker
 - Docker Compose
+- Kubernetes
+- HPA
 - JWT
 - Passport
 - Swagger
@@ -171,6 +173,109 @@ Swagger UI: `http://localhost:3000/docs`
 Swagger JSON: `http://localhost:3000/docs-json`
 
 Observação: em versões antigas, use `docker-compose up --build`.
+
+## Deploy em Kubernetes
+
+Os manifestos ficam em `k8s/` e cobrem namespace, ConfigMap, Secret, Postgres,
+API, Services e HPA por CPU/memoria.
+
+### Pre-requisitos
+
+- `kubectl` instalado
+- Cluster Kubernetes rodando (Kind via Terraform ou Minikube)
+- metrics-server instalado no cluster
+- Imagem Docker da API publicada ou carregada no cluster
+
+Antes de aplicar, copie o exemplo de secret e ajuste os valores sensiveis:
+
+```bash
+cp k8s/secret.example.yaml k8s/secret.yaml
+```
+
+O arquivo `k8s/secret.yaml` e ignorado pelo Git. Em uma esteira real de CI/CD,
+esses valores devem ser injetados por Secrets do provedor, Sealed Secrets ou
+ferramenta equivalente.
+
+### Instalar metrics-server
+
+Com Minikube:
+
+```bash
+minikube addons enable metrics-server
+```
+
+Com Kind:
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl patch deployment metrics-server -n kube-system \
+  --type=json \
+  -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
+```
+
+Verifique as metricas:
+
+```bash
+kubectl top nodes
+kubectl top pods -n oficina
+```
+
+Se `kubectl top` retornar dados, o HPA consegue escalar com metricas reais.
+
+### Aplicar manifestos
+
+```bash
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/secret.yaml
+kubectl apply -f k8s/pvc-postgres.yaml
+kubectl apply -f k8s/deployment-postgres.yaml
+kubectl apply -f k8s/service-postgres.yaml
+kubectl wait --for=condition=ready pod -l app=postgres -n oficina --timeout=60s
+kubectl apply -f k8s/deployment-api.yaml
+kubectl apply -f k8s/service-api.yaml
+kubectl apply -f k8s/hpa.yaml
+```
+
+### Verificar
+
+```bash
+kubectl get all -n oficina
+kubectl get pods -n oficina
+kubectl get hpa -n oficina
+kubectl describe hpa oficina-api-hpa -n oficina
+kubectl logs deployment/oficina-api -n oficina
+kubectl logs -f deployment/oficina-api -n oficina
+```
+
+### Acessar a API
+
+```bash
+kubectl port-forward service/oficina-api-service 3000:80 -n oficina
+```
+
+Swagger UI: `http://localhost:3000/docs`  
+Swagger JSON: `http://localhost:3000/docs-json`
+
+### Simular carga para demonstrar HPA
+
+```bash
+kubectl run load \
+  --image=busybox \
+  --restart=Never \
+  -n oficina \
+  -- sh -c "while true; do wget -q -O- http://oficina-api-service/docs-json; done"
+
+kubectl get hpa -n oficina -w
+kubectl get pods -n oficina -w
+kubectl delete pod load -n oficina
+```
+
+### Nota sobre depends_on
+
+Kubernetes nao possui `depends_on` como Docker Compose. A API pode reiniciar
+algumas vezes ate o Postgres estar pronto. Isso e esperado: o `readinessProbe`
+garante que o trafego so seja direcionado quando a API estiver respondendo.
 
 ## Migrations
 

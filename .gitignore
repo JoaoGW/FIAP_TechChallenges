@@ -401,3 +401,6 @@ dist
 .env.local
 .env.*.local
 !.env.example
+
+# Kubernetes local secrets
+k8s/secret.yaml
