@@ -620,10 +620,19 @@ Arquivos gerados:
 
 ## Documentação DDD
 
+Documentacao versionada:
+
+- `docs/modelagem-ddd-fase-2.md`
+
 Link do Miro: https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=289441836876
 
 Inclui:
 
+- Domain Storytelling
+- Event Storming expandido
+- Contextos delimitados
+- Diagrama de agregados
+- Atores, comandos, eventos e politicas
 - Event Storming
 - Linguagem ubíqua
 - Entidades e agregados
@@ -652,6 +661,7 @@ Nome: João Pedro do Carmo Ribeiro | Discord: joaogw |
 | ----------------------------- | ------------------------------------------------------------------- |
 | Repositorio                   | https://github.com/JoaoGW/FIAP_TechChallenges                       |
 | Documentacao DDD              | https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=289441836876 |
+| Modelagem DDD versionada      | docs/modelagem-ddd-fase-2.md                                        |
 | Swagger local (localhost)     | http://localhost:3000/docs                                          |
 | Relatorio de vulnerabilidades | docs/relatorio-vulnerabilidades.md                                  |
 <!-- prettier-ignore-end -->
