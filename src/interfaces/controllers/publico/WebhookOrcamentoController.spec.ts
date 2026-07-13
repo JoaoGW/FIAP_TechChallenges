@@ -76,4 +76,21 @@ describe('WebhookOrcamentoController', () => {
       BadRequestException,
     );
   });
+
+  it('deve rejeitar token de recusa na rota de aprovacao', async () => {
+    const { webhookTokens, controller } = makeSut();
+    webhookTokens.payload = { osId: 'os-1', acao: 'recusar' };
+
+    await expect(controller.aprovar('token-recusa')).rejects.toBeInstanceOf(
+      BadRequestException,
+    );
+  });
+
+  it('deve rejeitar token ausente', async () => {
+    const { controller } = makeSut();
+
+    await expect(controller.aprovar(undefined as any)).rejects.toBeInstanceOf(
+      UnauthorizedException,
+    );
+  });
 });

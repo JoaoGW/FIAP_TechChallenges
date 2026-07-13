@@ -36,6 +36,7 @@ import { AdicionarPecaOSDto } from '../../dtos/ordem-servico/AdicionarPecaOSDto'
 import { OrdemDeServicoNaoEncontradaError } from '../../../domain/errors/OrdemDeServicoNaoEncontradaError';
 import { OrcamentoNaoPodeSerGeradoError } from '../../../domain/errors/OrcamentoNaoPodeSerGeradoError';
 import { OrdemDeServicoSemServicoError } from '../../../domain/errors/OrdemDeServicoSemServicoError';
+import { TransicaoStatusInvalidaError } from '../../../domain/errors/TransicaoStatusInvalidaError';
 
 @ApiTags('Ordens de Servico')
 @ApiBearerAuth('JWT')
@@ -219,7 +220,17 @@ export class OrdemDeServicoController {
   @ApiResponse({ status: 401, description: 'Token JWT ausente ou invalido' })
   @ApiResponse({ status: 404, description: 'Ordem de servico nao encontrada' })
   async recusarOrcamentoOS(@Param('id') id: string) {
-    return this.recusarOrcamento.execute({ osId: id });
+    try {
+      return await this.recusarOrcamento.execute({ osId: id });
+    } catch (error) {
+      if (error instanceof OrdemDeServicoNaoEncontradaError) {
+        throw new NotFoundException(error.message);
+      }
+      if (error instanceof TransicaoStatusInvalidaError) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 
   @Post(':id/iniciar-execucao')

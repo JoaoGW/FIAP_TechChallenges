@@ -10,6 +10,9 @@ import { FinalizarServicoUseCase } from '../../src/application/use-cases/Finaliz
 import { GerarOrcamentoUseCase } from '../../src/application/use-cases/GerarOrcamentoUseCase';
 import { IniciarDiagnosticoUseCase } from '../../src/application/use-cases/IniciarDiagnosticoUseCase';
 import { IniciarExecucaoUseCase } from '../../src/application/use-cases/IniciarExecucaoUseCase';
+import { OrdemDeServico } from '../../src/domain/entities/OrdemDeServico';
+import { StatusOS } from '../../src/domain/enums/StatusOS';
+import { Dinheiro } from '../../src/domain/value-objects/Dinheiro';
 import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 import { PrismaClienteRepository } from '../../src/infrastructure/repositories/PrismaClienteRepository';
 import { PrismaOrdemDeServicoRepository } from '../../src/infrastructure/repositories/PrismaOrdemDeServicoRepository';
@@ -49,8 +52,164 @@ describe('Ordens de Servico (e2e)', () => {
     await app.close();
   });
 
+  async function criarClienteVeiculoServicoEPeca() {
+    const clienteResponse = await request(app.getHttpServer())
+      .post('/clientes')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        nome: 'Cliente Fase 27',
+        documento: '52998224725',
+        contato: 'fase27@email.com',
+      })
+      .expect(201);
+    const clienteId = clienteResponse.body.id as string;
+
+    const veiculoResponse = await request(app.getHttpServer())
+      .post('/veiculos')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        clienteId,
+        placa: 'FSE2G27',
+        marca: 'Fiat',
+        modelo: 'Pulse',
+        ano: 2024,
+      })
+      .expect(201);
+    const veiculoId = veiculoResponse.body.id as string;
+
+    const servicoResponse = await request(app.getHttpServer())
+      .post('/servicos')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        nome: 'Diagnostico completo',
+        descricao: 'Diagnostico eletronico',
+        precoEmCentavos: 18000,
+      })
+      .expect(201);
+    const servicoId = servicoResponse.body.id as string;
+
+    const pecaResponse = await request(app.getHttpServer())
+      .post('/pecas')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        nome: 'Sensor de teste',
+        precoEmCentavos: 7500,
+        quantidadeEstoque: 5,
+      })
+      .expect(201);
+    const pecaId = pecaResponse.body.id as string;
+
+    return { clienteId, veiculoId, servicoId, pecaId };
+  }
+
+  function prepararAteAguardandoAprovacao(os: OrdemDeServico): void {
+    os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
+    os.enviarOrcamentoParaAprovacao();
+  }
+
   it('GET /ordens-servico sem token deve retornar 401', async () => {
     await request(app.getHttpServer()).get('/ordens-servico').expect(401);
+  });
+
+  it('POST /ordens-servico deve retornar id, codigoAcompanhamento, status e dataCriacao', async () => {
+    const { clienteId, veiculoId } = await criarClienteVeiculoServicoEPeca();
+
+    const response = await request(app.getHttpServer())
+      .post('/ordens-servico')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ clienteId, veiculoId })
+      .expect(201);
+
+    expect(response.body.id).toBeTruthy();
+    expect(response.body.codigoAcompanhamento).toMatch(/^OS-\d{4}-/);
+    expect(response.body.status).toBe(StatusOS.RECEBIDA);
+    expect(response.body.dataCriacao).toBeTruthy();
+  });
+
+  it('POST /ordens-servico deve aceitar servicos e pecas opcionais no payload', async () => {
+    const { clienteId, veiculoId, servicoId, pecaId } =
+      await criarClienteVeiculoServicoEPeca();
+
+    const response = await request(app.getHttpServer())
+      .post('/ordens-servico')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        clienteId,
+        veiculoId,
+        servicos: [{ servicoId }],
+        pecas: [{ pecaId, quantidade: 2 }],
+      })
+      .expect(201);
+
+    const osCriada = await osRepo.findById(response.body.id);
+    expect(osCriada?.servicos).toHaveLength(1);
+    expect(osCriada?.itens).toHaveLength(1);
+  });
+
+  it('POST /ordens-servico/:id/recusar-orcamento deve cancelar OS em aguardando aprovacao', async () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    prepararAteAguardandoAprovacao(os);
+    await osRepo.save(os);
+
+    await request(app.getHttpServer())
+      .post(`/ordens-servico/${os.getId()}/recusar-orcamento`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(201);
+
+    const osAtualizada = await osRepo.findById(os.getId());
+    expect(osAtualizada?.status).toBe(StatusOS.CANCELADA);
+  });
+
+  it('POST /ordens-servico/:id/recusar-orcamento deve retornar 401 sem token', async () => {
+    await request(app.getHttpServer())
+      .post('/ordens-servico/os-1/recusar-orcamento')
+      .expect(401);
+  });
+
+  it('POST /ordens-servico/:id/recusar-orcamento deve retornar erro para OS inexistente', async () => {
+    await request(app.getHttpServer())
+      .post('/ordens-servico/os-inexistente/recusar-orcamento')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(404);
+  });
+
+  it('GET /ordens-servico deve ordenar por prioridade e excluir encerradas', async () => {
+    const recebida = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    const aguardando = OrdemDeServico.criar('cliente-2', 'veiculo-2');
+    prepararAteAguardandoAprovacao(aguardando);
+    const execucao = OrdemDeServico.criar('cliente-3', 'veiculo-3');
+    prepararAteAguardandoAprovacao(execucao);
+    execucao.aprovarOrcamento();
+    execucao.iniciarExecucao();
+    const finalizada = OrdemDeServico.criar('cliente-4', 'veiculo-4');
+    prepararAteAguardandoAprovacao(finalizada);
+    finalizada.aprovarOrcamento();
+    finalizada.iniciarExecucao();
+    finalizada.finalizarServico();
+    const cancelada = OrdemDeServico.criar('cliente-5', 'veiculo-5');
+    prepararAteAguardandoAprovacao(cancelada);
+    cancelada.recusarOrcamento();
+    await osRepo.save(recebida);
+    await osRepo.save(aguardando);
+    await osRepo.save(execucao);
+    await osRepo.save(finalizada);
+    await osRepo.save(cancelada);
+
+    const response = await request(app.getHttpServer())
+      .get('/ordens-servico')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+    const statuses = response.body.map((os: any) => os.props.status);
+    expect(statuses).toEqual([
+      StatusOS.EM_EXECUCAO,
+      StatusOS.AGUARDANDO_APROVACAO,
+      StatusOS.RECEBIDA,
+    ]);
+    expect(statuses).not.toContain(StatusOS.FINALIZADA);
+    expect(statuses).not.toContain(StatusOS.CANCELADA);
   });
 
   it('deve executar fluxo completo da OS e validar status final ENTREGUE', async () => {

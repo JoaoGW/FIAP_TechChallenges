@@ -153,4 +153,30 @@ describe('ListarOrdensDeServicoUseCase', () => {
       true,
     );
   });
+
+  it('deve retornar lista vazia quando so houver OS finalizadas, entregues ou canceladas', async () => {
+    const osRepo = new InMemoryOrdemDeServicoRepository();
+    const useCase = new ListarOrdensDeServicoUseCase(osRepo);
+    const finalizada = OrdemDeServico.criar('c1', 'v1');
+    prepararAteAguardandoAprovacao(finalizada);
+    finalizada.aprovarOrcamento();
+    finalizada.iniciarExecucao();
+    finalizada.finalizarServico();
+    const entregue = OrdemDeServico.criar('c2', 'v2');
+    prepararAteAguardandoAprovacao(entregue);
+    entregue.aprovarOrcamento();
+    entregue.iniciarExecucao();
+    entregue.finalizarServico();
+    entregue.entregarVeiculo();
+    const cancelada = OrdemDeServico.criar('c3', 'v3');
+    prepararAteAguardandoAprovacao(cancelada);
+    cancelada.recusarOrcamento();
+    await osRepo.save(finalizada);
+    await osRepo.save(entregue);
+    await osRepo.save(cancelada);
+
+    const resultado = await useCase.execute();
+
+    expect(resultado).toHaveLength(0);
+  });
 });
