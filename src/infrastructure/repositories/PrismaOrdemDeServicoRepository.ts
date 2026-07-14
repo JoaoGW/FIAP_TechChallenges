@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { OrdemDeServico } from '../../domain/entities/OrdemDeServico';
-import { OrdemDeServicoRepository } from '../../domain/repositories/OrdemDeServicoRepository';
+import { StatusOS } from '../../domain/enums/StatusOS';
+import {
+  ListarFilaOperacionalParams,
+  OrdemDeServicoRepository,
+} from '../../domain/repositories/OrdemDeServicoRepository';
 import { PaginationParams } from '../../domain/repositories/types';
 import { PrismaService } from '../database/PrismaService';
 import { OrdemDeServicoMapper } from '../mappers/OrdemDeServicoMapper';
@@ -104,6 +108,64 @@ export class PrismaOrdemDeServicoRepository
     return ordensData.map((ordemData) =>
       OrdemDeServicoMapper.toDomain(ordemData),
     );
+  }
+
+  async listarFilaOperacional(
+    params?: ListarFilaOperacionalParams,
+  ): Promise<OrdemDeServico[]> {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 20;
+    let skip = (page - 1) * limit;
+    let remainingTake = limit;
+    const statusOperacionais = [
+      StatusOS.EM_EXECUCAO,
+      StatusOS.AGUARDANDO_APROVACAO,
+      StatusOS.EM_DIAGNOSTICO,
+      StatusOS.RECEBIDA,
+    ];
+    const statusPermitidos =
+      params?.status === undefined ? statusOperacionais : [params.status];
+    const statusFiltrados = statusPermitidos.filter(
+      (status): status is StatusOS =>
+        statusOperacionais.includes(status as StatusOS),
+    );
+
+    if (statusFiltrados.length === 0) return [];
+
+    const resultado: OrdemDeServico[] = [];
+
+    for (const status of statusFiltrados) {
+      if (remainingTake === 0) break;
+
+      const totalNoStatus =
+        (await this.prisma.ordemDeServico.count?.({
+          where: { status },
+        })) ?? 0;
+
+      if (skip >= totalNoStatus) {
+        skip -= totalNoStatus;
+        continue;
+      }
+
+      const ordensData =
+        (await this.prisma.ordemDeServico.findMany?.({
+          where: { status },
+          include: { itens: true, servicos: true },
+          orderBy: { createdAt: 'asc' },
+          skip,
+          take: remainingTake,
+        })) ?? [];
+
+      resultado.push(
+        ...ordensData.map((ordemData) =>
+          OrdemDeServicoMapper.toDomain(ordemData),
+        ),
+      );
+      remainingTake -= ordensData.length;
+      skip = 0;
+    }
+
+    return resultado;
   }
 
   async findByClienteId(clienteId: string): Promise<OrdemDeServico[]> {

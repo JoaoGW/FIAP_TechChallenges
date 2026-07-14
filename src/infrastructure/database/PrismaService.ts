@@ -77,6 +77,9 @@ type ItemServicoOSRow = {
 type FindManyArgs = {
   where?: Record<string, any>;
   include?: Record<string, boolean>;
+  orderBy?:
+    | Record<string, 'asc' | 'desc'>
+    | Array<Record<string, 'asc' | 'desc'>>;
   skip?: number;
   take?: number;
 };
@@ -98,7 +101,9 @@ export class PrismaService {
       update: Partial<ClienteRow>;
     }): Promise<void> => {
       const now = new Date();
-      const index = this.clientes.findIndex((item) => item.id === args.where.id);
+      const index = this.clientes.findIndex(
+        (item) => item.id === args.where.id,
+      );
       if (index >= 0) {
         this.clientes[index] = {
           ...this.clientes[index],
@@ -144,7 +149,9 @@ export class PrismaService {
       update: Partial<VeiculoRow>;
     }): Promise<void> => {
       const now = new Date();
-      const index = this.veiculos.findIndex((item) => item.id === args.where.id);
+      const index = this.veiculos.findIndex(
+        (item) => item.id === args.where.id,
+      );
       if (index >= 0) {
         this.veiculos[index] = {
           ...this.veiculos[index],
@@ -165,7 +172,8 @@ export class PrismaService {
     }): Promise<VeiculoRow | null> => {
       const row = this.veiculos.find((item) => {
         if (args.where.id !== undefined) return item.id === args.where.id;
-        if (args.where.placa !== undefined) return item.placa === args.where.placa;
+        if (args.where.placa !== undefined)
+          return item.placa === args.where.placa;
         return false;
       });
       return row ? { ...row } : null;
@@ -188,7 +196,9 @@ export class PrismaService {
       update: Partial<ServicoRow>;
     }): Promise<void> => {
       const now = new Date();
-      const index = this.servicos.findIndex((item) => item.id === args.where.id);
+      const index = this.servicos.findIndex(
+        (item) => item.id === args.where.id,
+      );
       if (index >= 0) {
         this.servicos[index] = {
           ...this.servicos[index],
@@ -374,7 +384,13 @@ export class PrismaService {
     findUnique: async (args: {
       where: Partial<Pick<OrdemDeServicoRow, 'id' | 'codigoAcompanhamento'>>;
       include?: { itens?: boolean; servicos?: boolean };
-    }): Promise<(OrdemDeServicoRow & { itens?: ItemOSRow[]; servicos?: ItemServicoOSRow[] }) | null> => {
+    }): Promise<
+      | (OrdemDeServicoRow & {
+          itens?: ItemOSRow[];
+          servicos?: ItemServicoOSRow[];
+        })
+      | null
+    > => {
       const row = this.ordens.find((item) => {
         if (args.where.id !== undefined) return item.id === args.where.id;
         if (args.where.codigoAcompanhamento !== undefined) {
@@ -386,15 +402,27 @@ export class PrismaService {
       return this.withIncludes(row, args.include);
     },
 
-    findMany: async (args?: FindManyArgs): Promise<
+    findMany: async (
+      args?: FindManyArgs,
+    ): Promise<
       Array<
-        OrdemDeServicoRow & { itens?: ItemOSRow[]; servicos?: ItemServicoOSRow[] }
+        OrdemDeServicoRow & {
+          itens?: ItemOSRow[];
+          servicos?: ItemServicoOSRow[];
+        }
       >
     > => {
       const rows = this.applyFindMany(this.ordens, args);
       return rows.map((row) =>
-        this.withIncludes(row, args?.include as { itens?: boolean; servicos?: boolean }),
+        this.withIncludes(
+          row,
+          args?.include as { itens?: boolean; servicos?: boolean },
+        ),
       );
+    },
+
+    count: async (args?: { where?: Record<string, any> }): Promise<number> => {
+      return this.applyFindMany(this.ordens, { where: args?.where }).length;
     },
 
     deleteMany: async (): Promise<void> => {
@@ -416,7 +444,10 @@ export class PrismaService {
     },
   };
 
-  private applyFindMany<T extends Record<string, any>>(rows: T[], args?: FindManyArgs): T[] {
+  private applyFindMany<T extends Record<string, any>>(
+    rows: T[],
+    args?: FindManyArgs,
+  ): T[] {
     const where = args?.where;
     let filtered = rows;
 
@@ -433,6 +464,27 @@ export class PrismaService {
       });
     }
 
+    const orderBy = Array.isArray(args?.orderBy)
+      ? args.orderBy
+      : args?.orderBy
+        ? [args.orderBy]
+        : [];
+
+    if (orderBy.length > 0) {
+      filtered = [...filtered].sort((current, next) => {
+        for (const order of orderBy) {
+          const [key, direction] = Object.entries(order)[0] ?? [];
+          if (!key) continue;
+          const currentValue = current[key];
+          const nextValue = next[key];
+          if (currentValue === nextValue) continue;
+          const comparison = currentValue > nextValue ? 1 : -1;
+          return direction === 'desc' ? -comparison : comparison;
+        }
+        return 0;
+      });
+    }
+
     const skip = args?.skip ?? 0;
     const take = args?.take ?? filtered.length;
     return filtered.slice(skip, skip + take);
@@ -441,7 +493,10 @@ export class PrismaService {
   private withIncludes(
     row: OrdemDeServicoRow,
     include?: { itens?: boolean; servicos?: boolean },
-  ): OrdemDeServicoRow & { itens?: ItemOSRow[]; servicos?: ItemServicoOSRow[] } {
+  ): OrdemDeServicoRow & {
+    itens?: ItemOSRow[];
+    servicos?: ItemServicoOSRow[];
+  } {
     const result: OrdemDeServicoRow & {
       itens?: ItemOSRow[];
       servicos?: ItemServicoOSRow[];

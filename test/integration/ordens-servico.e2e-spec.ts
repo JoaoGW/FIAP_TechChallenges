@@ -212,6 +212,24 @@ describe('Ordens de Servico (e2e)', () => {
     expect(statuses).not.toContain(StatusOS.CANCELADA);
   });
 
+  it('GET /ordens-servico deve ordenar antes de paginar no banco', async () => {
+    const recebida = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    const execucao = OrdemDeServico.criar('cliente-2', 'veiculo-2');
+    prepararAteAguardandoAprovacao(execucao);
+    execucao.aprovarOrcamento();
+    execucao.iniciarExecucao();
+    await osRepo.save(recebida);
+    await osRepo.save(execucao);
+
+    const response = await request(app.getHttpServer())
+      .get('/ordens-servico?page=1&limit=1')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+    expect(response.body).toHaveLength(1);
+    expect(response.body[0].props.status).toBe(StatusOS.EM_EXECUCAO);
+  });
+
   it('deve executar fluxo completo da OS e validar status final ENTREGUE', async () => {
     const clienteResponse = await request(app.getHttpServer())
       .post('/clientes')

@@ -118,6 +118,23 @@ describe('ListarOrdensDeServicoUseCase', () => {
     expect(resultado[1].getId()).toBe(maisNova.getId());
   });
 
+  it('deve ordenar antes de paginar', async () => {
+    const osRepo = new InMemoryOrdemDeServicoRepository();
+    const useCase = new ListarOrdensDeServicoUseCase(osRepo);
+    const recebida = OrdemDeServico.criar('c1', 'v1');
+    const execucao = OrdemDeServico.criar('c2', 'v2');
+    prepararAteAguardandoAprovacao(execucao);
+    execucao.aprovarOrcamento();
+    execucao.iniciarExecucao();
+    await osRepo.save(recebida);
+    await osRepo.save(execucao);
+
+    const resultado = await useCase.execute({ page: 1, limit: 1 });
+
+    expect(resultado).toHaveLength(1);
+    expect(resultado[0].status).toBe(StatusOS.EM_EXECUCAO);
+  });
+
   it('deve excluir FINALIZADA, ENTREGUE e CANCELADA da listagem', async () => {
     const osRepo = new InMemoryOrdemDeServicoRepository();
     const useCase = new ListarOrdensDeServicoUseCase(osRepo);
