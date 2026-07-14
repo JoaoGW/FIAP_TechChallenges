@@ -45,7 +45,7 @@ jobs:
 
   deploy:
     name: Deploy no Kubernetes
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS]
     needs: docker
 
     steps:
