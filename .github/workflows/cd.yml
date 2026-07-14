@@ -58,12 +58,12 @@ jobs:
       - name: Configurar kubectl
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG }}" | base64 -d > ~/.kube/config
+          printf '%s' "${{ secrets.KUBECONFIG }}" | tr -d '[:space:]' | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
 
       - name: Materializar secret Kubernetes
         run: |
-          echo "${{ secrets.K8S_SECRET_YAML_BASE64 }}" | base64 -d > k8s/secret.yaml
+          printf '%s' "${{ secrets.K8S_SECRET_YAML_BASE64 }}" | tr -d '[:space:]' | base64 -d > k8s/secret.yaml
           chmod 600 k8s/secret.yaml
 
       - name: Verificar conexao com o cluster
