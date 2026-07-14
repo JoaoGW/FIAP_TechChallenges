@@ -31,9 +31,9 @@ resource "kind_cluster" "oficina" {
 
 provider "kubernetes" {
   host                   = kind_cluster.oficina.endpoint
-  cluster_ca_certificate = base64decode(kind_cluster.oficina.cluster_ca_certificate)
-  client_certificate     = base64decode(kind_cluster.oficina.client_certificate)
-  client_key             = base64decode(kind_cluster.oficina.client_key)
+  cluster_ca_certificate = kind_cluster.oficina.cluster_ca_certificate
+  client_certificate     = kind_cluster.oficina.client_certificate
+  client_key             = kind_cluster.oficina.client_key
 }
 
 resource "kubernetes_namespace" "oficina" {
@@ -88,6 +88,8 @@ resource "kubernetes_secret" "oficina_secrets" {
 }
 
 resource "kubernetes_persistent_volume_claim" "postgres" {
+  wait_until_bound = false
+
   metadata {
     name      = "postgres-pvc"
     namespace = kubernetes_namespace.oficina.metadata[0].name
