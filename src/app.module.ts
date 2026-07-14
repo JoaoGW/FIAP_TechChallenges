@@ -3,6 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { validateEnv } from './infrastructure/config/env.validation';
+import {
+  NOTIFICACAO_PORT,
+  ORCAMENTO_WEBHOOK_TOKEN_PORT,
+} from './application/ports/output/PortTokens';
 import { BuscarOrdemDeServicoPorIdUseCase } from './application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase';
 import { ListarOrdensDeServicoUseCase } from './application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase';
 import { CriarOrdemDeServicoUseCase } from './application/use-cases/CriarOrdemDeServicoUseCase';
@@ -12,6 +16,7 @@ import { AdicionarPecaOSUseCase } from './application/use-cases/AdicionarPecaOSU
 import { GerarOrcamentoUseCase } from './application/use-cases/GerarOrcamentoUseCase';
 import { EnviarOrcamentoParaAprovacaoUseCase } from './application/use-cases/EnviarOrcamentoParaAprovacaoUseCase';
 import { AprovarOrcamentoUseCase } from './application/use-cases/AprovarOrcamentoUseCase';
+import { RecusarOrcamentoUseCase } from './application/use-cases/RecusarOrcamentoUseCase';
 import { IniciarExecucaoUseCase } from './application/use-cases/IniciarExecucaoUseCase';
 import { FinalizarServicoUseCase } from './application/use-cases/FinalizarServicoUseCase';
 import { EntregarVeiculoUseCase } from './application/use-cases/EntregarVeiculoUseCase';
@@ -43,6 +48,8 @@ import { PrismaOrdemDeServicoRepository } from './infrastructure/repositories/Pr
 import { PrismaPecaRepository } from './infrastructure/repositories/PrismaPecaRepository';
 import { PrismaServicoRepository } from './infrastructure/repositories/PrismaServicoRepository';
 import { PrismaVeiculoRepository } from './infrastructure/repositories/PrismaVeiculoRepository';
+import { EmailAdapter } from './infrastructure/adapters/email/EmailAdapter';
+import { JwtOrcamentoWebhookTokenAdapter } from './infrastructure/adapters/webhook/JwtOrcamentoWebhookTokenAdapter';
 import { ClienteController } from './interfaces/controllers/admin/ClienteController';
 import { OrdemDeServicoController } from './interfaces/controllers/admin/OrdemDeServicoController';
 import { PecaController } from './interfaces/controllers/admin/PecaController';
@@ -76,9 +83,20 @@ import { RepositoryModule } from './modules/repository.module';
   providers: [
     AppService,
     JwtAuthGuard,
+    EmailAdapter,
+    JwtOrcamentoWebhookTokenAdapter,
+    {
+      provide: NOTIFICACAO_PORT,
+      useExisting: EmailAdapter,
+    },
+    {
+      provide: ORCAMENTO_WEBHOOK_TOKEN_PORT,
+      useExisting: JwtOrcamentoWebhookTokenAdapter,
+    },
     {
       provide: CriarClienteUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new CriarClienteUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new CriarClienteUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -95,7 +113,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarClientesUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new ListarClientesUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new ListarClientesUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -106,7 +125,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: RemoverClienteUseCase,
-      useFactory: (repo: PrismaClienteRepository) => new RemoverClienteUseCase(repo),
+      useFactory: (repo: PrismaClienteRepository) =>
+        new RemoverClienteUseCase(repo),
       inject: [PrismaClienteRepository],
     },
     {
@@ -125,7 +145,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarVeiculosUseCase,
-      useFactory: (repo: PrismaVeiculoRepository) => new ListarVeiculosUseCase(repo),
+      useFactory: (repo: PrismaVeiculoRepository) =>
+        new ListarVeiculosUseCase(repo),
       inject: [PrismaVeiculoRepository],
     },
     {
@@ -142,12 +163,14 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: RemoverVeiculoUseCase,
-      useFactory: (repo: PrismaVeiculoRepository) => new RemoverVeiculoUseCase(repo),
+      useFactory: (repo: PrismaVeiculoRepository) =>
+        new RemoverVeiculoUseCase(repo),
       inject: [PrismaVeiculoRepository],
     },
     {
       provide: CriarServicoUseCase,
-      useFactory: (repo: PrismaServicoRepository) => new CriarServicoUseCase(repo),
+      useFactory: (repo: PrismaServicoRepository) =>
+        new CriarServicoUseCase(repo),
       inject: [PrismaServicoRepository],
     },
     {
@@ -158,7 +181,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: ListarServicosUseCase,
-      useFactory: (repo: PrismaServicoRepository) => new ListarServicosUseCase(repo),
+      useFactory: (repo: PrismaServicoRepository) =>
+        new ListarServicosUseCase(repo),
       inject: [PrismaServicoRepository],
     },
     {
@@ -182,7 +206,8 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: BuscarPecaPorIdUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new BuscarPecaPorIdUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new BuscarPecaPorIdUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
@@ -192,12 +217,14 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: AtualizarPecaUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new AtualizarPecaUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new AtualizarPecaUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
       provide: AjustarEstoqueUseCase,
-      useFactory: (repo: PrismaPecaRepository) => new AjustarEstoqueUseCase(repo),
+      useFactory: (repo: PrismaPecaRepository) =>
+        new AjustarEstoqueUseCase(repo),
       inject: [PrismaPecaRepository],
     },
     {
@@ -226,11 +253,22 @@ import { RepositoryModule } from './modules/repository.module';
         osRepo: PrismaOrdemDeServicoRepository,
         clienteRepo: PrismaClienteRepository,
         veiculoRepo: PrismaVeiculoRepository,
-      ) => new CriarOrdemDeServicoUseCase(osRepo, clienteRepo, veiculoRepo),
+        servicoRepo: PrismaServicoRepository,
+        pecaRepo: PrismaPecaRepository,
+      ) =>
+        new CriarOrdemDeServicoUseCase(
+          osRepo,
+          clienteRepo,
+          veiculoRepo,
+          servicoRepo,
+          pecaRepo,
+        ),
       inject: [
         PrismaOrdemDeServicoRepository,
         PrismaClienteRepository,
         PrismaVeiculoRepository,
+        PrismaServicoRepository,
+        PrismaPecaRepository,
       ],
     },
     {
@@ -263,14 +301,35 @@ import { RepositoryModule } from './modules/repository.module';
     },
     {
       provide: EnviarOrcamentoParaAprovacaoUseCase,
-      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
-        new EnviarOrcamentoParaAprovacaoUseCase(osRepo),
-      inject: [PrismaOrdemDeServicoRepository],
+      useFactory: (
+        osRepo: PrismaOrdemDeServicoRepository,
+        clienteRepo: PrismaClienteRepository,
+        notificacao: EmailAdapter,
+        webhookTokens: JwtOrcamentoWebhookTokenAdapter,
+      ) =>
+        new EnviarOrcamentoParaAprovacaoUseCase(
+          osRepo,
+          clienteRepo,
+          notificacao,
+          webhookTokens,
+        ),
+      inject: [
+        PrismaOrdemDeServicoRepository,
+        PrismaClienteRepository,
+        NOTIFICACAO_PORT,
+        ORCAMENTO_WEBHOOK_TOKEN_PORT,
+      ],
     },
     {
       provide: AprovarOrcamentoUseCase,
       useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
         new AprovarOrcamentoUseCase(osRepo),
+      inject: [PrismaOrdemDeServicoRepository],
+    },
+    {
+      provide: RecusarOrcamentoUseCase,
+      useFactory: (osRepo: PrismaOrdemDeServicoRepository) =>
+        new RecusarOrcamentoUseCase(osRepo),
       inject: [PrismaOrdemDeServicoRepository],
     },
     {

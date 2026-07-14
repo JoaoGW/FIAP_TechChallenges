@@ -1,5 +1,9 @@
 import { OrdemDeServico } from '../../../domain/entities/OrdemDeServico';
-import { OrdemDeServicoRepository } from '../../../domain/repositories/OrdemDeServicoRepository';
+import { StatusOS } from '../../../domain/enums/StatusOS';
+import {
+  ListarFilaOperacionalParams,
+  OrdemDeServicoRepository,
+} from '../../../domain/repositories/OrdemDeServicoRepository';
 import { PaginationParams } from '../../../domain/repositories/types';
 
 export class InMemoryOrdemDeServicoRepository
@@ -44,6 +48,40 @@ export class InMemoryOrdemDeServicoRepository
       status === undefined
         ? this.items
         : this.items.filter((item) => item.status === status);
+    const start = (page - 1) * limit;
+    return filtered.slice(start, start + limit);
+  }
+
+  async listarFilaOperacional(
+    params?: ListarFilaOperacionalParams,
+  ): Promise<OrdemDeServico[]> {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 20;
+    const statusOperacionais = [
+      StatusOS.EM_EXECUCAO,
+      StatusOS.AGUARDANDO_APROVACAO,
+      StatusOS.EM_DIAGNOSTICO,
+      StatusOS.RECEBIDA,
+    ];
+    const statusPermitidos =
+      params?.status === undefined ? statusOperacionais : [params.status];
+    const prioridade = new Map<StatusOS, number>(
+      statusOperacionais.map((status, index) => [status, index + 1]),
+    );
+
+    const filtered = this.items
+      .filter((item) => statusPermitidos.includes(item.status))
+      .filter((item) => statusOperacionais.includes(item.status))
+      .sort((ordemAtual, proximaOrdem) => {
+        const diferencaPrioridade =
+          (prioridade.get(ordemAtual.status) ?? Number.MAX_SAFE_INTEGER) -
+          (prioridade.get(proximaOrdem.status) ?? Number.MAX_SAFE_INTEGER);
+        if (diferencaPrioridade !== 0) return diferencaPrioridade;
+        return (
+          ordemAtual.dataCriacao.getTime() - proximaOrdem.dataCriacao.getTime()
+        );
+      });
+
     const start = (page - 1) * limit;
     return filtered.slice(start, start + limit);
   }

@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    name: Build e testes
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: oficina_test_db
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://test_user:test_password@localhost:5433/oficina_test_db
+      JWT_SECRET: ${{ secrets.TEST_JWT_SECRET || 'test-secret-with-at-least-32-characters' }}
+      JWT_EXPIRES_IN: 1d
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD_HASH: ${{ secrets.TEST_ADMIN_PASSWORD_HASH || '$2b$10$12kw18n1pMwBIluxZQxh1O.zpsHVW.lRC9lmwyWCtKIOcC.49x5.O' }}
+      MAIL_HOST: smtp.test.local
+      MAIL_PORT: '587'
+      MAIL_USER: test@example.com
+      MAIL_PASS: test-password
+      MAIL_FROM: oficina-test@example.com
+      WEBHOOK_SECRET: ${{ secrets.TEST_WEBHOOK_SECRET || 'test-webhook-secret-with-at-least-32-characters' }}
+      WEBHOOK_TOKEN_EXPIRES_IN: 1h
+      APP_URL: http://localhost:3000
+      NODE_ENV: test
+
+    steps:
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Gerar Prisma Client
+        run: npx prisma generate
+
+      - name: Build da aplicacao
+        run: npm run build
+
+      - name: Rodar migrations de teste
+        run: npx prisma migrate deploy
+
+      - name: Testes unitarios
+        run: npm run test
+
+      - name: Cobertura de testes
+        run: npm run test:cov
+
+      - name: Testes e2e
+        run: npm run test:e2e

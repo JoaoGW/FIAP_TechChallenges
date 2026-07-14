@@ -14,6 +14,7 @@ export class ConsultaStatusOSResponseDto {
       'EM_EXECUCAO',
       'FINALIZADA',
       'ENTREGUE',
+      'CANCELADA',
     ],
   })
   status: string;

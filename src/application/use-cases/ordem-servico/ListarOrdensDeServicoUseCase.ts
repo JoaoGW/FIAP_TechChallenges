@@ -10,7 +10,7 @@ export class ListarOrdensDeServicoUseCase {
   constructor(private readonly osRepo: OrdemDeServicoRepository) {}
 
   async execute(input: Input = {}) {
-    return this.osRepo.findAll({
+    return this.osRepo.listarFilaOperacional({
       page: input.page ?? 1,
       limit: input.limit ?? 20,
       status: input.status,

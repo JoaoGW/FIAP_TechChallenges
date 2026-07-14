@@ -8,51 +8,55 @@ import { Quantidade } from '../../domain/value-objects/Quantidade';
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
 
 export class OrdemDeServicoMapper {
-  static toDomain(raw: any): OrdemDeServico {
-    const itens = (raw.itens ?? []).map(
-      (item: any) =>
+  static toDomain(ordemData: any): OrdemDeServico {
+    const itens = (ordemData.itens ?? []).map(
+      (pecaData: any) =>
         new ItemOS(
-          item.pecaId,
-          new Quantidade(item.quantidade),
-          new Dinheiro(item.precoUnitario),
+          pecaData.pecaId,
+          new Quantidade(pecaData.quantidade),
+          new Dinheiro(pecaData.precoUnitario),
         ),
     );
 
-    const servicos = (raw.servicos ?? []).map(
-      (servico: any) =>
+    const servicos = (ordemData.servicos ?? []).map(
+      (servicoData: any) =>
         new ItemServicoOS(
-          servico.servicoId,
-          new Dinheiro(servico.precoUnitario ?? servico.preco ?? 0),
+          servicoData.servicoId,
+          new Dinheiro(servicoData.precoUnitario ?? servicoData.preco ?? 0),
         ),
     );
 
-    const status = Object.values(StatusOS).includes(raw.status)
-      ? (raw.status as StatusOS)
+    const status = Object.values(StatusOS).includes(ordemData.status)
+      ? (ordemData.status as StatusOS)
       : StatusOS.RECEBIDA;
 
     return new OrdemDeServico(
       {
-        clienteId: raw.clienteId,
-        veiculoId: raw.veiculoId,
-        codigoAcompanhamento: raw.codigoAcompanhamento
-          ? CodigoAcompanhamento.criar(raw.codigoAcompanhamento)
+        clienteId: ordemData.clienteId,
+        veiculoId: ordemData.veiculoId,
+        codigoAcompanhamento: ordemData.codigoAcompanhamento
+          ? CodigoAcompanhamento.criar(ordemData.codigoAcompanhamento)
           : CodigoAcompanhamento.gerar(),
         status,
         servicos,
         itens,
-        valorTotal: new Dinheiro(raw.valorTotal ?? 0),
-        orcamentoGerado: raw.orcamentoGerado ?? false,
-        orcamentoAprovado: raw.orcamentoAprovado ?? false,
-        dataInicioExecucao: raw.dataInicioExecucao
-          ? new Date(raw.dataInicioExecucao)
+        valorTotal: new Dinheiro(ordemData.valorTotal ?? 0),
+        orcamentoGerado: ordemData.orcamentoGerado ?? false,
+        orcamentoAprovado: ordemData.orcamentoAprovado ?? false,
+        dataInicioExecucao: ordemData.dataInicioExecucao
+          ? new Date(ordemData.dataInicioExecucao)
           : undefined,
-        dataFinalizacao: raw.dataFinalizacao
-          ? new Date(raw.dataFinalizacao)
+        dataFinalizacao: ordemData.dataFinalizacao
+          ? new Date(ordemData.dataFinalizacao)
           : undefined,
-        dataCriacao: raw.createdAt ? new Date(raw.createdAt) : new Date(),
-        dataAtualizacao: raw.updatedAt ? new Date(raw.updatedAt) : new Date(),
+        dataCriacao: ordemData.createdAt
+          ? new Date(ordemData.createdAt)
+          : new Date(),
+        dataAtualizacao: ordemData.updatedAt
+          ? new Date(ordemData.updatedAt)
+          : new Date(),
       },
-      new UniqueEntityId(raw.id),
+      new UniqueEntityId(ordemData.id),
     );
   }
 }

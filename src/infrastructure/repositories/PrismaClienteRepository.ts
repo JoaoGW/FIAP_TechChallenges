@@ -29,21 +29,25 @@ export class PrismaClienteRepository implements ClienteRepository {
   }
 
   async findById(id: string): Promise<Cliente | null> {
-    const raw = await this.prisma.cliente.findUnique?.({ where: { id } });
-    if (!raw) return null;
-    return ClienteMapper.toDomain(raw);
+    const clienteData = await this.prisma.cliente.findUnique?.({
+      where: { id },
+    });
+    if (!clienteData) return null;
+    return ClienteMapper.toDomain(clienteData);
   }
 
   async findByDocumento(documento: string): Promise<Cliente | null> {
-    const raw = await this.prisma.cliente.findUnique?.({ where: { documento } });
-    if (!raw) return null;
-    return ClienteMapper.toDomain(raw);
+    const clienteData = await this.prisma.cliente.findUnique?.({
+      where: { documento },
+    });
+    if (!clienteData) return null;
+    return ClienteMapper.toDomain(clienteData);
   }
 
   async findAll(params?: ActiveFilter): Promise<Cliente[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const raws =
+    const clientesData =
       (await this.prisma.cliente.findMany?.({
         where: {
           ativo: params?.ativo ?? true,
@@ -51,6 +55,8 @@ export class PrismaClienteRepository implements ClienteRepository {
         skip: (page - 1) * limit,
         take: limit,
       })) ?? [];
-    return raws.map((raw) => ClienteMapper.toDomain(raw));
+    return clientesData.map((clienteData) =>
+      ClienteMapper.toDomain(clienteData),
+    );
   }
 }

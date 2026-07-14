@@ -3,19 +3,23 @@ import { PlacaVeiculo } from '../../domain/value-objects/PlacaVeiculo';
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
 
 export class VeiculoMapper {
-  static toDomain(raw: any): Veiculo {
+  static toDomain(veiculoData: any): Veiculo {
     return new Veiculo(
       {
-        clienteId: raw.clienteId,
-        placa: new PlacaVeiculo(raw.placa),
-        marca: raw.marca,
-        modelo: raw.modelo,
-        ano: raw.ano,
-        ativo: raw.ativo ?? true,
-        dataCriacao: raw.createdAt ? new Date(raw.createdAt) : new Date(),
-        dataAtualizacao: raw.updatedAt ? new Date(raw.updatedAt) : new Date(),
+        clienteId: veiculoData.clienteId,
+        placa: new PlacaVeiculo(veiculoData.placa),
+        marca: veiculoData.marca,
+        modelo: veiculoData.modelo,
+        ano: veiculoData.ano,
+        ativo: veiculoData.ativo ?? true,
+        dataCriacao: veiculoData.createdAt
+          ? new Date(veiculoData.createdAt)
+          : new Date(),
+        dataAtualizacao: veiculoData.updatedAt
+          ? new Date(veiculoData.updatedAt)
+          : new Date(),
       },
-      new UniqueEntityId(raw.id),
+      new UniqueEntityId(veiculoData.id),
     );
   }
 }

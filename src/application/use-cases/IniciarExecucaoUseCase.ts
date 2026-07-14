@@ -4,6 +4,7 @@ import { PecaNaoEncontradaError } from '../../domain/errors/PecaNaoEncontradaErr
 import { Peca } from '../../domain/entities/Peca';
 import { OrdemDeServicoRepository } from '../../domain/repositories/OrdemDeServicoRepository';
 import { PecaRepository } from '../../domain/repositories/PecaRepository';
+import { ItemOS } from '../../domain/value-objects/ItemOS';
 
 interface Input {
   osId: string;
@@ -19,26 +20,40 @@ export class IniciarExecucaoUseCase {
     const os = await this.osRepo.findById(input.osId);
     if (!os) throw new OrdemDeServicoNaoEncontradaError();
 
-    const pecasPorId = new Map<string, Peca>();
-
-    for (const item of os.itens) {
-      const peca = await this.pecaRepo.findById(item.pecaId);
-      if (!peca) throw new PecaNaoEncontradaError();
-      if (peca.quantidadeEstoque < item.quantidade.valor) {
-        throw new EstoqueInsuficienteError();
-      }
-      pecasPorId.set(item.pecaId, peca);
-    }
-
-    for (const item of os.itens) {
-      const peca = pecasPorId.get(item.pecaId);
-      if (!peca) throw new PecaNaoEncontradaError();
-
-      peca.baixarEstoque(item.quantidade);
-      await this.pecaRepo.save(peca);
-    }
+    const pecasPorId = await this.validarEstoqueDisponivel(os.itens);
+    await this.baixarEstoqueDasPecas(os.itens, pecasPorId);
 
     os.iniciarExecucao();
     await this.osRepo.save(os);
+  }
+
+  private async validarEstoqueDisponivel(
+    itensOS: ItemOS[],
+  ): Promise<Map<string, Peca>> {
+    const pecasPorId = new Map<string, Peca>();
+
+    for (const itemOS of itensOS) {
+      const peca = await this.pecaRepo.findById(itemOS.pecaId);
+      if (!peca) throw new PecaNaoEncontradaError();
+      if (peca.quantidadeEstoque < itemOS.quantidade.valor) {
+        throw new EstoqueInsuficienteError();
+      }
+      pecasPorId.set(itemOS.pecaId, peca);
+    }
+
+    return pecasPorId;
+  }
+
+  private async baixarEstoqueDasPecas(
+    itensOS: ItemOS[],
+    pecasPorId: Map<string, Peca>,
+  ): Promise<void> {
+    for (const itemOS of itensOS) {
+      const peca = pecasPorId.get(itemOS.pecaId);
+      if (!peca) throw new PecaNaoEncontradaError();
+
+      peca.baixarEstoque(itemOS.quantidade);
+      await this.pecaRepo.save(peca);
+    }
   }
 }

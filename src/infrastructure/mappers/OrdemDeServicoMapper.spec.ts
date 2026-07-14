@@ -3,7 +3,7 @@ import { OrdemDeServicoMapper } from './OrdemDeServicoMapper';
 
 describe('OrdemDeServicoMapper', () => {
   it('deve reconstruir agregado com itens, servicos e datas opcionais', () => {
-    const raw = {
+    const ordemData = {
       id: 'os-1',
       codigoAcompanhamento: 'OS-2026-A8K92P',
       clienteId: 'cliente-1',
@@ -20,7 +20,7 @@ describe('OrdemDeServicoMapper', () => {
       servicos: [{ servicoId: 'servico-1', precoUnitario: 15000 }],
     };
 
-    const os = OrdemDeServicoMapper.toDomain(raw);
+    const os = OrdemDeServicoMapper.toDomain(ordemData);
 
     expect(os.getId()).toBe('os-1');
     expect(os.codigoAcompanhamento.valor).toBe('OS-2026-A8K92P');
@@ -38,7 +38,7 @@ describe('OrdemDeServicoMapper', () => {
   });
 
   it('deve usar RECEBIDA para status invalido', () => {
-    const raw = {
+    const ordemData = {
       id: 'os-2',
       codigoAcompanhamento: 'OS-2026-Z9Y8X7',
       clienteId: 'cliente-2',
@@ -49,7 +49,23 @@ describe('OrdemDeServicoMapper', () => {
       updatedAt: new Date(),
     };
 
-    const os = OrdemDeServicoMapper.toDomain(raw);
+    const os = OrdemDeServicoMapper.toDomain(ordemData);
     expect(os.status).toBe(StatusOS.RECEBIDA);
+  });
+
+  it('deve reconstruir OS cancelada', () => {
+    const ordemData = {
+      id: 'os-3',
+      codigoAcompanhamento: 'OS-2026-C4NCLD',
+      clienteId: 'cliente-3',
+      veiculoId: 'veiculo-3',
+      status: StatusOS.CANCELADA,
+      valorTotal: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const os = OrdemDeServicoMapper.toDomain(ordemData);
+    expect(os.status).toBe(StatusOS.CANCELADA);
   });
 });

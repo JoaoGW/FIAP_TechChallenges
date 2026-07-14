@@ -41,6 +41,51 @@ describe('OrdemDeServico - state machine', () => {
     expect(os.status).toBe(StatusOS.EM_EXECUCAO);
   });
 
+  it('deve transicionar AGUARDANDO_APROVACAO -> CANCELADA', () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
+    os.enviarOrcamentoParaAprovacao();
+    os.recusarOrcamento();
+    expect(os.status).toBe(StatusOS.CANCELADA);
+  });
+
+  it('CANCELADA deve ser estado terminal', () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
+    os.enviarOrcamentoParaAprovacao();
+    os.recusarOrcamento();
+
+    expect(() => os.iniciarDiagnostico()).toThrow(TransicaoStatusInvalidaError);
+    expect(() => os.aprovarOrcamento()).toThrow(TransicaoStatusInvalidaError);
+    expect(() => os.recusarOrcamento()).toThrow(TransicaoStatusInvalidaError);
+    expect(() => os.iniciarExecucao()).toThrow(ExecucaoNaoPodeSerIniciadaError);
+    expect(() => os.finalizarServico()).toThrow(TransicaoStatusInvalidaError);
+    expect(() => os.entregarVeiculo()).toThrow(TransicaoStatusInvalidaError);
+  });
+
+  it('nao deve permitir recusar fora de AGUARDANDO_APROVACAO', () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    expect(() => os.recusarOrcamento()).toThrow(TransicaoStatusInvalidaError);
+  });
+
+  it('deve preencher dataAtualizacao ao cancelar', () => {
+    const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    os.iniciarDiagnostico();
+    os.adicionarServico('servico-1', new Dinheiro(10000));
+    os.gerarOrcamento();
+    os.enviarOrcamentoParaAprovacao();
+    const antes = os.dataAtualizacao.getTime();
+
+    os.recusarOrcamento();
+
+    expect(os.status).toBe(StatusOS.CANCELADA);
+    expect(os.dataAtualizacao.getTime()).toBeGreaterThanOrEqual(antes);
+  });
+
   it('deve aprovar orcamento sem iniciar execucao automaticamente', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     os.iniciarDiagnostico();
@@ -79,7 +124,9 @@ describe('OrdemDeServico - state machine', () => {
 
   it('deve lancar OrcamentoNaoGeradoError ao enviar sem orcamento gerado', () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
-    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(OrcamentoNaoGeradoError);
+    expect(() => os.enviarOrcamentoParaAprovacao()).toThrow(
+      OrcamentoNaoGeradoError,
+    );
   });
 
   it('deve lancar TransicaoStatusInvalidaError ao voltar etapa', () => {

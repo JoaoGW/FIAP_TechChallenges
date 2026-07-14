@@ -4,17 +4,21 @@ import { QuantidadeEstoque } from '../../domain/value-objects/QuantidadeEstoque'
 import { UniqueEntityId } from '../../shared/domain/UniqueEntityId';
 
 export class PecaMapper {
-  static toDomain(raw: any): Peca {
+  static toDomain(pecaData: any): Peca {
     return new Peca(
       {
-        nome: raw.nome,
-        preco: new Dinheiro(raw.preco),
-        quantidadeEstoque: new QuantidadeEstoque(raw.quantidadeEstoque),
-        ativo: raw.ativo ?? true,
-        dataCriacao: raw.createdAt ? new Date(raw.createdAt) : new Date(),
-        dataAtualizacao: raw.updatedAt ? new Date(raw.updatedAt) : new Date(),
+        nome: pecaData.nome,
+        preco: new Dinheiro(pecaData.preco),
+        quantidadeEstoque: new QuantidadeEstoque(pecaData.quantidadeEstoque),
+        ativo: pecaData.ativo ?? true,
+        dataCriacao: pecaData.createdAt
+          ? new Date(pecaData.createdAt)
+          : new Date(),
+        dataAtualizacao: pecaData.updatedAt
+          ? new Date(pecaData.updatedAt)
+          : new Date(),
       },
-      new UniqueEntityId(raw.id),
+      new UniqueEntityId(pecaData.id),
     );
   }
 }
