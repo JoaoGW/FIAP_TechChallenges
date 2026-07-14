@@ -4,32 +4,35 @@
 
 | Recurso | Descricao |
 |---|---|
-| `kind_cluster.oficina` | Cluster Kubernetes local com 1 control-plane e workers configuraveis |
-| `kubernetes_namespace.oficina` | Namespace `oficina` dentro do cluster |
-| `kubernetes_secret.db_credentials` | Secret com senha do banco e `DATABASE_URL` |
-| `null_resource.export_kubeconfig` | Exporta o kubeconfig para uso local com kubectl |
+| `kind_cluster.oficina` | Cluster Kubernetes local com 1 control-plane e workers configuraveis. |
+| `kubernetes_namespace.oficina` | Namespace `oficina` dentro do cluster. |
+| `kubernetes_config_map.oficina_config` | ConfigMap com variaveis nao sensiveis da API e do Postgres. |
+| `kubernetes_secret.oficina_secrets` | Secret `oficina-secrets`, usado pelos manifests da API e do Postgres. |
+| `kubernetes_persistent_volume_claim.postgres` | Volume persistente do PostgreSQL. |
+| `kubernetes_deployment.postgres` | Deployment do PostgreSQL no cluster local. |
+| `kubernetes_service.postgres` | Service interno `postgres-service` para o banco. |
+| `null_resource.export_kubeconfig` | Exporta o kubeconfig para uso local com kubectl. |
 
 ## Decisao sobre o banco de dados
 
-O PostgreSQL e provisionado via manifestos Kubernetes em `../k8s`
-(`deployment-postgres.yaml`, `service-postgres.yaml` e `pvc-postgres.yaml`),
-nao via Terraform diretamente. Essa decisao foi tomada porque o ambiente e
-local com Kind e nao ha banco gerenciado externo.
+O PostgreSQL e provisionado pelo Terraform dentro do cluster Kind local, usando
+PVC, Deployment e Service Kubernetes. Os manifests equivalentes continuam em
+`../k8s` para uso no pipeline de CD e para atender a entrega de manifestos YAML.
 
 Em um ambiente cloud, o banco seria provisionado pelo Terraform como recurso
 gerenciado, por exemplo `aws_db_instance` na AWS ou
 `google_sql_database_instance` no GCP.
 
-O Terraform gerencia credenciais sensiveis do banco via
-`kubernetes_secret.db_credentials`, injetando `db_password` como variavel
-sensivel (`sensitive = true`) sem expor a senha em texto puro nos outputs.
+O Terraform gerencia as credenciais sensiveis via `oficina-secrets`, usando
+variaveis `sensitive = true` para senha do banco, JWT, webhook, SMTP e hash da
+senha administrativa.
 
 ## Pre-requisitos
 
-- Terraform >= 1.5.0
-- Docker instalado e rodando
-- Kind instalado: https://kind.sigs.k8s.io/docs/user/quick-start/
-- kubectl instalado
+- Terraform >= 1.5.0.
+- Docker instalado e rodando.
+- Kind instalado: https://kind.sigs.k8s.io/docs/user/quick-start/.
+- kubectl instalado.
 
 ## Como instalar o Kind
 
@@ -76,10 +79,12 @@ terraform apply -var="db_password=sua_senha_segura"
 
 4. Confirme com `yes` quando solicitado.
 
-5. Aplique os manifestos Kubernetes:
+5. Aplique os manifests da API:
 
 ```bash
-kubectl apply -f ../k8s/
+kubectl apply -f ../k8s/deployment-api.yaml
+kubectl apply -f ../k8s/service-api.yaml
+kubectl apply -f ../k8s/hpa.yaml
 ```
 
 ## Como verificar
@@ -87,7 +92,9 @@ kubectl apply -f ../k8s/
 ```bash
 kubectl get nodes
 kubectl get namespace oficina
-kubectl get secret db-credentials -n oficina
+kubectl get configmap oficina-config -n oficina
+kubectl get secret oficina-secrets -n oficina
+kubectl get service postgres-service -n oficina
 kubectl get all -n oficina
 ```
 
@@ -107,12 +114,6 @@ kubectl patch deployment metrics-server \
   -p='[{"op":"add","path":"/spec/template/spec/containers/0/args/-","value":"--kubelet-insecure-tls"}]'
 
 cd ..
-kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/configmap.yaml
-kubectl apply -f k8s/secret.yaml
-kubectl apply -f k8s/pvc-postgres.yaml
-kubectl apply -f k8s/deployment-postgres.yaml
-kubectl apply -f k8s/service-postgres.yaml
 kubectl wait --for=condition=ready pod -l app=postgres -n oficina --timeout=60s
 kubectl apply -f k8s/deployment-api.yaml
 kubectl apply -f k8s/service-api.yaml
@@ -137,21 +138,32 @@ sao perdidos porque o volume esta no cluster local.
 
 | Variavel | Descricao | Padrao | Sensivel |
 |---|---|---|---|
-| `cluster_name` | Nome do cluster Kind | `oficina-cluster` | Nao |
-| `worker_nodes` | Numero de workers | `2` | Nao |
-| `api_port` | Porta local da API | `3000` | Nao |
-| `postgres_port` | Porta local do Postgres | `5432` | Nao |
-| `db_password` | Senha do banco | - | Sim |
-| `namespace` | Namespace Kubernetes | `oficina` | Nao |
+| `cluster_name` | Nome do cluster Kind. | `oficina-cluster` | Nao |
+| `worker_nodes` | Numero de workers. | `2` | Nao |
+| `api_port` | Porta local da API. | `3000` | Nao |
+| `postgres_port` | Porta local do Postgres. | `5432` | Nao |
+| `postgres_user` | Usuario do Postgres. | `oficina_user` | Nao |
+| `postgres_db` | Nome do banco. | `oficina_db` | Nao |
+| `postgres_image` | Imagem do Postgres. | `postgres:16-alpine` | Nao |
+| `postgres_storage` | Tamanho do PVC do Postgres. | `1Gi` | Nao |
+| `db_password` | Senha do banco. | - | Sim |
+| `jwt_secret` | Segredo JWT da API. | valor local de exemplo | Sim |
+| `admin_password_hash` | Hash bcrypt da senha administrativa. | valor local de exemplo | Sim |
+| `webhook_secret` | Segredo dos tokens de webhook. | valor local de exemplo | Sim |
+| `mail_user` | Usuario SMTP. | `seu@email.com` | Sim |
+| `mail_pass` | Senha/token SMTP. | `app-password-aqui` | Sim |
+| `namespace` | Namespace Kubernetes. | `oficina` | Nao |
 
 ## Outputs
 
 | Output | Descricao |
 |---|---|
-| `cluster_name` | Nome do cluster criado |
-| `cluster_endpoint` | Endpoint da API Kubernetes |
-| `namespace` | Namespace da aplicacao |
-| `kubectl_context` | Contexto kubectl para uso com `kubectl config use-context` |
-| `api_url` | URL de acesso a API |
-| `swagger_url` | URL do Swagger |
-| `proximos_passos` | Comandos para continuar apos o apply |
+| `cluster_name` | Nome do cluster criado. |
+| `cluster_endpoint` | Endpoint da API Kubernetes. |
+| `namespace` | Namespace da aplicacao. |
+| `postgres_service` | Service Kubernetes do PostgreSQL. |
+| `application_secret` | Secret Kubernetes esperado pelos manifests da API. |
+| `kubectl_context` | Contexto kubectl para uso com `kubectl config use-context`. |
+| `api_url` | URL de acesso a API. |
+| `swagger_url` | URL do Swagger. |
+| `proximos_passos` | Comandos para continuar apos o apply. |

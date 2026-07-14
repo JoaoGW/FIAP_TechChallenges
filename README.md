@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Postech FIAP - Tech Challenge 01
+Postech FIAP - Tech Challenge 02.
 Este projeto implementa o MVP do back-end de um Sistema Integrado de Atendimento e Execução de Serviços para uma oficina mecânica.
 
 O sistema permite gerenciar clientes, veículos, serviços, peças e ordens de serviço, além de permitir que clientes acompanhem publicamente o status de uma OS por meio de um código de acompanhamento.
@@ -133,27 +133,27 @@ Use dois arquivos:
 
 A separacao existe porque o host do banco muda entre os ambientes: local usa localhost, enquanto no Docker Compose a API acessa o servico postgres pela rede interna.
 
-- `.env` para execucao local (`DATABASE_URL` com `localhost`)
-- `.env.docker` para Docker Compose (`DATABASE_URL` com host `postgres`)
+- `.env` para execucao local (`DATABASE_URL` com `localhost`).
+- `.env.docker` para Docker Compose (`DATABASE_URL` com host `postgres`).
 
-| Variável                   | Descrição                           |
-| -------------------------- | ----------------------------------- |
-| `DATABASE_URL`             | URL de conexão com PostgreSQL       |
-| `POSTGRES_USER`            | Usuário do PostgreSQL (Docker)      |
-| `POSTGRES_PASSWORD`        | Senha do PostgreSQL (Docker)        |
-| `POSTGRES_DB`              | Nome do banco                       |
-| `JWT_SECRET`               | Segredo do JWT                      |
-| `JWT_EXPIRES_IN`           | Expiração do JWT                    |
-| `ADMIN_USERNAME`           | Usuário administrativo              |
-| `ADMIN_PASSWORD_HASH`      | Hash bcrypt da senha administrativa |
-| `MAIL_HOST`                | Host SMTP para envio de email       |
-| `MAIL_PORT`                | Porta SMTP                          |
-| `MAIL_USER`                | Usuario SMTP                        |
-| `MAIL_PASS`                | Senha/token SMTP                    |
-| `MAIL_FROM`                | Remetente dos emails                |
-| `WEBHOOK_SECRET`           | Segredo dos tokens de webhook       |
-| `WEBHOOK_TOKEN_EXPIRES_IN` | Expiracao dos tokens de webhook     |
-| `APP_URL`                  | URL publica/base da aplicacao       |
+| Variável                   | Descrição                            |
+| -------------------------- | ------------------------------------ |
+| `DATABASE_URL`             | URL de conexão com PostgreSQL.       |
+| `POSTGRES_USER`            | Usuário do PostgreSQL (Docker).      |
+| `POSTGRES_PASSWORD`        | Senha do PostgreSQL (Docker).        |
+| `POSTGRES_DB`              | Nome do banco.                       |
+| `JWT_SECRET`               | Segredo do JWT.                      |
+| `JWT_EXPIRES_IN`           | Expiração do JWT.                    |
+| `ADMIN_USERNAME`           | Usuário administrativo.              |
+| `ADMIN_PASSWORD_HASH`      | Hash bcrypt da senha administrativa. |
+| `MAIL_HOST`                | Host SMTP para envio de email.       |
+| `MAIL_PORT`                | Porta SMTP.                          |
+| `MAIL_USER`                | Usuario SMTP.                        |
+| `MAIL_PASS`                | Senha/token SMTP.                    |
+| `MAIL_FROM`                | Remetente dos emails.                |
+| `WEBHOOK_SECRET`           | Segredo dos tokens de webhook.       |
+| `WEBHOOK_TOKEN_EXPIRES_IN` | Expiracao dos tokens de webhook.     |
+| `APP_URL`                  | URL publica/base da aplicacao.       |
 
 ## Como rodar com Docker
 
@@ -183,10 +183,10 @@ API, Services e HPA por CPU/memoria.
 
 ### Pre-requisitos
 
-- `kubectl` instalado
-- Cluster Kubernetes rodando (Kind via Terraform ou Minikube)
-- metrics-server instalado no cluster
-- Imagem Docker da API publicada ou carregada no cluster
+- `kubectl` instalado.
+- Cluster Kubernetes rodando (Kind via Terraform ou Minikube).
+- metrics-server instalado no cluster.
+- Imagem Docker da API publicada ou carregada no cluster.
 
 Antes de aplicar, copie o exemplo de secret e ajuste os valores sensiveis:
 
@@ -286,12 +286,13 @@ com Kind. O Terraform cria:
 
 - cluster Kind com 1 control-plane e workers configuraveis;
 - namespace `oficina`;
-- secret Kubernetes com credenciais sensiveis do banco;
+- ConfigMap e Secret Kubernetes com as variaveis esperadas pela API;
+- PostgreSQL no cluster, com PVC, Deployment e Service;
 - exportacao automatica do kubeconfig para uso com `kubectl`.
 
-O PostgreSQL da aplicacao e criado pelos manifestos Kubernetes em `k8s/`, pois
-o ambiente alvo desta entrega e local com Kind. Em cloud, esse desenho poderia
-ser trocado por um banco gerenciado provisionado via Terraform.
+O PostgreSQL do ambiente local e provisionado pelo Terraform dentro do cluster
+Kind. Em cloud, esse desenho poderia ser trocado por um banco gerenciado
+provisionado via Terraform.
 
 Fluxo basico:
 
@@ -312,8 +313,8 @@ Deploy em Kubernetes. A documentacao completa da infraestrutura esta em
 
 Os workflows ficam em `.github/workflows/`:
 
-- `ci.yml`: roda em todo push e pull request para `main`.
-- `cd.yml`: roda em push para `main`, normalmente apos merge aprovado.
+- `ci.yml`: roda em todo push e pull request para `master`.
+- `cd.yml`: roda em push para `master`, normalmente apos merge aprovado.
 
 ### CI
 
@@ -346,16 +347,16 @@ O workflow de CD executa:
 
 Configure em `Settings -> Secrets and variables -> Actions`:
 
-| Secret | Descricao |
-|---|---|
-| `DOCKER_USERNAME` | Usuario Docker Hub |
-| `DOCKER_PASSWORD` | Token Docker Hub |
-| `DOCKER_IMAGE_NAME` | Nome da imagem, por exemplo `usuario/oficina-api` |
-| `KUBECONFIG` | Conteudo do kubeconfig em base64 |
-| `K8S_SECRET_YAML_BASE64` | Conteudo do `k8s/secret.yaml` real em base64 |
-| `TEST_ADMIN_PASSWORD_HASH` | Hash bcrypt para testes |
-| `TEST_JWT_SECRET` | JWT secret isolado para testes |
-| `TEST_WEBHOOK_SECRET` | Webhook secret isolado para testes |
+| Secret                     | Descricao                                          |
+| -------------------------- | -------------------------------------------------- |
+| `DOCKER_USERNAME`          | Usuario Docker Hub.                                |
+| `DOCKER_PASSWORD`          | Token Docker Hub.                                  |
+| `DOCKER_IMAGE_NAME`        | Nome da imagem, por exemplo `usuario/oficina-api`. |
+| `KUBECONFIG`               | Conteudo do kubeconfig em base64.                  |
+| `K8S_SECRET_YAML_BASE64`   | Conteudo do `k8s/secret.yaml` real em base64.      |
+| `TEST_ADMIN_PASSWORD_HASH` | Hash bcrypt para testes.                           |
+| `TEST_JWT_SECRET`          | JWT secret isolado para testes.                    |
+| `TEST_WEBHOOK_SECRET`      | Webhook secret isolado para testes.                |
 
 Como gerar o `KUBECONFIG` em base64:
 
@@ -389,6 +390,8 @@ No Docker, as migrations são aplicadas automaticamente no startup da API com:
 ```txt
 npx prisma migrate deploy
 ```
+
+As migrations versionadas ficam em `prisma/migrations/`.
 
 ## Como rodar localmente
 
@@ -456,6 +459,7 @@ No login, use a senha original:
 
 - Swagger UI: `http://localhost:3000/docs`
 - Swagger JSON: `http://localhost:3000/docs-json`
+- Collection Postman: `docs/postman/oficina-api.postman_collection.json`
 
 ## Fluxo rápido de validação pelo Swagger
 
@@ -628,31 +632,32 @@ Link do Miro: https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=28944183687
 
 Inclui:
 
-- Domain Storytelling
-- Event Storming expandido
-- Contextos delimitados
-- Diagrama de agregados
-- Atores, comandos, eventos e politicas
-- Event Storming
-- Linguagem ubíqua
-- Entidades e agregados
-- Value Objects
-- Fluxos de OS e estoque
+- Domain Storytelling.
+- Event Storming expandido.
+- Contextos delimitados.
+- Diagrama de agregados.
+- Atores, comandos, eventos e politicas.
+- Event Storming.
+- Linguagem ubíqua.
+- Entidades e agregados.
+- Value Objects.
+- Fluxos de OS e estoque.
 
 ## Entregáveis
 
-- Código-fonte
-- Dockerfile
-- docker-compose.yml
-- README
-- Swagger
-- Documentação DDD
-- Relatório de vulnerabilidades
-- Vídeo demonstrativo
+- Código-fonte.
+- Dockerfile.
+- docker-compose.yml.
+- README.
+- Swagger.
+- Collection Postman.
+- Documentação DDD.
+- Relatório de vulnerabilidades.
+- Vídeo demonstrativo.
 
 ## Grupo e participantes
 
-Nome: João Pedro do Carmo Ribeiro | Discord: joaogw |
+Nome: João Pedro do Carmo Ribeiro | Discord: joaogw.
 
 ## Links importantes
 
@@ -663,5 +668,6 @@ Nome: João Pedro do Carmo Ribeiro | Discord: joaogw |
 | Documentacao DDD              | https://miro.com/app/board/uXjVHWgzWPY=/?share_link_id=289441836876 |
 | Modelagem DDD versionada      | docs/modelagem-ddd-fase-2.md                                        |
 | Swagger local (localhost)     | http://localhost:3000/docs                                          |
+| Collection Postman            | docs/postman/oficina-api.postman_collection.json                    |
 | Relatorio de vulnerabilidades | docs/relatorio-vulnerabilidades.md                                  |
 <!-- prettier-ignore-end -->

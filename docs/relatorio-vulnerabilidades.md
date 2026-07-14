@@ -6,21 +6,21 @@ Este relatorio apresenta a analise de vulnerabilidades do MVP do sistema da ofic
 
 ## 2. Ferramentas utilizadas
 
-- npm audit
-- Snyk
+- npm audit.
+- Snyk.
 
 ## 3. Data da analise
 
-- 2026-05-06
-- Atualizacao de procedimento: 2026-05-07
-- Execucao completa do Snyk: 2026-05-07
+- 2026-05-06.
+- Atualizacao de procedimento: 2026-05-07.
+- Execucao completa do Snyk: 2026-05-07.
 
 ## 4. Escopo analisado
 
-- Dependencias de producao e desenvolvimento
-- Configuracao de autenticacao e autorizacao da API
-- Validacao global de payloads
-- Exposicao de dados em rotas publicas e administrativas
+- Dependencias de producao e desenvolvimento.
+- Configuracao de autenticacao e autorizacao da API.
+- Validacao global de payloads.
+- Exposicao de dados em rotas publicas e administrativas.
 
 ## 5. Resultados do npm audit
 
@@ -30,10 +30,10 @@ Status da execucao:
 - Executado com sucesso.
 
 Contagem de vulnerabilidades:
-- Critical: 0
-- High: 11
-- Moderate: 18
-- Low: 5
+- Critical: 0.
+- High: 11.
+- Moderate: 18.
+- Low: 5.
 
 ## 6. Resultados do Snyk
 
@@ -44,10 +44,10 @@ Status da execucao:
 - Resultado: 9 issues unicas encontradas em 14 caminhos vulneraveis.
 
 Contagem por severidade (issues unicas):
-- Critical: 1
-- High: 7
-- Medium: 1
-- Low: 0
+- Critical: 1.
+- High: 7.
+- Medium: 1.
+- Low: 0.
 
 Procedimento oficial para scan completo:
 - Definir `SNYK_TOKEN` no ambiente ou no arquivo `.env`.
@@ -58,49 +58,49 @@ Procedimento oficial para scan completo:
 
 <!-- prettier-ignore-start -->
 ### npm audit
-- Pacotes afetados: multiplos
-- Severidade: high/moderate/low
-- Resultado: 34 vulnerabilidades no total
-  - 0 critical
-  - 11 high
-  - 18 moderate
-  - 5 low
-- Mitigacao: corrigir com atualizacoes de dependencias e reexecutar audit
+- Pacotes afetados: multiplos.
+- Severidade: high/moderate/low.
+- Resultado: 34 vulnerabilidades no total:
+  - 0 critical.
+  - 11 high.
+  - 18 moderate.
+  - 5 low.
+- Mitigacao: corrigir com atualizacoes de dependencias e reexecutar audit.
 
 ### Snyk
 - Pacotes afetados:
-  - `@nestjs/core`
-  - `@nestjs/platform-express`
-  - `prisma`
-  - `effect`
-  - `path-to-regexp`
-  - `multer`
-  - `qs`
-- Severidade: critical/high/medium
-- Resultado: 9 issues unicas em 14 caminhos vulneraveis
-  - 1 critical
-  - 7 high
-  - 1 medium
+  - `@nestjs/core`.
+  - `@nestjs/platform-express`.
+  - `prisma`.
+  - `effect`.
+  - `path-to-regexp`.
+  - `multer`.
+  - `qs`.
+- Severidade: critical/high/medium.
+- Resultado: 9 issues unicas em 14 caminhos vulneraveis:
+  - 1 critical.
+  - 7 high.
+  - 1 medium.
 - Mitigacao recomendada:
-  - `@nestjs/core` -> `11.1.18`
-  - `@nestjs/platform-express` -> `11.1.18`
-  - `prisma` -> `6.19.3`
-  - `qs` -> `>=6.14.2`
+  - `@nestjs/core` -> `11.1.18`.
+  - `@nestjs/platform-express` -> `11.1.18`.
+  - `prisma` -> `6.19.3`.
+  - `qs` -> `>=6.14.2`.
 <!-- prettier-ignore-end -->
 
 ## 8. Mitigacoes realizadas
 
-- Implementado login administrativo com JWT (`POST /auth/login`)
-- Rotas administrativas protegidas por `JwtAuthGuard` real (Passport + strategy JWT)
-- Segredo JWT e configuracoes sensiveis movidos para `.env`
-- Validacao obrigatoria de variaveis com `@nestjs/config` + Zod
-- Senha administrativa armazenada como hash bcrypt (`ADMIN_PASSWORD_HASH`)
+- Implementado login administrativo com JWT (`POST /auth/login`).
+- Rotas administrativas protegidas por `JwtAuthGuard` real (Passport + strategy JWT).
+- Segredo JWT e configuracoes sensiveis movidos para `.env`.
+- Validacao obrigatoria de variaveis com `@nestjs/config` + Zod.
+- Senha administrativa armazenada como hash bcrypt (`ADMIN_PASSWORD_HASH`).
 - `ValidationPipe` global com:
-  - `whitelist: true`
-  - `forbidNonWhitelisted: true`
-  - `transform: true`
-- Swagger configurado com Bearer Auth para rotas administrativas
-- Rota publica sem JWT mantida com exposicao minima de dados
+  - `whitelist: true`.
+  - `forbidNonWhitelisted: true`.
+  - `transform: true`.
+- Swagger configurado com Bearer Auth para rotas administrativas.
+- Rota publica sem JWT mantida com exposicao minima de dados.
 
 ## 9. Riscos aceitos
 
@@ -109,14 +109,14 @@ Procedimento oficial para scan completo:
 
 ## 10. Medidas preventivas aplicadas no projeto
 
-- JWT nas rotas administrativas
-- Hash bcrypt para senha administrativa
-- Variaveis sensiveis em `.env`
-- `.env` fora do versionamento
-- Validacao global de payloads
-- Rejeicao de campos extras
-- Swagger com Bearer Auth
-- Rota publica com exposicao minima de dados
+- JWT nas rotas administrativas.
+- Hash bcrypt para senha administrativa.
+- Variaveis sensiveis em `.env`.
+- `.env` fora do versionamento.
+- Validacao global de payloads.
+- Rejeicao de campos extras.
+- Swagger com Bearer Auth.
+- Rota publica com exposicao minima de dados.
 
 ## 11. Conclusao
 

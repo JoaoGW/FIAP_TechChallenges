@@ -15,15 +15,15 @@ O objetivo e deixar explicitos:
 
 | Termo | Significado no dominio |
 |---|---|
-| OS | Ordem de Servico aberta para atendimento de um veiculo |
-| Codigo de acompanhamento | Codigo publico usado pelo cliente para consultar o status da OS |
-| Diagnostico | Etapa em que a oficina entende o problema e prepara o orcamento |
-| Orcamento | Soma dos servicos e pecas necessarios para executar a OS |
-| Aprovacao | Aceite do cliente para a oficina iniciar a execucao |
-| Recusa | Decisao do cliente de nao aprovar o orcamento, cancelando a OS |
-| Execucao | Etapa em que os servicos aprovados sao realizados |
-| Entrega | Encerramento operacional quando o veiculo e devolvido ao cliente |
-| Estoque | Quantidade disponivel de pecas para uso nas OS |
+| OS | Ordem de Servico aberta para atendimento de um veiculo. |
+| Codigo de acompanhamento | Codigo publico usado pelo cliente para consultar o status da OS. |
+| Diagnostico | Etapa em que a oficina entende o problema e prepara o orcamento. |
+| Orcamento | Soma dos servicos e pecas necessarios para executar a OS. |
+| Aprovacao | Aceite do cliente para a oficina iniciar a execucao. |
+| Recusa | Decisao do cliente de nao aprovar o orcamento, cancelando a OS. |
+| Execucao | Etapa em que os servicos aprovados sao realizados. |
+| Entrega | Encerramento operacional quando o veiculo e devolvido ao cliente. |
+| Estoque | Quantidade disponivel de pecas para uso nas OS. |
 
 ## Evolucao da modelagem
 
@@ -134,10 +134,10 @@ flowchart LR
 
 | Contexto | Responsabilidade | Principais artefatos no codigo |
 |---|---|---|
-| Atendimento | Cadastro de cliente/veiculo, abertura e consulta publica da OS | `Cliente`, `Veiculo`, `CriarOrdemDeServicoUseCase`, `ConsultarStatusOSUseCase` |
-| Oficina / Execucao | Ciclo de vida da OS, diagnostico, orcamento, execucao e entrega | `OrdemDeServico`, `StatusOS`, use cases do fluxo de OS |
-| Catalogo | Servicos, pecas e disponibilidade de estoque | `Servico`, `Peca`, `QuantidadeEstoque`, repositorios de catalogo |
-| Comunicacao | Notificacao por email e entrada publica por token | `NotificacaoPort`, `EmailAdapter`, `OrcamentoWebhookTokenPort`, `WebhookOrcamentoController` |
+| Atendimento | Cadastro de cliente/veiculo, abertura e consulta publica da OS. | `Cliente`, `Veiculo`, `CriarOrdemDeServicoUseCase`, `ConsultarStatusOSUseCase` |
+| Oficina / Execucao | Ciclo de vida da OS, diagnostico, orcamento, execucao e entrega. | `OrdemDeServico`, `StatusOS`, use cases do fluxo de OS |
+| Catalogo | Servicos, pecas e disponibilidade de estoque. | `Servico`, `Peca`, `QuantidadeEstoque`, repositorios de catalogo |
+| Comunicacao | Notificacao por email e entrada publica por token. | `NotificacaoPort`, `EmailAdapter`, `OrcamentoWebhookTokenPort`, `WebhookOrcamentoController` |
 
 ## Event Storming
 
@@ -145,11 +145,11 @@ flowchart LR
 
 | Ator | Papel |
 |---|---|
-| Atendente | Cadastra cliente/veiculo, abre OS e registra entrega |
-| Mecanico | Diagnostica, informa servicos/pecas, executa e finaliza o servico |
-| Cliente | Consulta status, aprova ou recusa o orcamento |
-| Sistema | Orquestra regras, valida transicoes, emite tokens e persiste estado |
-| Estoque | Representa disponibilidade das pecas |
+| Atendente | Cadastra cliente/veiculo, abre OS e registra entrega. |
+| Mecanico | Diagnostica, informa servicos/pecas, executa e finaliza o servico. |
+| Cliente | Consulta status, aprova ou recusa o orcamento. |
+| Sistema | Orquestra regras, valida transicoes, emite tokens e persiste estado. |
+| Estoque | Representa disponibilidade das pecas. |
 
 ### Linha do tempo de eventos
 
@@ -176,19 +176,19 @@ flowchart LR
 
 | Comando | Ator | Agregado afetado | Evento gerado | Politicas/regras |
 |---|---|---|---|---|
-| Cadastrar cliente | Atendente | Cliente | Cliente cadastrado | Documento deve ser valido e unico |
-| Cadastrar veiculo | Atendente | Veiculo | Veiculo cadastrado | Veiculo pertence a um cliente existente |
-| Abrir OS | Atendente | OrdemDeServico | OS aberta | Cliente e veiculo devem existir; veiculo deve pertencer ao cliente |
-| Iniciar diagnostico | Mecanico | OrdemDeServico | Diagnostico iniciado | Status deve ser RECEBIDA |
-| Adicionar servico | Mecanico | OrdemDeServico | Servico adicionado | Servico deve existir; preco e copiado como snapshot |
-| Adicionar peca | Mecanico | OrdemDeServico | Peca adicionada | Peca deve existir; estoque deve ser suficiente |
-| Gerar orcamento | Mecanico | OrdemDeServico | Orcamento gerado | OS deve estar em diagnostico e possuir servico |
-| Enviar orcamento | Sistema | OrdemDeServico | Orcamento enviado | Orcamento deve estar gerado; email gera tokens de aprovacao/recusa |
-| Aprovar orcamento | Cliente | OrdemDeServico | Orcamento aprovado | Token deve ser valido e acao deve ser `aprovar` |
-| Recusar orcamento | Cliente/Atendente | OrdemDeServico | OS cancelada | Status deve ser AGUARDANDO_APROVACAO; estado final CANCELADA |
-| Iniciar execucao | Mecanico | OrdemDeServico/Peca | Execucao iniciada; estoque baixado | Orcamento aprovado; estoque ainda suficiente |
-| Finalizar servico | Mecanico | OrdemDeServico | Servico finalizado | Status deve ser EM_EXECUCAO |
-| Entregar veiculo | Atendente | OrdemDeServico | Veiculo entregue | Status deve ser FINALIZADA |
+| Cadastrar cliente | Atendente | Cliente | Cliente cadastrado | Documento deve ser valido e unico. |
+| Cadastrar veiculo | Atendente | Veiculo | Veiculo cadastrado | Veiculo pertence a um cliente existente. |
+| Abrir OS | Atendente | OrdemDeServico | OS aberta | Cliente e veiculo devem existir; veiculo deve pertencer ao cliente. |
+| Iniciar diagnostico | Mecanico | OrdemDeServico | Diagnostico iniciado | Status deve ser RECEBIDA. |
+| Adicionar servico | Mecanico | OrdemDeServico | Servico adicionado | Servico deve existir; preco e copiado como snapshot. |
+| Adicionar peca | Mecanico | OrdemDeServico | Peca adicionada | Peca deve existir; estoque deve ser suficiente. |
+| Gerar orcamento | Mecanico | OrdemDeServico | Orcamento gerado | OS deve estar em diagnostico e possuir servico. |
+| Enviar orcamento | Sistema | OrdemDeServico | Orcamento enviado | Orcamento deve estar gerado; email gera tokens de aprovacao/recusa. |
+| Aprovar orcamento | Cliente | OrdemDeServico | Orcamento aprovado | Token deve ser valido e acao deve ser `aprovar`. |
+| Recusar orcamento | Cliente/Atendente | OrdemDeServico | OS cancelada | Status deve ser AGUARDANDO_APROVACAO; estado final CANCELADA. |
+| Iniciar execucao | Mecanico | OrdemDeServico/Peca | Execucao iniciada; estoque baixado | Orcamento aprovado; estoque ainda suficiente. |
+| Finalizar servico | Mecanico | OrdemDeServico | Servico finalizado | Status deve ser EM_EXECUCAO. |
+| Entregar veiculo | Atendente | OrdemDeServico | Veiculo entregue | Status deve ser FINALIZADA. |
 
 ## Diagrama de agregados
 
@@ -299,13 +299,13 @@ desacoplados:
 
 | Politica | Onde aparece no codigo |
 |---|---|
-| Validar vinculo cliente/veiculo antes de abrir OS | `CriarOrdemDeServicoUseCase` |
-| Validar estoque ao adicionar peca inicial ou peca na OS | `CriarOrdemDeServicoUseCase`, `AdicionarPecaOSUseCase` |
-| Baixar estoque somente ao iniciar execucao | `IniciarExecucaoUseCase` |
-| Impedir transicoes invalidas da OS | `OrdemDeServico.transicionar()` |
-| Enviar notificacao ao colocar OS aguardando aprovacao | `EnviarOrcamentoParaAprovacaoUseCase` |
-| Validar acao do token no webhook | `WebhookOrcamentoController` |
-| Excluir OS encerradas da fila operacional | `ListarOrdensDeServicoUseCase` |
+| Validar vinculo cliente/veiculo antes de abrir OS. | `CriarOrdemDeServicoUseCase` |
+| Validar estoque ao adicionar peca inicial ou peca na OS. | `CriarOrdemDeServicoUseCase`, `AdicionarPecaOSUseCase` |
+| Baixar estoque somente ao iniciar execucao. | `IniciarExecucaoUseCase` |
+| Impedir transicoes invalidas da OS. | `OrdemDeServico.transicionar()` |
+| Enviar notificacao ao colocar OS aguardando aprovacao. | `EnviarOrcamentoParaAprovacaoUseCase` |
+| Validar acao do token no webhook. | `WebhookOrcamentoController` |
+| Excluir OS encerradas da fila operacional. | `ListarOrdensDeServicoUseCase` |
 
 ## Relacao com Clean Architecture
 
