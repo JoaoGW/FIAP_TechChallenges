@@ -17,6 +17,7 @@ describe('ObterTempoMedioExecucaoUseCase', () => {
     expect(result).toEqual({
       mediaEmMinutos: 0,
       totalOSConsideradas: 0,
+      etapas: etapasZeradas(),
     });
   });
 
@@ -29,6 +30,7 @@ describe('ObterTempoMedioExecucaoUseCase', () => {
     expect(result).toEqual({
       mediaEmMinutos: 120,
       totalOSConsideradas: 1,
+      etapas: etapasZeradas(),
     });
   });
 
@@ -43,9 +45,66 @@ describe('ObterTempoMedioExecucaoUseCase', () => {
     expect(result).toEqual({
       mediaEmMinutos: 90,
       totalOSConsideradas: 2,
+      etapas: etapasZeradas(),
+    });
+  });
+
+  it('deve calcular medias por etapa apenas quando o periodo foi concluido', async () => {
+    const repo = new InMemoryOrdemDeServicoRepository();
+    const useCase = new ObterTempoMedioExecucaoUseCase(repo);
+    const inicio = new Date('2026-01-01T08:00:00.000Z');
+    repo.historicoStatus = [
+      {
+        osId: 'os-completa',
+        status: StatusOS.EM_DIAGNOSTICO,
+        ocorridoEm: inicio,
+      },
+      {
+        osId: 'os-completa',
+        status: StatusOS.AGUARDANDO_APROVACAO,
+        ocorridoEm: new Date(inicio.getTime() + 30 * 60_000),
+      },
+      {
+        osId: 'os-completa',
+        status: StatusOS.EM_EXECUCAO,
+        ocorridoEm: new Date(inicio.getTime() + 60 * 60_000),
+      },
+      {
+        osId: 'os-completa',
+        status: StatusOS.FINALIZADA,
+        ocorridoEm: new Date(inicio.getTime() + 180 * 60_000),
+      },
+      {
+        osId: 'os-completa',
+        status: StatusOS.ENTREGUE,
+        ocorridoEm: new Date(inicio.getTime() + 195 * 60_000),
+      },
+      {
+        osId: 'os-incompleta',
+        status: StatusOS.EM_DIAGNOSTICO,
+        ocorridoEm: inicio,
+      },
+    ];
+
+    await expect(useCase.execute()).resolves.toEqual({
+      mediaEmMinutos: 0,
+      totalOSConsideradas: 0,
+      etapas: {
+        diagnostico: { mediaEmMinutos: 30, totalOSConsideradas: 1 },
+        execucao: { mediaEmMinutos: 120, totalOSConsideradas: 1 },
+        finalizacao: { mediaEmMinutos: 15, totalOSConsideradas: 1 },
+      },
     });
   });
 });
+
+function etapasZeradas() {
+  return {
+    diagnostico: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+    execucao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+    finalizacao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+  };
+}
 
 function makeOsComPeriodo(minutos: number): OrdemDeServico {
   const inicio = new Date('2026-01-01T10:00:00.000Z');

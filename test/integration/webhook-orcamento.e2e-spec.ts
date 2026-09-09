@@ -7,7 +7,10 @@ import { Dinheiro } from '../../src/domain/value-objects/Dinheiro';
 import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 import { PrismaOrdemDeServicoRepository } from '../../src/infrastructure/repositories/PrismaOrdemDeServicoRepository';
 import { criarAppDeTeste } from '../helpers/criarAppDeTeste';
-import { limparBancoDeTeste } from '../helpers/limparBancoDeTeste';
+import {
+  criarDependenciasParaOS,
+  limparBancoDeTeste,
+} from '../helpers/limparBancoDeTeste';
 
 describe('Webhook de orcamento (e2e)', () => {
   let app: INestApplication;
@@ -56,6 +59,7 @@ describe('Webhook de orcamento (e2e)', () => {
 
   it('GET /webhook/orcamento/aprovar deve aprovar OS com token valido', async () => {
     const os = criarOSEmAguardandoAprovacao();
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
     const token = await gerarTokenWebhook(os.getId(), 'aprovar');
 
@@ -70,6 +74,7 @@ describe('Webhook de orcamento (e2e)', () => {
 
   it('GET /webhook/orcamento/recusar deve cancelar OS com token valido', async () => {
     const os = criarOSEmAguardandoAprovacao();
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
     const token = await gerarTokenWebhook(os.getId(), 'recusar');
 
@@ -85,6 +90,7 @@ describe('Webhook de orcamento (e2e)', () => {
 
   it('GET /webhook/orcamento/aprovar deve retornar 400 com token de recusa', async () => {
     const os = criarOSEmAguardandoAprovacao();
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
     const token = await gerarTokenWebhook(os.getId(), 'recusar');
 
@@ -95,6 +101,7 @@ describe('Webhook de orcamento (e2e)', () => {
 
   it('GET /webhook/orcamento/recusar deve retornar 400 com token de aprovacao', async () => {
     const os = criarOSEmAguardandoAprovacao();
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
     const token = await gerarTokenWebhook(os.getId(), 'aprovar');
 
@@ -105,6 +112,7 @@ describe('Webhook de orcamento (e2e)', () => {
 
   it('GET /webhook/orcamento/aprovar deve retornar 401 com token expirado', async () => {
     const os = criarOSEmAguardandoAprovacao();
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
     const token = await gerarTokenWebhook(os.getId(), 'aprovar', '-1s');
 

@@ -5,7 +5,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ObterTempoMedioExecucaoUseCase } from '../../../application/use-cases/ObterTempoMedioExecucaoUseCase';
+import {
+  ObterTempoMedioExecucaoUseCase,
+  RelatorioTempoMedioExecucao,
+} from '../../../application/use-cases/ObterTempoMedioExecucaoUseCase';
 import { JwtAuthGuard } from '../../guards/JwtAuthGuard';
 
 @ApiTags('Relatorios')
@@ -28,13 +31,15 @@ export class RelatorioController {
       example: {
         mediaEmMinutos: 127,
         totalOSConsideradas: 42,
+        etapas: {
+          diagnostico: { mediaEmMinutos: 35, totalOSConsideradas: 42 },
+          execucao: { mediaEmMinutos: 127, totalOSConsideradas: 42 },
+          finalizacao: { mediaEmMinutos: 10, totalOSConsideradas: 40 },
+        },
       },
     },
   })
-  async tempoMedio(): Promise<{
-    mediaEmMinutos: number;
-    totalOSConsideradas: number;
-  }> {
+  async tempoMedio(): Promise<RelatorioTempoMedioExecucao> {
     return this.obterTempoMedio.execute();
   }
 }

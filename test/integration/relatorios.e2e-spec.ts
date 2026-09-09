@@ -8,7 +8,10 @@ import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 import { PrismaOrdemDeServicoRepository } from '../../src/infrastructure/repositories/PrismaOrdemDeServicoRepository';
 import { autenticarAdmin } from '../helpers/autenticarAdmin';
 import { criarAppDeTeste } from '../helpers/criarAppDeTeste';
-import { limparBancoDeTeste } from '../helpers/limparBancoDeTeste';
+import {
+  criarDependenciasParaOS,
+  limparBancoDeTeste,
+} from '../helpers/limparBancoDeTeste';
 
 describe('Relatorios (e2e)', () => {
   let app: INestApplication;
@@ -67,12 +70,20 @@ describe('Relatorios (e2e)', () => {
     expect(response.body).toEqual({
       mediaEmMinutos: 0,
       totalOSConsideradas: 0,
+      etapas: {
+        diagnostico: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+        execucao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+        finalizacao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+      },
     });
   });
 
   it('com token e OS finalizadas deve calcular media corretamente', async () => {
-    await osRepo.save(criarOSFinalizadaComDuracao(60));
-    await osRepo.save(criarOSFinalizadaComDuracao(180));
+    const osDe60Minutos = criarOSFinalizadaComDuracao(60);
+    const osDe180Minutos = criarOSFinalizadaComDuracao(180);
+    await criarDependenciasParaOS(prisma, [osDe60Minutos, osDe180Minutos]);
+    await osRepo.save(osDe60Minutos);
+    await osRepo.save(osDe180Minutos);
 
     const response = await request(app.getHttpServer())
       .get('/relatorios/tempo-medio-execucao')
@@ -82,6 +93,60 @@ describe('Relatorios (e2e)', () => {
     expect(response.body).toEqual({
       mediaEmMinutos: 120,
       totalOSConsideradas: 2,
+      etapas: {
+        diagnostico: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+        execucao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+        finalizacao: { mediaEmMinutos: 0, totalOSConsideradas: 0 },
+      },
+    });
+  });
+
+  it('deve calcular medias por etapa a partir do historico persistido', async () => {
+    const os = criarOSFinalizadaComDuracao(120);
+    await criarDependenciasParaOS(prisma, [os]);
+    await osRepo.save(os);
+    await prisma.historicoStatusOS.deleteMany({ where: { osId: os.getId() } });
+
+    const inicio = new Date('2026-01-01T08:00:00.000Z');
+    await prisma.historicoStatusOS.createMany({
+      data: [
+        {
+          osId: os.getId(),
+          status: StatusOS.EM_DIAGNOSTICO,
+          ocorridoEm: inicio,
+        },
+        {
+          osId: os.getId(),
+          status: StatusOS.AGUARDANDO_APROVACAO,
+          ocorridoEm: new Date(inicio.getTime() + 30 * 60_000),
+        },
+        {
+          osId: os.getId(),
+          status: StatusOS.EM_EXECUCAO,
+          ocorridoEm: new Date(inicio.getTime() + 60 * 60_000),
+        },
+        {
+          osId: os.getId(),
+          status: StatusOS.FINALIZADA,
+          ocorridoEm: new Date(inicio.getTime() + 180 * 60_000),
+        },
+        {
+          osId: os.getId(),
+          status: StatusOS.ENTREGUE,
+          ocorridoEm: new Date(inicio.getTime() + 195 * 60_000),
+        },
+      ],
+    });
+
+    const response = await request(app.getHttpServer())
+      .get('/relatorios/tempo-medio-execucao')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+
+    expect(response.body.etapas).toEqual({
+      diagnostico: { mediaEmMinutos: 30, totalOSConsideradas: 1 },
+      execucao: { mediaEmMinutos: 120, totalOSConsideradas: 1 },
+      finalizacao: { mediaEmMinutos: 15, totalOSConsideradas: 1 },
     });
   });
 });

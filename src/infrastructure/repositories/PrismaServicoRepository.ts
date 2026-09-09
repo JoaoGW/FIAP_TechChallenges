@@ -10,7 +10,7 @@ export class PrismaServicoRepository implements ServicoRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(servico: Servico): Promise<void> {
-    await this.prisma.servico.upsert?.({
+    await this.prisma.servico.upsert({
       where: { id: servico.getId() },
       create: {
         id: servico.getId(),
@@ -29,7 +29,7 @@ export class PrismaServicoRepository implements ServicoRepository {
   }
 
   async findById(id: string): Promise<Servico | null> {
-    const servicoData = await this.prisma.servico.findUnique?.({
+    const servicoData = await this.prisma.servico.findUnique({
       where: { id },
     });
     if (!servicoData) return null;
@@ -39,14 +39,13 @@ export class PrismaServicoRepository implements ServicoRepository {
   async findAll(params?: ActiveFilter): Promise<Servico[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const servicosData =
-      (await this.prisma.servico.findMany?.({
-        where: {
-          ativo: params?.ativo ?? true,
-        },
-        skip: (page - 1) * limit,
-        take: limit,
-      })) ?? [];
+    const servicosData = await this.prisma.servico.findMany({
+      where: {
+        ativo: params?.ativo ?? true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
     return servicosData.map((servicoData) =>
       ServicoMapper.toDomain(servicoData),
     );

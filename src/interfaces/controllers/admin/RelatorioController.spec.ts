@@ -61,6 +61,11 @@ describe('RelatorioController + JwtAuthGuard', () => {
     obterTempoMedio.execute.mockResolvedValue({
       mediaEmMinutos: 127,
       totalOSConsideradas: 42,
+      etapas: {
+        diagnostico: { mediaEmMinutos: 35, totalOSConsideradas: 42 },
+        execucao: { mediaEmMinutos: 127, totalOSConsideradas: 42 },
+        finalizacao: { mediaEmMinutos: 10, totalOSConsideradas: 40 },
+      },
     });
     consultarStatus.execute.mockResolvedValue({
       codigoAcompanhamento: 'OS-2026-A8K92P',
@@ -93,6 +98,11 @@ describe('RelatorioController + JwtAuthGuard', () => {
     expect(response.body).toEqual({
       mediaEmMinutos: 127,
       totalOSConsideradas: 42,
+      etapas: {
+        diagnostico: { mediaEmMinutos: 35, totalOSConsideradas: 42 },
+        execucao: { mediaEmMinutos: 127, totalOSConsideradas: 42 },
+        finalizacao: { mediaEmMinutos: 10, totalOSConsideradas: 40 },
+      },
     });
   });
 

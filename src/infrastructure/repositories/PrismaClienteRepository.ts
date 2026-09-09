@@ -10,7 +10,7 @@ export class PrismaClienteRepository implements ClienteRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(cliente: Cliente): Promise<void> {
-    await this.prisma.cliente.upsert?.({
+    await this.prisma.cliente.upsert({
       where: { id: cliente.getId() },
       create: {
         id: cliente.getId(),
@@ -29,7 +29,7 @@ export class PrismaClienteRepository implements ClienteRepository {
   }
 
   async findById(id: string): Promise<Cliente | null> {
-    const clienteData = await this.prisma.cliente.findUnique?.({
+    const clienteData = await this.prisma.cliente.findUnique({
       where: { id },
     });
     if (!clienteData) return null;
@@ -37,7 +37,7 @@ export class PrismaClienteRepository implements ClienteRepository {
   }
 
   async findByDocumento(documento: string): Promise<Cliente | null> {
-    const clienteData = await this.prisma.cliente.findUnique?.({
+    const clienteData = await this.prisma.cliente.findUnique({
       where: { documento },
     });
     if (!clienteData) return null;
@@ -47,14 +47,13 @@ export class PrismaClienteRepository implements ClienteRepository {
   async findAll(params?: ActiveFilter): Promise<Cliente[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const clientesData =
-      (await this.prisma.cliente.findMany?.({
-        where: {
-          ativo: params?.ativo ?? true,
-        },
-        skip: (page - 1) * limit,
-        take: limit,
-      })) ?? [];
+    const clientesData = await this.prisma.cliente.findMany({
+      where: {
+        ativo: params?.ativo ?? true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
     return clientesData.map((clienteData) =>
       ClienteMapper.toDomain(clienteData),
     );

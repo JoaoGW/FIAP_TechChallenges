@@ -1,6 +1,7 @@
 import { OrdemDeServico } from '../../../domain/entities/OrdemDeServico';
 import { StatusOS } from '../../../domain/enums/StatusOS';
 import {
+  HistoricoStatusOS,
   ListarFilaOperacionalParams,
   OrdemDeServicoRepository,
 } from '../../../domain/repositories/OrdemDeServicoRepository';
@@ -10,9 +11,20 @@ export class InMemoryOrdemDeServicoRepository
   implements OrdemDeServicoRepository
 {
   public items: OrdemDeServico[] = [];
+  public historicoStatus: HistoricoStatusOS[] = [];
+  private readonly statusPorOS = new Map<string, StatusOS>();
 
   async save(os: OrdemDeServico): Promise<void> {
     const index = this.items.findIndex((item) => item.getId() === os.getId());
+    const statusAnterior = this.statusPorOS.get(os.getId());
+    if (statusAnterior !== os.status) {
+      this.historicoStatus.push({
+        osId: os.getId(),
+        status: os.status,
+        ocorridoEm: statusAnterior ? os.dataAtualizacao : os.dataCriacao,
+      });
+      this.statusPorOS.set(os.getId(), os.status);
+    }
 
     if (index >= 0) {
       this.items[index] = os;
@@ -96,5 +108,9 @@ export class InMemoryOrdemDeServicoRepository
         item.dataInicioExecucao !== undefined &&
         item.dataFinalizacao !== undefined,
     );
+  }
+
+  async findHistoricoStatus(): Promise<HistoricoStatusOS[]> {
+    return [...this.historicoStatus];
   }
 }

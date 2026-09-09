@@ -21,7 +21,10 @@ import { PrismaServicoRepository } from '../../src/infrastructure/repositories/P
 import { PrismaVeiculoRepository } from '../../src/infrastructure/repositories/PrismaVeiculoRepository';
 import { autenticarAdmin } from '../helpers/autenticarAdmin';
 import { criarAppDeTeste } from '../helpers/criarAppDeTeste';
-import { limparBancoDeTeste } from '../helpers/limparBancoDeTeste';
+import {
+  criarDependenciasParaOS,
+  limparBancoDeTeste,
+} from '../helpers/limparBancoDeTeste';
 
 describe('Ordens de Servico (e2e)', () => {
   let app: INestApplication;
@@ -151,6 +154,7 @@ describe('Ordens de Servico (e2e)', () => {
   it('POST /ordens-servico/:id/recusar-orcamento deve cancelar OS em aguardando aprovacao', async () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     prepararAteAguardandoAprovacao(os);
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
 
     await request(app.getHttpServer())
@@ -175,6 +179,20 @@ describe('Ordens de Servico (e2e)', () => {
       .expect(404);
   });
 
+  it('deve rejeitar OS com cliente ou veiculo inexistente no banco', async () => {
+    await expect(
+      prisma.ordemDeServico.create({
+        data: {
+          id: 'os-sem-relacionamentos',
+          codigoAcompanhamento: 'OS-2026-SEMFK1',
+          clienteId: 'cliente-inexistente',
+          veiculoId: 'veiculo-inexistente',
+          status: StatusOS.RECEBIDA,
+        },
+      }),
+    ).rejects.toThrow();
+  });
+
   it('GET /ordens-servico deve ordenar por prioridade e excluir encerradas', async () => {
     const recebida = OrdemDeServico.criar('cliente-1', 'veiculo-1');
     const aguardando = OrdemDeServico.criar('cliente-2', 'veiculo-2');
@@ -191,6 +209,13 @@ describe('Ordens de Servico (e2e)', () => {
     const cancelada = OrdemDeServico.criar('cliente-5', 'veiculo-5');
     prepararAteAguardandoAprovacao(cancelada);
     cancelada.recusarOrcamento();
+    await criarDependenciasParaOS(prisma, [
+      recebida,
+      aguardando,
+      execucao,
+      finalizada,
+      cancelada,
+    ]);
     await osRepo.save(recebida);
     await osRepo.save(aguardando);
     await osRepo.save(execucao);
@@ -218,6 +243,7 @@ describe('Ordens de Servico (e2e)', () => {
     prepararAteAguardandoAprovacao(execucao);
     execucao.aprovarOrcamento();
     execucao.iniciarExecucao();
+    await criarDependenciasParaOS(prisma, [recebida, execucao]);
     await osRepo.save(recebida);
     await osRepo.save(execucao);
 
@@ -345,5 +371,18 @@ describe('Ordens de Servico (e2e)', () => {
       .get(`/consulta/os/${osCriada.codigoAcompanhamento}/status`)
       .expect(200);
     expect(consultaPublica.body.status).toBe('ENTREGUE');
+
+    const historico = await prisma.historicoStatusOS.findMany({
+      where: { osId: osCriada.id },
+      orderBy: { ocorridoEm: 'asc' },
+    });
+    expect(historico.map((evento) => evento.status)).toEqual([
+      StatusOS.RECEBIDA,
+      StatusOS.EM_DIAGNOSTICO,
+      StatusOS.AGUARDANDO_APROVACAO,
+      StatusOS.EM_EXECUCAO,
+      StatusOS.FINALIZADA,
+      StatusOS.ENTREGUE,
+    ]);
   });
 });

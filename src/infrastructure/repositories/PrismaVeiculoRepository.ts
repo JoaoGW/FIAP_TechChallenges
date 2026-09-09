@@ -10,7 +10,7 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(veiculo: Veiculo): Promise<void> {
-    await this.prisma.veiculo.upsert?.({
+    await this.prisma.veiculo.upsert({
       where: { id: veiculo.getId() },
       create: {
         id: veiculo.getId(),
@@ -31,7 +31,7 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
   }
 
   async findById(id: string): Promise<Veiculo | null> {
-    const veiculoData = await this.prisma.veiculo.findUnique?.({
+    const veiculoData = await this.prisma.veiculo.findUnique({
       where: { id },
     });
     if (!veiculoData) return null;
@@ -39,7 +39,7 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
   }
 
   async findByPlaca(placa: string): Promise<Veiculo | null> {
-    const veiculoData = await this.prisma.veiculo.findUnique?.({
+    const veiculoData = await this.prisma.veiculo.findUnique({
       where: { placa },
     });
     if (!veiculoData) return null;
@@ -50,13 +50,12 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
     clienteId: string,
     params?: { ativo?: boolean },
   ): Promise<Veiculo[]> {
-    const veiculosData =
-      (await this.prisma.veiculo.findMany?.({
-        where: {
-          clienteId,
-          ativo: params?.ativo ?? true,
-        },
-      })) ?? [];
+    const veiculosData = await this.prisma.veiculo.findMany({
+      where: {
+        clienteId,
+        ativo: params?.ativo ?? true,
+      },
+    });
     return veiculosData.map((veiculoData) =>
       VeiculoMapper.toDomain(veiculoData),
     );
@@ -65,14 +64,13 @@ export class PrismaVeiculoRepository implements VeiculoRepository {
   async findAll(params?: ActiveFilter): Promise<Veiculo[]> {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 20;
-    const veiculosData =
-      (await this.prisma.veiculo.findMany?.({
-        where: {
-          ativo: params?.ativo ?? true,
-        },
-        skip: (page - 1) * limit,
-        take: limit,
-      })) ?? [];
+    const veiculosData = await this.prisma.veiculo.findMany({
+      where: {
+        ativo: params?.ativo ?? true,
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
     return veiculosData.map((veiculoData) =>
       VeiculoMapper.toDomain(veiculoData),
     );

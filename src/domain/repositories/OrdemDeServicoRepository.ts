@@ -1,8 +1,15 @@
 import { OrdemDeServico } from '../entities/OrdemDeServico';
+import { StatusOS } from '../enums/StatusOS';
 import { PaginationParams } from './types';
 
 export interface ListarFilaOperacionalParams extends PaginationParams {
   status?: string;
+}
+
+export interface HistoricoStatusOS {
+  osId: string;
+  status: StatusOS;
+  ocorridoEm: Date;
 }
 
 export interface OrdemDeServicoRepository {
@@ -21,4 +28,5 @@ export interface OrdemDeServicoRepository {
   ): Promise<OrdemDeServico[]>;
   findByClienteId(clienteId: string): Promise<OrdemDeServico[]>;
   findFinalizadasComPeriodoExecucao?(): Promise<OrdemDeServico[]>;
+  findHistoricoStatus?(): Promise<HistoricoStatusOS[]>;
 }

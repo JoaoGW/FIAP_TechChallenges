@@ -4,7 +4,10 @@ import { OrdemDeServico } from '../../src/domain/entities/OrdemDeServico';
 import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 import { PrismaOrdemDeServicoRepository } from '../../src/infrastructure/repositories/PrismaOrdemDeServicoRepository';
 import { criarAppDeTeste } from '../helpers/criarAppDeTeste';
-import { limparBancoDeTeste } from '../helpers/limparBancoDeTeste';
+import {
+  criarDependenciasParaOS,
+  limparBancoDeTeste,
+} from '../helpers/limparBancoDeTeste';
 
 describe('Consulta Publica (e2e)', () => {
   let app: INestApplication;
@@ -33,6 +36,7 @@ describe('Consulta Publica (e2e)', () => {
 
   it('deve consultar status por codigo sem JWT', async () => {
     const os = OrdemDeServico.criar('cliente-1', 'veiculo-1');
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
 
     const response = await request(app.getHttpServer())
@@ -49,6 +53,7 @@ describe('Consulta Publica (e2e)', () => {
 
   it('resposta publica nao deve expor dados internos da OS', async () => {
     const os = OrdemDeServico.criar('cliente-2', 'veiculo-2');
+    await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
 
     const response = await request(app.getHttpServer())
