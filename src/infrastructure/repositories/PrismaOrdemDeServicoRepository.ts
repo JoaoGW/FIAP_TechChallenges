@@ -23,28 +23,26 @@ export class PrismaOrdemDeServicoRepository
         select: { status: true },
       });
 
-      const dados = {
+      const dadosBase = {
         status: os.status,
         valorTotal: os.valorTotal.centavos,
         orcamentoAprovado: os.orcamentoAprovado,
         orcamentoGerado: os.orcamentoGerado,
         dataInicioExecucao: os.dataInicioExecucao,
         dataFinalizacao: os.dataFinalizacao,
-        itens: {
-          deleteMany: {},
-          create: os.itens.map((item) => ({
-            pecaId: item.pecaId,
-            quantidade: item.quantidade.valor,
-            precoUnitario: item.precoUnitario.centavos,
-          })),
-        },
-        servicos: {
-          deleteMany: {},
-          create: os.servicos.map((servico) => ({
-            servicoId: servico.servicoId,
-            precoUnitario: servico.preco.centavos,
-          })),
-        },
+      };
+      const itens = {
+        create: os.itens.map((item) => ({
+          pecaId: item.pecaId,
+          quantidade: item.quantidade.valor,
+          precoUnitario: item.precoUnitario.centavos,
+        })),
+      };
+      const servicos = {
+        create: os.servicos.map((servico) => ({
+          servicoId: servico.servicoId,
+          precoUnitario: servico.preco.centavos,
+        })),
       };
 
       if (!atual) {
@@ -54,7 +52,9 @@ export class PrismaOrdemDeServicoRepository
             codigoAcompanhamento: os.codigoAcompanhamento.valor,
             clienteId: os.clienteId,
             veiculoId: os.veiculoId,
-            ...dados,
+            ...dadosBase,
+            itens,
+            servicos,
             historicoStatus: {
               create: {
                 status: os.status,
@@ -69,8 +69,16 @@ export class PrismaOrdemDeServicoRepository
       await tx.ordemDeServico.update({
         where: { id: os.getId() },
         data: {
-          ...dados,
-          ...(atual.status !== os.status
+          ...dadosBase,
+          itens: {
+            deleteMany: {},
+            ...itens,
+          },
+          servicos: {
+            deleteMany: {},
+            ...servicos,
+          },
+          ...(atual.status !== String(os.status)
             ? {
                 historicoStatus: {
                   create: {
@@ -114,7 +122,9 @@ export class PrismaOrdemDeServicoRepository
       skip: (page - 1) * limit,
       take: limit,
     });
-    return ordensData.map(OrdemDeServicoMapper.toDomain);
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 
   async listarFilaOperacional(
@@ -158,7 +168,11 @@ export class PrismaOrdemDeServicoRepository
         skip,
         take: remainingTake,
       });
-      resultado.push(...ordensData.map(OrdemDeServicoMapper.toDomain));
+      resultado.push(
+        ...ordensData.map((ordemData) =>
+          OrdemDeServicoMapper.toDomain(ordemData),
+        ),
+      );
       remainingTake -= ordensData.length;
       skip = 0;
     }
@@ -170,7 +184,9 @@ export class PrismaOrdemDeServicoRepository
       where: { clienteId },
       include: { itens: true, servicos: true },
     });
-    return ordensData.map(OrdemDeServicoMapper.toDomain);
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 
   async findFinalizadasComPeriodoExecucao(): Promise<OrdemDeServico[]> {
@@ -181,7 +197,9 @@ export class PrismaOrdemDeServicoRepository
       },
       include: { itens: true, servicos: true },
     });
-    return ordensData.map(OrdemDeServicoMapper.toDomain);
+    return ordensData.map((ordemData) =>
+      OrdemDeServicoMapper.toDomain(ordemData),
+    );
   }
 
   async findHistoricoStatus(): Promise<HistoricoStatusOS[]> {
