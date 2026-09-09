@@ -14,8 +14,14 @@ class TestEntity extends Entity<TestEntityProps> {
 describe('Entity', () => {
   it('deve considerar entidades iguais quando compartilham o mesmo id', () => {
     const idValor = 'entidade-1';
-    const entidadeA = new TestEntity({ nome: 'A' }, new UniqueEntityId(idValor));
-    const entidadeB = new TestEntity({ nome: 'B' }, new UniqueEntityId(idValor));
+    const entidadeA = new TestEntity(
+      { nome: 'A' },
+      new UniqueEntityId(idValor),
+    );
+    const entidadeB = new TestEntity(
+      { nome: 'B' },
+      new UniqueEntityId(idValor),
+    );
 
     expect(entidadeA.equals(entidadeB)).toBe(true);
   });

@@ -17,7 +17,8 @@ export class AtualizarServicoUseCase {
     if (!servico) throw new ServicoNaoEncontradoError();
 
     if (input.nome !== undefined) servico.atualizarNome(input.nome);
-    if (input.descricao !== undefined) servico.atualizarDescricao(input.descricao);
+    if (input.descricao !== undefined)
+      servico.atualizarDescricao(input.descricao);
     if (input.precoEmCentavos !== undefined) {
       servico.atualizarPreco(new Dinheiro(input.precoEmCentavos));
     }

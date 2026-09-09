@@ -19,7 +19,12 @@ function metodosDeInstancia(ctor: { prototype: object }): string[] {
 describe('Entidades basicas do dominio', () => {
   it('deve criar Cliente via factory com Documento VO', () => {
     const documento = new Documento('52998224725');
-    const cliente = Cliente.criar('Ana Souza', documento, 'PF', 'ana@email.com');
+    const cliente = Cliente.criar(
+      'Ana Souza',
+      documento,
+      'PF',
+      'ana@email.com',
+    );
 
     expect(cliente.nome).toBe('Ana Souza');
     expect(cliente.documento).toBe(documento);

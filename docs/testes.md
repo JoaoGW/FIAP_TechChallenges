@@ -46,7 +46,8 @@ docker compose -f docker-compose.test.yml down
   OS, consulta pública, webhooks, paginação e relatório.
 - **Persistência da Fase 3:** PostgreSQL real, chaves estrangeiras, rejeição de
   referências inexistentes, criação de `HistoricoStatusOS`, ausência de eventos
-  duplicados quando o status não muda e cálculo do relatório por etapa.
+  duplicados quando o status não muda, bloqueio de alteração/exclusão do
+  histórico, rollback transacional e cálculo do relatório por etapa.
 
 ## Critérios de aceite da Fase 1
 
@@ -58,10 +59,13 @@ docker compose -f docker-compose.test.yml down
    `totalOSConsideradas`, além de retornar as métricas de diagnóstico, execução
    e finalização.
 5. `npm run lint` apenas reporta problemas; ele não reescreve código.
+6. O histórico de status é append-only também no PostgreSQL: `UPDATE` e
+   `DELETE` são bloqueados por trigger.
 
 ## Segurança da migration
 
 A migration da Fase 3 é aditiva e não apaga nem corrige dados automaticamente.
-Se existirem documentos duplicados/não normalizados ou referências órfãs, o
-deploy deve ser interrompido para correção manual antes de aplicar as novas
+Se existirem documentos duplicados, não normalizados (CPF de 11 dígitos ou
+CNPJ de 14 dígitos, somente números), tipo incompatível ou referências órfãs,
+o deploy deve ser interrompido para correção manual antes de aplicar as novas
 restrições.

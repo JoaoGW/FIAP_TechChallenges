@@ -9,9 +9,9 @@ describe('IniciarDiagnosticoUseCase', () => {
     const osRepo = new InMemoryOrdemDeServicoRepository();
     const useCase = new IniciarDiagnosticoUseCase(osRepo);
 
-    await expect(useCase.execute({ osId: 'os-inexistente' })).rejects.toBeInstanceOf(
-      OrdemDeServicoNaoEncontradaError,
-    );
+    await expect(
+      useCase.execute({ osId: 'os-inexistente' }),
+    ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
   it('deve transicionar RECEBIDA para EM_DIAGNOSTICO', async () => {

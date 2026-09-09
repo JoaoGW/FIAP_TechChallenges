@@ -10,9 +10,9 @@ describe('FinalizarServicoUseCase', () => {
     const osRepo = new InMemoryOrdemDeServicoRepository();
     const useCase = new FinalizarServicoUseCase(osRepo);
 
-    await expect(useCase.execute({ osId: 'os-inexistente' })).rejects.toBeInstanceOf(
-      OrdemDeServicoNaoEncontradaError,
-    );
+    await expect(
+      useCase.execute({ osId: 'os-inexistente' }),
+    ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
   it('deve falhar se OS estiver fora de EM_EXECUCAO', async () => {

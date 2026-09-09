@@ -15,9 +15,9 @@ describe('IniciarExecucaoUseCase', () => {
     const pecaRepo = new InMemoryPecaRepository();
     const useCase = new IniciarExecucaoUseCase(osRepo, pecaRepo);
 
-    await expect(useCase.execute({ osId: 'os-inexistente' })).rejects.toBeInstanceOf(
-      OrdemDeServicoNaoEncontradaError,
-    );
+    await expect(
+      useCase.execute({ osId: 'os-inexistente' }),
+    ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
   it('deve falhar se orcamento nao tiver sido aprovado', async () => {

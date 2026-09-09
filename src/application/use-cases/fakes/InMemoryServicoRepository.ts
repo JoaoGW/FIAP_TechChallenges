@@ -6,7 +6,9 @@ export class InMemoryServicoRepository implements ServicoRepository {
   public items: Servico[] = [];
 
   async save(servico: Servico): Promise<void> {
-    const index = this.items.findIndex((item) => item.getId() === servico.getId());
+    const index = this.items.findIndex(
+      (item) => item.getId() === servico.getId(),
+    );
 
     if (index >= 0) {
       this.items[index] = servico;

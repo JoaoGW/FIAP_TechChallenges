@@ -11,9 +11,9 @@ describe('GerarOrcamentoUseCase', () => {
     const osRepo = new InMemoryOrdemDeServicoRepository();
     const useCase = new GerarOrcamentoUseCase(osRepo);
 
-    await expect(useCase.execute({ osId: 'os-inexistente' })).rejects.toBeInstanceOf(
-      OrdemDeServicoNaoEncontradaError,
-    );
+    await expect(
+      useCase.execute({ osId: 'os-inexistente' }),
+    ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
   it('deve falhar se OS nao tiver servicos', async () => {

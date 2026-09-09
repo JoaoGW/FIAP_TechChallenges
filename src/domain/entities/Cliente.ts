@@ -84,14 +84,12 @@ export class Cliente extends Entity<ClienteProps> {
     const nome =
       typeof inputOuNome === 'string' ? inputOuNome : inputOuNome.nome;
     const documento =
-      typeof inputOuNome === 'string'
-        ? (documentoArg as Documento)
-        : inputOuNome.documento;
+      typeof inputOuNome === 'string' ? documentoArg : inputOuNome.documento;
     const contato =
       typeof inputOuNome === 'string'
-        ? contatoArg ?? ''
+        ? (contatoArg ?? '')
         : inputOuNome.contato;
-    const tipo = (documento.tipo === 'CPF' ? 'PF' : 'PJ') as 'PF' | 'PJ';
+    const tipo = documento.tipo === 'CPF' ? 'PF' : 'PJ';
 
     const agora = new Date();
     return new Cliente({

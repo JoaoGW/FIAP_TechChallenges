@@ -18,7 +18,11 @@ describe('AdicionarPecaOSUseCase', () => {
     await pecaRepo.save(peca);
 
     await expect(
-      useCase.execute({ osId: 'os-inexistente', pecaId: peca.getId(), quantidade: 1 }),
+      useCase.execute({
+        osId: 'os-inexistente',
+        pecaId: peca.getId(),
+        quantidade: 1,
+      }),
     ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
@@ -31,7 +35,11 @@ describe('AdicionarPecaOSUseCase', () => {
     await osRepo.save(os);
 
     await expect(
-      useCase.execute({ osId: os.getId(), pecaId: 'peca-inexistente', quantidade: 1 }),
+      useCase.execute({
+        osId: os.getId(),
+        pecaId: 'peca-inexistente',
+        quantidade: 1,
+      }),
     ).rejects.toBeInstanceOf(PecaNaoEncontradaError);
   });
 
@@ -46,7 +54,11 @@ describe('AdicionarPecaOSUseCase', () => {
     await pecaRepo.save(peca);
 
     await expect(
-      useCase.execute({ osId: os.getId(), pecaId: peca.getId(), quantidade: 2 }),
+      useCase.execute({
+        osId: os.getId(),
+        pecaId: peca.getId(),
+        quantidade: 2,
+      }),
     ).rejects.toBeInstanceOf(EstoqueInsuficienteError);
   });
 
@@ -61,7 +73,11 @@ describe('AdicionarPecaOSUseCase', () => {
     await pecaRepo.save(peca);
 
     await expect(
-      useCase.execute({ osId: os.getId(), pecaId: peca.getId(), quantidade: 0 }),
+      useCase.execute({
+        osId: os.getId(),
+        pecaId: peca.getId(),
+        quantidade: 0,
+      }),
     ).rejects.toBeInstanceOf(QuantidadeInvalidaError);
   });
 
@@ -75,7 +91,11 @@ describe('AdicionarPecaOSUseCase', () => {
     const peca = makePeca('Filtro', 4500, 10);
     await pecaRepo.save(peca);
 
-    await useCase.execute({ osId: os.getId(), pecaId: peca.getId(), quantidade: 3 });
+    await useCase.execute({
+      osId: os.getId(),
+      pecaId: peca.getId(),
+      quantidade: 3,
+    });
 
     const saved = await osRepo.findById(os.getId());
     expect(saved?.itens).toHaveLength(1);

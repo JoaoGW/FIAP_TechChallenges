@@ -34,9 +34,7 @@ export class ObterTempoMedioExecucaoUseCase {
       (os): os is OSFinalizada =>
         os.dataInicioExecucao !== undefined && os.dataFinalizacao !== undefined,
     );
-    const historico = this.repo.findHistoricoStatus
-      ? await this.repo.findHistoricoStatus()
-      : [];
+    const historico = await this.repo.findHistoricoStatus();
 
     return {
       ...this.calcularPeriodoDeExecucao(finalizadas),

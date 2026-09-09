@@ -8,7 +8,9 @@ describe('BuscarClientePorDocumentoUseCase', () => {
   it('deve falhar para documento invalido', async () => {
     const repo = new InMemoryClienteRepository();
     const useCase = new BuscarClientePorDocumentoUseCase(repo);
-    await expect(useCase.execute('1')).rejects.toBeInstanceOf(DocumentoInvalidoError);
+    await expect(useCase.execute('1')).rejects.toBeInstanceOf(
+      DocumentoInvalidoError,
+    );
   });
 
   it('deve falhar quando cliente nao existir', async () => {

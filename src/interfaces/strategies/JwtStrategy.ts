@@ -18,7 +18,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JwtPayload): Promise<{ username: string; role: string }> {
+  async validate(
+    payload: JwtPayload,
+  ): Promise<{ username: string; role: string }> {
     if (payload.role !== 'admin') {
       throw new UnauthorizedException('Perfil sem permissao');
     }

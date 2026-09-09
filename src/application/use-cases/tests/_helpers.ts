@@ -13,7 +13,13 @@ export function makeCliente(): Cliente {
 }
 
 export function makeVeiculo(clienteId: string): Veiculo {
-  return Veiculo.criar(clienteId, new PlacaVeiculo('ABC1D23'), 'VW', 'Gol', 2020);
+  return Veiculo.criar(
+    clienteId,
+    new PlacaVeiculo('ABC1D23'),
+    'VW',
+    'Gol',
+    2020,
+  );
 }
 
 export function makeServico(
@@ -57,5 +63,9 @@ export function adicionarPecaNaOs(
   quantidade: number,
   precoCentavos: number,
 ): void {
-  os.adicionarPeca(pecaId, new Quantidade(quantidade), new Dinheiro(precoCentavos));
+  os.adicionarPeca(
+    pecaId,
+    new Quantidade(quantidade),
+    new Dinheiro(precoCentavos),
+  );
 }

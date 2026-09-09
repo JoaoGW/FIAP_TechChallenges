@@ -34,7 +34,10 @@ describe('Relatorios (e2e)', () => {
     await app.close();
   });
 
-  function criarOSFinalizadaComDuracao(minutos: number): OrdemDeServico {
+  function criarOSFinalizadaComDuracao(
+    minutos: number,
+    status: StatusOS = StatusOS.FINALIZADA,
+  ): OrdemDeServico {
     const inicio = new Date('2026-01-01T10:00:00.000Z');
     const fim = new Date(inicio.getTime() + minutos * 60_000);
 
@@ -42,7 +45,7 @@ describe('Relatorios (e2e)', () => {
       clienteId: 'cliente-relatorio',
       veiculoId: 'veiculo-relatorio',
       codigoAcompanhamento: CodigoAcompanhamento.gerar(),
-      status: StatusOS.FINALIZADA,
+      status,
       servicos: [],
       itens: [],
       valorTotal: Dinheiro.zero(),
@@ -102,10 +105,11 @@ describe('Relatorios (e2e)', () => {
   });
 
   it('deve calcular medias por etapa a partir do historico persistido', async () => {
-    const os = criarOSFinalizadaComDuracao(120);
+    // The initial RECEBIDA entry does not overlap any measured stage. The
+    // explicit events below therefore exercise only the persisted audit trail.
+    const os = criarOSFinalizadaComDuracao(120, StatusOS.RECEBIDA);
     await criarDependenciasParaOS(prisma, [os]);
     await osRepo.save(os);
-    await prisma.historicoStatusOS.deleteMany({ where: { osId: os.getId() } });
 
     const inicio = new Date('2026-01-01T08:00:00.000Z');
     await prisma.historicoStatusOS.createMany({

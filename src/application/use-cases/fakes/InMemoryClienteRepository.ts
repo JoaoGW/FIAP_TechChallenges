@@ -6,7 +6,9 @@ export class InMemoryClienteRepository implements ClienteRepository {
   public items: Cliente[] = [];
 
   async save(cliente: Cliente): Promise<void> {
-    const index = this.items.findIndex((item) => item.getId() === cliente.getId());
+    const index = this.items.findIndex(
+      (item) => item.getId() === cliente.getId(),
+    );
 
     if (index >= 0) {
       this.items[index] = cliente;
@@ -33,6 +35,8 @@ export class InMemoryClienteRepository implements ClienteRepository {
   }
 
   async findByDocumento(documento: string): Promise<Cliente | null> {
-    return this.items.find((item) => item.documento.valor === documento) ?? null;
+    return (
+      this.items.find((item) => item.documento.valor === documento) ?? null
+    );
   }
 }

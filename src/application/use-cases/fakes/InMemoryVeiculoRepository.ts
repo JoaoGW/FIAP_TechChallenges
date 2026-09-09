@@ -6,7 +6,9 @@ export class InMemoryVeiculoRepository implements VeiculoRepository {
   public items: Veiculo[] = [];
 
   async save(veiculo: Veiculo): Promise<void> {
-    const index = this.items.findIndex((item) => item.getId() === veiculo.getId());
+    const index = this.items.findIndex(
+      (item) => item.getId() === veiculo.getId(),
+    );
 
     if (index >= 0) {
       this.items[index] = veiculo;

@@ -34,7 +34,12 @@ describe('AtualizarVeiculoUseCase', () => {
       ano: 2020,
     });
 
-    await atualizar.execute({ id, marca: 'Toyota', modelo: 'Corolla', ano: 2023 });
+    await atualizar.execute({
+      id,
+      marca: 'Toyota',
+      modelo: 'Corolla',
+      ano: 2023,
+    });
 
     const veiculo = await veiculoRepo.findById(id);
     expect(veiculo?.marca).toBe('Toyota');

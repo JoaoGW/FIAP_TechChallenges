@@ -28,5 +28,5 @@ export interface OrdemDeServicoRepository {
   ): Promise<OrdemDeServico[]>;
   findByClienteId(clienteId: string): Promise<OrdemDeServico[]>;
   findFinalizadasComPeriodoExecucao?(): Promise<OrdemDeServico[]>;
-  findHistoricoStatus?(): Promise<HistoricoStatusOS[]>;
+  findHistoricoStatus(): Promise<HistoricoStatusOS[]>;
 }

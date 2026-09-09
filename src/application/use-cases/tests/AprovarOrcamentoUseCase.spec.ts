@@ -10,9 +10,9 @@ describe('AprovarOrcamentoUseCase', () => {
     const osRepo = new InMemoryOrdemDeServicoRepository();
     const useCase = new AprovarOrcamentoUseCase(osRepo);
 
-    await expect(useCase.execute({ osId: 'os-inexistente' })).rejects.toBeInstanceOf(
-      OrdemDeServicoNaoEncontradaError,
-    );
+    await expect(
+      useCase.execute({ osId: 'os-inexistente' }),
+    ).rejects.toBeInstanceOf(OrdemDeServicoNaoEncontradaError);
   });
 
   it('deve falhar se OS estiver fora de AGUARDANDO_APROVACAO', async () => {

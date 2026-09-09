@@ -2,27 +2,42 @@ import { OrdemDeServico } from '../../src/domain/entities/OrdemDeServico';
 import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 
 export async function limparBancoDeTeste(prisma: PrismaService) {
-  await prisma.historicoStatusOS.deleteMany();
-  await prisma.itemOS.deleteMany();
-  await prisma.itemServicoOS.deleteMany();
-  await prisma.ordemDeServico.deleteMany();
-  await prisma.veiculo.deleteMany();
-  await prisma.cliente.deleteMany();
-  await prisma.servico.deleteMany();
-  await prisma.peca.deleteMany();
+  // TRUNCATE is deliberately used instead of DELETE because HistoricoStatusOS
+  // is protected by an append-only trigger in PostgreSQL.
+  await prisma.$executeRawUnsafe(`
+    TRUNCATE TABLE
+      "HistoricoStatusOS",
+      "ItemOS",
+      "ItemServicoOS",
+      "OrdemDeServico",
+      "Veiculo",
+      "Cliente",
+      "Servico",
+      "Peca"
+    RESTART IDENTITY;
+  `);
 }
 
 export async function criarDependenciasParaOS(
   prisma: PrismaService,
   ordens: OrdemDeServico[],
 ): Promise<void> {
+  const documentosPorCliente = new Map<string, string>();
+  let proximoDocumento = 1;
+
   for (const os of ordens) {
+    let documento = documentosPorCliente.get(os.clienteId);
+    if (!documento) {
+      documento = String(proximoDocumento++).padStart(11, '0');
+      documentosPorCliente.set(os.clienteId, documento);
+    }
+
     await prisma.cliente.upsert({
       where: { id: os.clienteId },
       create: {
         id: os.clienteId,
         nome: `Cliente ${os.clienteId}`,
-        documento: `documento-${os.clienteId}`,
+        documento,
         tipo: 'PF',
         contato: 'teste@oficina.local',
       },

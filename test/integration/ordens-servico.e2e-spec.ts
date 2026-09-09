@@ -13,6 +13,7 @@ import { IniciarExecucaoUseCase } from '../../src/application/use-cases/IniciarE
 import { OrdemDeServico } from '../../src/domain/entities/OrdemDeServico';
 import { StatusOS } from '../../src/domain/enums/StatusOS';
 import { Dinheiro } from '../../src/domain/value-objects/Dinheiro';
+import { Quantidade } from '../../src/domain/value-objects/Quantidade';
 import { PrismaService } from '../../src/infrastructure/database/PrismaService';
 import { PrismaClienteRepository } from '../../src/infrastructure/repositories/PrismaClienteRepository';
 import { PrismaOrdemDeServicoRepository } from '../../src/infrastructure/repositories/PrismaOrdemDeServicoRepository';
@@ -191,6 +192,55 @@ describe('Ordens de Servico (e2e)', () => {
         },
       }),
     ).rejects.toThrow();
+  });
+
+  it('deve impedir alteracao ou exclusao de eventos do historico', async () => {
+    const os = OrdemDeServico.criar(
+      'cliente-append-only',
+      'veiculo-append-only',
+    );
+    await criarDependenciasParaOS(prisma, [os]);
+    await osRepo.save(os);
+
+    const evento = await prisma.historicoStatusOS.findFirstOrThrow({
+      where: { osId: os.getId() },
+    });
+
+    await expect(
+      prisma.historicoStatusOS.update({
+        where: { id: evento.id },
+        data: { status: StatusOS.EM_DIAGNOSTICO },
+      }),
+    ).rejects.toThrow('HistoricoStatusOS is append-only');
+    await expect(
+      prisma.historicoStatusOS.delete({ where: { id: evento.id } }),
+    ).rejects.toThrow('HistoricoStatusOS is append-only');
+  });
+
+  it('deve fazer rollback da OS, itens e historico se a persistencia falhar', async () => {
+    const os = OrdemDeServico.criar('cliente-rollback', 'veiculo-rollback');
+    await criarDependenciasParaOS(prisma, [os]);
+    await osRepo.save(os);
+
+    os.iniciarDiagnostico();
+    os.adicionarPeca(
+      'peca-inexistente',
+      new Quantidade(1),
+      new Dinheiro(1_000),
+    );
+
+    await expect(osRepo.save(os)).rejects.toThrow();
+
+    const osPersistida = await osRepo.findById(os.getId());
+    const historico = await prisma.historicoStatusOS.findMany({
+      where: { osId: os.getId() },
+      orderBy: { ocorridoEm: 'asc' },
+    });
+    expect(osPersistida?.status).toBe(StatusOS.RECEBIDA);
+    expect(osPersistida?.itens).toHaveLength(0);
+    expect(historico.map((evento) => evento.status)).toEqual([
+      StatusOS.RECEBIDA,
+    ]);
   });
 
   it('GET /ordens-servico deve ordenar por prioridade e excluir encerradas', async () => {

@@ -73,10 +73,7 @@ export class PecaController {
 
   @Patch(':id/estoque')
   @ApiOperation({ summary: 'Ajustar estoque manualmente' })
-  async ajustar(
-    @Param('id') id: string,
-    @Body() body: AjustarEstoqueDto,
-  ) {
+  async ajustar(@Param('id') id: string, @Body() body: AjustarEstoqueDto) {
     return this.ajustarEstoque.execute({
       pecaId: id,
       novaQuantidade: body.novaQuantidade,
