@@ -660,7 +660,7 @@ ambiente externo. Não reativar Azure nem criar recursos que possam cobrar.
   publicação já reclamada permanece como operação incerta. Os cenários de
   resposta perdida, evidência divergente e aviso tardio foram exercitados.
 - O BDD completo passou com 24 cenários e 72 passos. Os commits com esse trabalho
-  foram enviados para Billing `efbffdc` e OS `2c43647` nas branches `codex/`.
+  foram enviados para Billing `efbffdc` e OS `2c43647` nas branches de implementação da Fase 4.
 - Foi ensaiada em cópia temporária uma atualização por override de
   `@prisma/config > deepmerge-ts` para 8.0.2 e `gcp-metadata > gaxios` para 8.3.2.
   O audit de produção da cópia retornou zero alertas, mas o audit completo ainda
@@ -670,3 +670,30 @@ ambiente externo. Não reativar Azure nem criar recursos que possam cobrar.
   overrides ultrapassam os intervalos declarados pelos pacotes e precisam de
   revisão de compatibilidade e manutenção; não são parte da branch principal
   de Billing enquanto não forem incorporados expressamente.
+
+### Deploy Kubernetes no CI, documentação e padronização das branches
+
+- Cada serviço ganhou o job Deploy Kubernetes (kind) no CI: um cluster kind
+  efêmero recebe a imagem do SHA avaliado, as dependências do serviço, as
+  migrations e o overlay `deploy/kustomize/overlays/kind`. Os testes validam
+  rollout e imagem implantada; no OS, `/health` com o SHA, Swagger, login
+  administrativo e consulta da fila operacional no banco da Saga; em Billing,
+  consulta autenticada ao PostgreSQL próprio; em Execution, token aceito com o
+  acesso ao Cosmos fechado sem identidade Azure. A publicação HML de Billing e
+  Execution passou a depender desse job e os testes de entrega verificam a
+  dependência. Os jobs passaram nos três serviços.
+- O CI publica os totais de cobertura de cada SHA no resumo do job e como
+  anotação. Medições: OS completo 90,98% statements, 81,60% branches, 93,40%
+  functions e 91,98% lines; Billing 87,70/82,34/88,41/92,89% no serviço e
+  93,33/90,81/89,34/96,64% na infraestrutura; Execution 89,28/83,98/94,00/95,16%
+  no serviço e 91,03/84,37/98,03/96,75% na infraestrutura.
+- Os overrides de dependências de Billing foram incorporados à branch principal;
+  `npm audit --omit=dev` não apontou vulnerabilidades e a verificação de
+  metadados em loopback entrou no CI.
+- Os READMEs de OS, Billing e Execution foram reorganizados com arquitetura,
+  banco próprio, escolha e justificativa da Saga orquestrada, API, cobertura,
+  pipeline e operação. O ADR 0001 registra a alternativa coreografada e o estado.
+- As branches de trabalho foram renomeadas para o padrão `imp/` e `docs/`; a
+  renomeação fechou os PRs antigos, substituídos pelos PRs listados no guia de
+  retomada. O BDD distribuído remoto continua dependente do secret
+  `CROSS_REPO_READ_TOKEN`, ausente no OS. Não houve deploy nem apply na nuvem.

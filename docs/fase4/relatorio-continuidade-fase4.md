@@ -20,16 +20,16 @@ As tecnologias específicas escolhidas - Service Bus Standard, Cosmos, PostgreSQ
 
 ## 3. Estado verificado dos repositórios
 
-As branches abaixo foram conferidas no remoto; os commits são o recorte de referência desta passagem, não garantem que a branch continuará imóvel. Os PRs de implementação e infraestrutura estão abertos como rascunho; não se deve presumir que estejam mesclados em main ou development.
+As branches abaixo foram conferidas no remoto; os commits são o recorte de referência desta passagem, não garantem que a branch continuará imóvel. As branches de trabalho foram renomeadas para o padrão do projeto (imp/ e docs/); a renomeação fechou os PRs antigos, substituídos pelos PRs listados, abertos para revisão e ainda não mesclados em main ou development.
 
-- OS: [soat-api](https://github.com/JoaoGW/soat-api), branch codex/fase4-os, commit 2c43647; [PR 14](https://github.com/JoaoGW/soat-api/pull/14). CI do commit passou.
-- Billing: [soat-billing-service](https://github.com/JoaoGW/soat-billing-service), branch codex/fase4-bootstrap, commit efbffdc; [PR 1](https://github.com/JoaoGW/soat-billing-service/pull/1). CI de qualidade e integração do commit passou.
-- Execution: [soat-execution-service](https://github.com/JoaoGW/soat-execution-service), branch codex/fase4-bootstrap, commit 49134d1; [PR 1](https://github.com/JoaoGW/soat-execution-service/pull/1). CI consultado passou.
-- Auth Function: [soat-auth-function](https://github.com/JoaoGW/soat-auth-function), branch codex/fase4-auth-http, commit a2ecea4; [PR 24](https://github.com/JoaoGW/soat-auth-function/pull/24). CI consultado passou.
-- AKS: [soat-aks-infra](https://github.com/JoaoGW/soat-aks-infra), branch codex/fase4-plataforma, commit 13afb2e; [PR 25](https://github.com/JoaoGW/soat-aks-infra/pull/25). A última execução Terraform consultada falhou em 31/10 no acesso ao state com AccountIsDisabled.
-- PostgreSQL: [soat-postgres-infra](https://github.com/JoaoGW/soat-postgres-infra), branch codex/fase4-bancos-servicos, commit 34015e7; [PR 7](https://github.com/JoaoGW/soat-postgres-infra/pull/7). A última execução Terraform consultada também falhou em 31/10 com AccountIsDisabled.
-- Documentos centrais: [FIAP_TechChallenges / docs/fase4](https://github.com/JoaoGW/FIAP_TechChallenges/tree/codex/fase4-documentacao/docs/fase4), branch codex/fase4-documentacao. A branch contém plano, roteiro inicial, auditoria, progresso, revisão, base acadêmica e guia de retomada.
-- Experimento isolado de dependências: [Billing - codex/fase4-dependencias-experimento](https://github.com/JoaoGW/soat-billing-service/tree/codex/fase4-dependencias-experimento), commit 6d86a87. Não é a branch principal da implementação.
+- OS: [soat-api](https://github.com/JoaoGW/soat-api), branch imp/fase4-os-service, commit 4d1ddcb; [PR 15](https://github.com/JoaoGW/soat-api/pull/15). Inclui deploy kind no CI e README da Fase 4.
+- Billing: [soat-billing-service](https://github.com/JoaoGW/soat-billing-service), branch imp/fase4-billing-service, commit abf5fb5; [PR 2](https://github.com/JoaoGW/soat-billing-service/pull/2). Inclui deploy kind, overrides de dependências e README da Fase 4.
+- Execution: [soat-execution-service](https://github.com/JoaoGW/soat-execution-service), branch imp/fase4-execution-service, commit 0cf7b65; [PR 2](https://github.com/JoaoGW/soat-execution-service/pull/2). Inclui deploy kind e README da Fase 4.
+- Auth Function: [soat-auth-function](https://github.com/JoaoGW/soat-auth-function), branch imp/fase4-auth-http, commit a2ecea4; [PR 25](https://github.com/JoaoGW/soat-auth-function/pull/25). CI de qualidade passou.
+- AKS: [soat-aks-infra](https://github.com/JoaoGW/soat-aks-infra), branch imp/fase4-plataforma, commit 13afb2e; [PR 26](https://github.com/JoaoGW/soat-aks-infra/pull/26). O check obrigatório validate passou; os jobs de plano falham no acesso ao state com AccountIsDisabled.
+- PostgreSQL: [soat-postgres-infra](https://github.com/JoaoGW/soat-postgres-infra), branch imp/fase4-bancos-servicos, commit 34015e7; [PR 8](https://github.com/JoaoGW/soat-postgres-infra/pull/8). O check validate passou; os planos também falham com AccountIsDisabled.
+- Documentos centrais: [FIAP_TechChallenges / docs/fase4](https://github.com/JoaoGW/FIAP_TechChallenges/tree/docs/fase4-documentacao/docs/fase4), branch docs/fase4-documentacao. A branch contém plano, roteiro inicial, auditoria, progresso, revisão, base acadêmica e guia de retomada.
+- Dependências de Billing: os overrides da antiga branch experimental [imp/fase4-dependencias-billing](https://github.com/JoaoGW/soat-billing-service/tree/imp/fase4-dependencias-billing) (commit 6d86a87) foram incorporados à branch principal de Billing.
 
 Para clonar em outro computador: git clone -b NOME_DA_BRANCH URL_DO_REPOSITORIO. Em um clone existente, preserve as alterações locais, execute git fetch origin, selecione a branch correspondente e use git pull --ff-only. O guia remoto retomada-outro-computador.md relaciona as branches. Credenciais e o PDF original do desafio não foram incluídos nos repositórios.
 
@@ -74,6 +74,8 @@ Há ferramentas de recuperação para outbox e DLQ, com seleção por mensagem, 
 
 OS, Billing e Execution possuem pipelines independentes, Dockerfiles, manifestos e verificações de build, testes e qualidade. Os workflows de publicação/deploy de Billing e Execution são protegidos por trava e vinculados ao SHA aprovado; o fato de o CI passar não prova publicação ou rollout real. SonarJS com regras selecionadas foi usado como gate similar; a equivalência ao SonarQube completo não foi comprovada e deve ser explicitada na revisão acadêmica.
 
+Cada pipeline de serviço também possui o job Deploy Kubernetes (kind): cria um cluster kind efêmero no runner, carrega a imagem do SHA avaliado, sobe as dependências do serviço, executa as migrations e aplica o overlay kind, validando rollout, imagem e rotas. No OS, o teste inclui login administrativo e consulta da fila operacional no banco da Saga; em Billing, consulta autenticada ao PostgreSQL próprio; em Execution, o acesso ao Cosmos permanece fechado sem identidade Azure. A publicação HML só ocorre após esse job. É o deploy automatizado verificável enquanto a assinatura Azure estiver desativada; não substitui o ensaio no AKS. Os totais de cobertura de cada SHA são publicados no resumo do job e como anotação.
+
 As últimas execuções Terraform de AKS e PostgreSQL consultadas falharam em 31/10/2026: o backend de state retornou HTTP 403 AccountIsDisabled. O responsável informou que a conta Azure foi desativada para evitar cobrança e não pode ser reativada agora. Não executar terraform apply, provisionamento, deploy ou reativação sem decisão expressa de ambiente e custo. Os states e o banco legado devem ser preservados.
 
 Antes de qualquer cutover, revisar branches e PRs, regras de proteção, módulos e states, custos e quotas, credenciais e rede, e validar a combinação exata de imagens. Usar dados sintéticos no primeiro aceite, garantir escritor único e preservar rollback seguro. Migração de dados históricos, backup/restore e reconciliação de IDs precisam de plano separado se forem necessários.
@@ -82,7 +84,7 @@ Antes de qualquer cutover, revisar branches e PRs, regras de proteção, módulo
 
 O audit da instalação local da branch principal de Billing registrou alertas altos na cadeia do CLI de migração Prisma e moderados em uma cadeia transitiva de metadados/HTTP. A imagem de runtime foi construída com o CLI Prisma removido; o prune registrou cinco alertas moderados. O audit de outras instalações locais também apontou alertas, devendo-se distinguir grafo instalado, runtime efetivo e imagem de migração.
 
-A branch experimental de Billing fixa deepmerge-ts 8.0.2 sob @prisma/config e gaxios 8.3.2 sob gcp-metadata. O audit de produção daquela cópia retornou zero alertas na consulta realizada; o audit completo ainda apresentou sete baixos e oito moderados. A cópia passou em geração de Prisma, teste de configuração, migrations, testes, imagem de migração e BDD de 24 cenários; um servidor local verificou sucesso e erro HTTP de metadados. Os overrides cruzam as faixas declaradas pelos consumidores e não têm validação em GCP real. São um experimento sujeito a revisão, não uma correção já integrada nem garantia de ausência futura de vulnerabilidades.
+Os overrides de deepmerge-ts 8.0.2 sob @prisma/config e gaxios 8.3.2 sob gcp-metadata foram incorporados à branch principal de Billing, com a verificação em loopback dos metadados no CI. Na instalação revisada, npm audit --omit=dev não apontou vulnerabilidades. Os overrides cruzam as faixas declaradas pelos consumidores e não têm validação em GCP real; devem ser removidos quando as dependências oficiais incorporarem as correções.
 
 ## 10. Como reproduzir localmente
 
@@ -95,7 +97,7 @@ Não copiar credenciais de produção para testes. A execução local depende do
 ## 11. Plano de retomada: ações locais sem setup externo
 
 1. Revisar o diff e os PRs rascunho, especialmente a sinalização de bloqueio, corridas entre envio e liberação e procedimentos de reconciliação. Registrar os resultados por commit.
-2. Revisar as versões e limites dos overrides da branch experimental; repetir os testes e, se aprovados, integrá-los por PR. Não tratar override major como compatibilidade garantida somente pelo audit.
+2. Acompanhar as versões oficiais de @prisma/config e gcp-metadata e remover os overrides incorporados quando possível. Não tratar override major como compatibilidade garantida somente pelo audit.
 3. Revisar os alertas das demais branches e as imagens reais de runtime versus migração; manter gate e justificativas atualizados. Completar os procedimentos de rearmar incidentes que ainda não possuem ferramenta segura.
 4. Revalidar Swagger/OpenAPI, schemas de mensagens, READMEs, diagramas e exemplos contra as versões finais; manter o quality gate e as exclusões de cobertura explícitos.
 5. Fixar manifesto de SHAs/imagens, revisar matriz R01-R43 e backlog T01-T30, executar regressões locais e rastrear evidências. A execução remota do BDD precisa de acesso entre repositórios.
@@ -106,7 +108,7 @@ Não copiar credenciais de produção para testes. A execução local depende do
 2. Disponibilizar, no ambiente escolhido, state seguro, rede/HTTPS, quotas, Service Bus, bancos, Cosmos, identidades e secrets; verificar acesso cruzado negado.
 3. Configurar contas de teste, aplicação, loja/caixa, webhook e credenciais Mercado Pago, e ensaiar criação, pagamento, cancelamento, reembolso e reconciliação sem transações reais.
 4. Configurar SMTP e New Relic, ou alternativas aceitas, incluindo variáveis e acesso; comprovar o trace da mesma OS e métricas sem dados pessoais.
-5. Configurar a credencial de leitura entre repositórios do BDD quando necessária, revisar PRs e garantir acesso dos avaliadores aos repositórios e evidências.
+5. Configurar o secret CROSS_REPO_READ_TOKEN no OS (ausente na última consulta) para executar o BDD distribuído remoto, revisar e mesclar os PRs e garantir acesso dos avaliadores aos repositórios privados e evidências.
 6. Executar deploy autorizado no Kubernetes, aceite completo, cenários de falha e recuperação, isolamento e demonstração do SHA aprovado. Produzir a prova de rollback e escritor único antes do cutover.
 7. Informar nomes e identificadores dos participantes e prazo acadêmico; gravar vídeo de até 15 minutos, testar o acesso e preparar o PDF final do portal. Revisar e submeter ao portal.
 
@@ -115,12 +117,12 @@ Essas sete frentes agrupam tarefas correlatas, não são uma contagem de cliques
 ## 13. Referências para continuidade
 
 - [Enunciado original da Fase 4](https://github.com/JoaoGW/FIAP_TechChallenges) - conferir o PDF fornecido pelo grupo; ele não foi publicado nesta branch.
-- [Plano completo e matriz R01-R43](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/plano-implementacao-fase-4.md).
-- [Roteiro de início](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/inicio-implementacao-fase4.md).
-- [Registro de progresso](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/progresso-implementacao-fase4.md).
-- [Revisão histórica](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/revisao-execucao-fase4.md) - a estimativa e a matriz refletem uma revisão anterior, não uma auditoria atual.
-- [Guia de retomada](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/retomada-outro-computador.md) e [base para entrega acadêmica](https://github.com/JoaoGW/FIAP_TechChallenges/blob/codex/fase4-documentacao/docs/fase4/base-entrega-academica.md).
-- [CI OS](https://github.com/JoaoGW/soat-api/actions/runs/42493855120), [CI Billing](https://github.com/JoaoGW/soat-billing-service/actions/runs/42493834901), [CI Execution](https://github.com/JoaoGW/soat-execution-service/actions/runs/42291437492), [CI Auth](https://github.com/JoaoGW/soat-auth-function/actions/runs/42230852173).
+- [Plano completo e matriz R01-R43](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/plano-implementacao-fase-4.md).
+- [Roteiro de início](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/inicio-implementacao-fase4.md).
+- [Registro de progresso](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/progresso-implementacao-fase4.md).
+- [Revisão histórica](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/revisao-execucao-fase4.md) - a estimativa e a matriz refletem uma revisão anterior, não uma auditoria atual.
+- [Guia de retomada](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/retomada-outro-computador.md) e [base para entrega acadêmica](https://github.com/JoaoGW/FIAP_TechChallenges/blob/docs/fase4-documentacao/docs/fase4/base-entrega-academica.md).
+- [CI OS](https://github.com/JoaoGW/soat-api/actions/workflows/ci.yml), [CI Billing](https://github.com/JoaoGW/soat-billing-service/actions/workflows/ci.yml), [CI Execution](https://github.com/JoaoGW/soat-execution-service/actions/workflows/ci.yml), [CI Auth](https://github.com/JoaoGW/soat-auth-function/actions/workflows/ci.yml).
 - [Terraform AKS com falha](https://github.com/JoaoGW/soat-aks-infra/actions/runs/41158365013) e [Terraform PostgreSQL com falha](https://github.com/JoaoGW/soat-postgres-infra/actions/runs/41158365105): AccountIsDisabled no backend consultado; as execuções são históricas e não substituem verificação atual.
 
 ## 14. Matriz de requisitos e backlog

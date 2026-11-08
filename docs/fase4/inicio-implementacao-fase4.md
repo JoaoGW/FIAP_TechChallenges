@@ -25,18 +25,18 @@ A pasta atual `FIAP_TechChallenges` contém o plano e uma cópia antiga da aplic
 
 | Repo | Base conferida em 30/10/2026 | Primeira branch sugerida |
 |---|---|---|
-| `soat-api` | development `4eb05bcc7adb45ed794d5ae5707fca102a70f255` | `codex/fase4-os` |
-| `soat-auth-function` | development `4f3df7143e046967e27bd5baf57677fec5f22141` | `codex/fase4-auth-http` |
-| `soat-postgres-infra` | development `6fb8d0b6c9de495fe93d1e5c053445b9085426ce` | `codex/fase4-bancos-servicos` |
-| `soat-aks-infra` | main `8266fe617a9f2770f28f0a0436abb8c07202daf1` | `codex/fase4-plataforma` |
-| Billing / Execution | Repos a criar com main/development e proteção | `codex/fase4-bootstrap` |
+| `soat-api` | development `4eb05bcc7adb45ed794d5ae5707fca102a70f255` | `imp/fase4-os-service` |
+| `soat-auth-function` | development `4f3df7143e046967e27bd5baf57677fec5f22141` | `imp/fase4-auth-http` |
+| `soat-postgres-infra` | development `6fb8d0b6c9de495fe93d1e5c053445b9085426ce` | `imp/fase4-bancos-servicos` |
+| `soat-aks-infra` | main `8266fe617a9f2770f28f0a0436abb8c07202daf1` | `imp/fase4-plataforma` |
+| Billing / Execution | Repos a criar com main/development e proteção | `imp/fase4-billing-service` / `imp/fase4-execution-service` |
 
 Exemplo para obter o OS sem alterar a cópia local antiga:
 
 ```bash
 git clone https://github.com/JoaoGW/soat-api.git soat-api-fase4
 cd soat-api-fase4
-git switch -c codex/fase4-os 4eb05bcc7adb45ed794d5ae5707fca102a70f255
+git switch -c imp/fase4-os-service 4eb05bcc7adb45ed794d5ae5707fca102a70f255
 git status --short
 ```
 
