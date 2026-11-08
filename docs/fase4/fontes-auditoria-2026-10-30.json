@@ -1,0 +1,2923 @@
+{
+  "audit_date": "2026-10-30",
+  "timezone": "America/Sao_Paulo",
+  "repositories": [
+    {
+      "repository": "JoaoGW/soat-postgres-infra",
+      "main": "cfe18fc432df01e68dcdc511a9939ed73895c44d",
+      "development": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "main_files": 7,
+      "development_files": 29,
+      "branches": [
+        {
+          "name": "development",
+          "sha": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+          "protected": true
+        },
+        {
+          "name": "fix/oidc-terraform-postgres",
+          "sha": "62409fff3109fedf3bdf217317c909c0fef49ead",
+          "protected": false
+        },
+        {
+          "name": "imp/fase2-documentacao",
+          "sha": "2bf751e307003877d965326bbe2708ff2c0a6091",
+          "protected": false
+        },
+        {
+          "name": "imp/fase3-infra-azure",
+          "sha": "dad9b5e3d9ddd37e64fecf7c3f7908d6252075e9",
+          "protected": false
+        },
+        {
+          "name": "main",
+          "sha": "cfe18fc432df01e68dcdc511a9939ed73895c44d",
+          "protected": true
+        }
+      ],
+      "ahead": 13,
+      "behind": 0,
+      "open_prs": [],
+      "runs": [
+        {
+          "id": 35008265466,
+          "name": "Terraform CI",
+          "branch": "development",
+          "sha": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:22Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/35008265466"
+        },
+        {
+          "id": 35008265326,
+          "name": "Deploy Terraform PostgreSQL",
+          "branch": "development",
+          "sha": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:47Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/35008265326"
+        },
+        {
+          "id": 35007508267,
+          "name": "Terraform CI",
+          "branch": "fix/oidc-terraform-postgres",
+          "sha": "62409fff3109fedf3bdf217317c909c0fef49ead",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:32:13Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/35007508267"
+        },
+        {
+          "id": 34524745426,
+          "name": "Terraform CI",
+          "branch": "development",
+          "sha": "57c5a57d32d5ef41a114a27635e35a08bb98dc56",
+          "conclusion": "success",
+          "updated_at": "2026-09-10T20:10:43Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/34524745426"
+        },
+        {
+          "id": 34524745312,
+          "name": "Deploy Terraform PostgreSQL",
+          "branch": "development",
+          "sha": "57c5a57d32d5ef41a114a27635e35a08bb98dc56",
+          "conclusion": "success",
+          "updated_at": "2026-09-11T15:37:41Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/34524745312"
+        },
+        {
+          "id": 34524299952,
+          "name": "Terraform CI",
+          "branch": "fix/oidc-terraform-postgres",
+          "sha": "1557f71e871e406e930a840aac63a39378cced66",
+          "conclusion": "success",
+          "updated_at": "2026-09-10T20:09:55Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/34524299952"
+        },
+        {
+          "id": 34516361580,
+          "name": "Deploy Terraform PostgreSQL",
+          "branch": "development",
+          "sha": "adbb3cde9bfe64b42c27ed24173dd4441f096267",
+          "conclusion": "success",
+          "updated_at": "2026-09-10T18:46:27Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/34516361580"
+        },
+        {
+          "id": 34516361438,
+          "name": "Terraform CI",
+          "branch": "development",
+          "sha": "adbb3cde9bfe64b42c27ed24173dd4441f096267",
+          "conclusion": "success",
+          "updated_at": "2026-09-10T18:46:50Z",
+          "url": "https://github.com/JoaoGW/soat-postgres-infra/actions/runs/34516361438"
+        }
+      ]
+    },
+    {
+      "repository": "JoaoGW/soat-aks-infra",
+      "main": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+      "development": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "main_files": 43,
+      "development_files": 43,
+      "branches": [
+        {
+          "name": "development",
+          "sha": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+          "protected": true
+        },
+        {
+          "name": "docs/readme-fase-7",
+          "sha": "635cfe9f8b066b38332313b0b96d34ae3d209b80",
+          "protected": false
+        },
+        {
+          "name": "fix/acesso-minimo-kubectl-hml",
+          "sha": "6a9e68c7e595621304a7bfffd021b099370a60b5",
+          "protected": false
+        },
+        {
+          "name": "fix/credencial-kubectl-kong",
+          "sha": "b61f88a392336f899270aa9c6240628d6d24554e",
+          "protected": false
+        },
+        {
+          "name": "fix/execucao-pipelines-terraform",
+          "sha": "0775cf7e8124f12edac22c7af912807380992702",
+          "protected": false
+        },
+        {
+          "name": "fix/imagem-sincronizador-observabilidade",
+          "sha": "ebd99266545ef5a24c926db5445aee7d165278f1",
+          "protected": false
+        },
+        {
+          "name": "fix/permissao-key-vault-function",
+          "sha": "21a8937ef39912b4a0b036e7cb39d210fc1fff4e",
+          "protected": false
+        },
+        {
+          "name": "fix/preservacao-endpoint-postgresql",
+          "sha": "370fcfa70ec118c6554446a7bcfccfe8ec1b5c4d",
+          "protected": false
+        },
+        {
+          "name": "fix/preservar-admin-aks",
+          "sha": "681ca1aaecd3bc87fb41530da27696354df5ad4d",
+          "protected": false
+        },
+        {
+          "name": "fix/versao-chart-kong",
+          "sha": "5c9ff18f41e1f60ef98cffa63c20314092ae6acb",
+          "protected": false
+        },
+        {
+          "name": "imp/ajuste-sku-aks",
+          "sha": "ec9716f3a268b6039c02b3dce043d0ad01e54bda",
+          "protected": false
+        },
+        {
+          "name": "imp/fase2-documentacao",
+          "sha": "e43f5c4645b7a49bbc8bb4d674ee61c57d72f589",
+          "protected": false
+        },
+        {
+          "name": "imp/fase3-infra-azure",
+          "sha": "25ae4b489eb53d99718c83644718c4603b6895cf",
+          "protected": false
+        },
+        {
+          "name": "imp/fase4-autenticacao-cpf",
+          "sha": "7c707b679eed74247916ced6fc51ae877384f0d1",
+          "protected": false
+        },
+        {
+          "name": "imp/fase5-deploy-api",
+          "sha": "8b2fe1f330fab016454623d3afd9eda8a31408da",
+          "protected": false
+        },
+        {
+          "name": "imp/fase6-observabilidade",
+          "sha": "cd9f602c9a8e4405829ff2326c467c8f3161cfd6",
+          "protected": false
+        },
+        {
+          "name": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "protected": true
+        }
+      ],
+      "ahead": 2,
+      "behind": 6,
+      "open_prs": [],
+      "runs": [
+        {
+          "id": 35008252010,
+          "name": "Deploy Terraform AKS",
+          "branch": "development",
+          "sha": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:04Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/35008252010"
+        },
+        {
+          "id": 35008251983,
+          "name": "Terraform CI",
+          "branch": "development",
+          "sha": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:23Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/35008251983"
+        },
+        {
+          "id": 35007498478,
+          "name": "Terraform CI",
+          "branch": "docs/readme-fase-7",
+          "sha": "635cfe9f8b066b38332313b0b96d34ae3d209b80",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:32:27Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/35007498478"
+        },
+        {
+          "id": 34891625518,
+          "name": "Observabilidade AKS",
+          "branch": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T20:14:23Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/34891625518"
+        },
+        {
+          "id": 34891035298,
+          "name": "Observabilidade AKS",
+          "branch": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T20:09:22Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/34891035298"
+        },
+        {
+          "id": 34890815487,
+          "name": "Observabilidade AKS",
+          "branch": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T20:06:17Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/34890815487"
+        },
+        {
+          "id": 34890785879,
+          "name": "Deploy Terraform AKS",
+          "branch": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T20:05:51Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/34890785879"
+        },
+        {
+          "id": 34890785782,
+          "name": "Terraform CI",
+          "branch": "main",
+          "sha": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T20:05:50Z",
+          "url": "https://github.com/JoaoGW/soat-aks-infra/actions/runs/34890785782"
+        }
+      ]
+    },
+    {
+      "repository": "JoaoGW/soat-auth-function",
+      "main": "15eb876b7370448b3c35a513a0946028fd2fb51f",
+      "development": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "main_files": 12,
+      "development_files": 49,
+      "branches": [
+        {
+          "name": "development",
+          "sha": "4f3df7143e046967e27bd5baf57677fec5f22141",
+          "protected": true
+        },
+        {
+          "name": "fix/condicao-deploy-function",
+          "sha": "3b19dd0930d88461f4dd2861c6b5f310b2f2a461",
+          "protected": false
+        },
+        {
+          "name": "fix/configuracao-flex-function",
+          "sha": "a2179c28ac892008b5406783474faf4c953ef763",
+          "protected": false
+        },
+        {
+          "name": "fix/oidc-terraform-function",
+          "sha": "68ec83eca33b158843bfb5c7356b3ac0b0396e16",
+          "protected": false
+        },
+        {
+          "name": "fix/redeploy-traces-function",
+          "sha": "fed8082db9d1b581c5bb83c87660600a21280b13",
+          "protected": false
+        },
+        {
+          "name": "fix/travas-deploy-function",
+          "sha": "07565270dc433f2e1218e214337202f27dcf0085",
+          "protected": false
+        },
+        {
+          "name": "imp/disparo-deploy-function-hml",
+          "sha": "cfd433f23641e474892bfe0197f5124207711908",
+          "protected": false
+        },
+        {
+          "name": "imp/disparo-deploy-function-hml-seguro",
+          "sha": "d57df268452a3537eb2a392245212ef67e6a42ae",
+          "protected": false
+        },
+        {
+          "name": "imp/fase2-documentacao",
+          "sha": "6afd397fe9e7a58a76b0bd037a2469af80232492",
+          "protected": false
+        },
+        {
+          "name": "imp/fase4-autenticacao-cpf",
+          "sha": "fd7808f49fbf5cddde6256479b84c8f1328f1988",
+          "protected": false
+        },
+        {
+          "name": "imp/fase6-observabilidade",
+          "sha": "9e5104bbed385c401f1731acd46055198e25e9ef",
+          "protected": false
+        },
+        {
+          "name": "main",
+          "sha": "15eb876b7370448b3c35a513a0946028fd2fb51f",
+          "protected": true
+        }
+      ],
+      "ahead": 50,
+      "behind": 0,
+      "open_prs": [],
+      "runs": [
+        {
+          "id": 35008238461,
+          "name": "CI",
+          "branch": "development",
+          "sha": "4f3df7143e046967e27bd5baf57677fec5f22141",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:11Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/35008238461"
+        },
+        {
+          "id": 35008238223,
+          "name": "Deploy Azure Function",
+          "branch": "development",
+          "sha": "4f3df7143e046967e27bd5baf57677fec5f22141",
+          "conclusion": "skipped",
+          "updated_at": "2026-09-15T18:33:39Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/35008238223"
+        },
+        {
+          "id": 35007495080,
+          "name": "CI",
+          "branch": "fix/redeploy-traces-function",
+          "sha": "fed8082db9d1b581c5bb83c87660600a21280b13",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:27:10Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/35007495080"
+        },
+        {
+          "id": 34975197871,
+          "name": "Deploy Azure Function",
+          "branch": "development",
+          "sha": "76eda8c6bd5d567dbe164c109e26560a849fa503",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T13:32:42Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/34975197871"
+        },
+        {
+          "id": 34975197758,
+          "name": "CI",
+          "branch": "development",
+          "sha": "76eda8c6bd5d567dbe164c109e26560a849fa503",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T13:28:53Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/34975197758"
+        },
+        {
+          "id": 34975066799,
+          "name": "CI",
+          "branch": "fix/redeploy-traces-function",
+          "sha": "5739935765392a7ba91177d1cf3b2050ed546540",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T13:27:44Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/34975066799"
+        },
+        {
+          "id": 34972696345,
+          "name": "CI",
+          "branch": "development",
+          "sha": "1e522831700b61bb3b5240f233bc0462004d33bf",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T13:05:09Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/34972696345"
+        },
+        {
+          "id": 34972696299,
+          "name": "Deploy Azure Function",
+          "branch": "development",
+          "sha": "1e522831700b61bb3b5240f233bc0462004d33bf",
+          "conclusion": "skipped",
+          "updated_at": "2026-09-15T13:04:40Z",
+          "url": "https://github.com/JoaoGW/soat-auth-function/actions/runs/34972696299"
+        }
+      ]
+    },
+    {
+      "repository": "JoaoGW/soat-api",
+      "main": "68241cddd26ce9f356542f105d9e465a53996116",
+      "development": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "main_files": 259,
+      "development_files": 288,
+      "branches": [
+        {
+          "name": "development",
+          "sha": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+          "protected": true
+        },
+        {
+          "name": "fix/aplicacao-idempotente-api",
+          "sha": "9f1fcf9933d0a1f0b1d3c51f3525e5824c363083",
+          "protected": false
+        },
+        {
+          "name": "fix/deploy-api-script",
+          "sha": "3fd4e8328b771ccb6cc0ad5e5bab4a1ce4a5fccf",
+          "protected": false
+        },
+        {
+          "name": "fix/ghcr-deploy-estavel",
+          "sha": "37886990726da28487770601238492c36c94408e",
+          "protected": false
+        },
+        {
+          "name": "imp/fase2-documentacao",
+          "sha": "edfa7a5af7e09a357934bacdb1a135cea54d5052",
+          "protected": false
+        },
+        {
+          "name": "imp/fase3-infra-azure",
+          "sha": "500cee7760a2e7c331e3f51e34a325ab33fe4f6b",
+          "protected": false
+        },
+        {
+          "name": "imp/fase5-api-protegida",
+          "sha": "2981ca11475105ec6c0a9eaddcc9663cf598da72",
+          "protected": false
+        },
+        {
+          "name": "imp/fase6-observabilidade",
+          "sha": "caa2c968fe7279aceb39f9ee25e6a986aa71dc7c",
+          "protected": false
+        },
+        {
+          "name": "main",
+          "sha": "68241cddd26ce9f356542f105d9e465a53996116",
+          "protected": true
+        }
+      ],
+      "ahead": 32,
+      "behind": 0,
+      "open_prs": [
+        {
+          "number": 13,
+          "title": "Development",
+          "head": "development",
+          "base": "main",
+          "url": "https://github.com/JoaoGW/soat-api/pull/13"
+        }
+      ],
+      "runs": [
+        {
+          "id": 35047107130,
+          "name": "CI",
+          "branch": "development",
+          "sha": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+          "conclusion": "success",
+          "updated_at": "2026-09-16T02:14:18Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/35047107130"
+        },
+        {
+          "id": 35008205620,
+          "name": "CI",
+          "branch": "development",
+          "sha": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:34:48Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/35008205620"
+        },
+        {
+          "id": 35008205582,
+          "name": "Deploy imutável da API",
+          "branch": "development",
+          "sha": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:35:00Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/35008205582"
+        },
+        {
+          "id": 35007472603,
+          "name": "CI",
+          "branch": "fix/aplicacao-idempotente-api",
+          "sha": "9f1fcf9933d0a1f0b1d3c51f3525e5824c363083",
+          "conclusion": "success",
+          "updated_at": "2026-09-15T18:27:47Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/35007472603"
+        },
+        {
+          "id": 34885030491,
+          "name": "Deploy imutável da API",
+          "branch": "development",
+          "sha": "44a1ca8cab79e43b467f6308de57921da302d05b",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T19:09:35Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/34885030491"
+        },
+        {
+          "id": 34884782218,
+          "name": "Deploy imutável da API",
+          "branch": "development",
+          "sha": "44a1ca8cab79e43b467f6308de57921da302d05b",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T19:07:21Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/34884782218"
+        },
+        {
+          "id": 34884782047,
+          "name": "CI",
+          "branch": "development",
+          "sha": "44a1ca8cab79e43b467f6308de57921da302d05b",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T19:07:06Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/34884782047"
+        },
+        {
+          "id": 34884564131,
+          "name": "CI",
+          "branch": "fix/aplicacao-idempotente-api",
+          "sha": "ee6f8c9f770e78a8f7704c9dbbc68f6cca647c17",
+          "conclusion": "success",
+          "updated_at": "2026-09-14T19:04:59Z",
+          "url": "https://github.com/JoaoGW/soat-api/actions/runs/34884564131"
+        }
+      ]
+    }
+  ],
+  "topic_comparisons": [
+    {
+      "repo": "soat-postgres-infra",
+      "branch": "fix/oidc-terraform-postgres",
+      "sha": "62409fff3109fedf3bdf217317c909c0fef49ead",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 2,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "docs/readme-fase-7",
+      "sha": "635cfe9f8b066b38332313b0b96d34ae3d209b80",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 1,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/credencial-kubectl-kong",
+      "sha": "b61f88a392336f899270aa9c6240628d6d24554e",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 24,
+      "files": []
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "branch": "imp/fase2-documentacao",
+      "sha": "2bf751e307003877d965326bbe2708ff2c0a6091",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 12,
+      "files": []
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "branch": "imp/fase3-infra-azure",
+      "sha": "dad9b5e3d9ddd37e64fecf7c3f7908d6252075e9",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 5,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/acesso-minimo-kubectl-hml",
+      "sha": "6a9e68c7e595621304a7bfffd021b099370a60b5",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 19,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/execucao-pipelines-terraform",
+      "sha": "0775cf7e8124f12edac22c7af912807380992702",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 29,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/permissao-key-vault-function",
+      "sha": "21a8937ef39912b4a0b036e7cb39d210fc1fff4e",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 15,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/preservar-admin-aks",
+      "sha": "681ca1aaecd3bc87fb41530da27696354df5ad4d",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 17,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/preservacao-endpoint-postgresql",
+      "sha": "370fcfa70ec118c6554446a7bcfccfe8ec1b5c4d",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 21,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/imagem-sincronizador-observabilidade",
+      "sha": "ebd99266545ef5a24c926db5445aee7d165278f1",
+      "status": "diverged",
+      "ahead": 6,
+      "behind": 2,
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/observability.yml",
+        "README.md",
+        "environments/observability/main.tf"
+      ]
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "fix/versao-chart-kong",
+      "sha": "5c9ff18f41e1f60ef98cffa63c20314092ae6acb",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 27,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/ajuste-sku-aks",
+      "sha": "ec9716f3a268b6039c02b3dce043d0ad01e54bda",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 31,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/fase2-documentacao",
+      "sha": "e43f5c4645b7a49bbc8bb4d674ee61c57d72f589",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 64,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/fase3-infra-azure",
+      "sha": "25ae4b489eb53d99718c83644718c4603b6895cf",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 55,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/fase5-deploy-api",
+      "sha": "8b2fe1f330fab016454623d3afd9eda8a31408da",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 48,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/fase6-observabilidade",
+      "sha": "cd9f602c9a8e4405829ff2326c467c8f3161cfd6",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 44,
+      "files": []
+    },
+    {
+      "repo": "soat-aks-infra",
+      "branch": "imp/fase4-autenticacao-cpf",
+      "sha": "7c707b679eed74247916ced6fc51ae877384f0d1",
+      "status": "diverged",
+      "ahead": 8,
+      "behind": 64,
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/deploy.yml",
+        ".github/workflows/destroy.yml",
+        ".github/workflows/foundation.yml",
+        ".gitignore",
+        ".trivyignore",
+        "README.md",
+        "docs/seguranca.md",
+        "environments/hml/.terraform.lock.hcl",
+        "environments/hml/README.md",
+        "environments/hml/backend.hcl.example",
+        "environments/hml/main.tf",
+        "environments/hml/outputs.tf",
+        "environments/hml/terraform.tfvars.example",
+        "environments/hml/variables.tf",
+        "environments/hml/versions.tf",
+        "environments/prod/.terraform.lock.hcl",
+        "environments/prod/README.md",
+        "environments/prod/backend.hcl.example",
+        "environments/prod/main.tf",
+        "environments/prod/outputs.tf",
+        "environments/prod/terraform.tfvars.example",
+        "environments/prod/variables.tf",
+        "environments/prod/versions.tf",
+        "foundation/.terraform.lock.hcl",
+        "foundation/backend.hcl.example",
+        "foundation/main.tf",
+        "foundation/outputs.tf",
+        "foundation/terraform.tfvars.example",
+        "foundation/variables.tf",
+        "foundation/versions.tf",
+        "modules/namespace/main.tf",
+        "modules/namespace/outputs.tf",
+        "modules/namespace/variables.tf",
+        "modules/namespace/versions.tf"
+      ]
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "fix/condicao-deploy-function",
+      "sha": "3b19dd0930d88461f4dd2861c6b5f310b2f2a461",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 31,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "fix/configuracao-flex-function",
+      "sha": "a2179c28ac892008b5406783474faf4c953ef763",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 29,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "fix/redeploy-traces-function",
+      "sha": "fed8082db9d1b581c5bb83c87660600a21280b13",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 2,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "fix/oidc-terraform-function",
+      "sha": "68ec83eca33b158843bfb5c7356b3ac0b0396e16",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 39,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "fix/travas-deploy-function",
+      "sha": "07565270dc433f2e1218e214337202f27dcf0085",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 35,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "imp/disparo-deploy-function-hml",
+      "sha": "cfd433f23641e474892bfe0197f5124207711908",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 37,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "imp/disparo-deploy-function-hml-seguro",
+      "sha": "d57df268452a3537eb2a392245212ef67e6a42ae",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 33,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "imp/fase2-documentacao",
+      "sha": "6afd397fe9e7a58a76b0bd037a2469af80232492",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 49,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "imp/fase6-observabilidade",
+      "sha": "9e5104bbed385c401f1731acd46055198e25e9ef",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 42,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "fix/aplicacao-idempotente-api",
+      "sha": "9f1fcf9933d0a1f0b1d3c51f3525e5824c363083",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 2,
+      "files": []
+    },
+    {
+      "repo": "soat-auth-function",
+      "branch": "imp/fase4-autenticacao-cpf",
+      "sha": "fd7808f49fbf5cddde6256479b84c8f1328f1988",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 45,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "fix/ghcr-deploy-estavel",
+      "sha": "37886990726da28487770601238492c36c94408e",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 13,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "imp/fase2-documentacao",
+      "sha": "edfa7a5af7e09a357934bacdb1a135cea54d5052",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 31,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "fix/deploy-api-script",
+      "sha": "3fd4e8328b771ccb6cc0ad5e5bab4a1ce4a5fccf",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 11,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "imp/fase3-infra-azure",
+      "sha": "500cee7760a2e7c331e3f51e34a325ab33fe4f6b",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 29,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "imp/fase5-api-protegida",
+      "sha": "2981ca11475105ec6c0a9eaddcc9663cf598da72",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 22,
+      "files": []
+    },
+    {
+      "repo": "soat-api",
+      "branch": "imp/fase6-observabilidade",
+      "sha": "caa2c968fe7279aceb39f9ee25e6a986aa71dc7c",
+      "status": "behind",
+      "ahead": 0,
+      "behind": 16,
+      "files": []
+    }
+  ],
+  "read_files": [
+    {
+      "repo": "soat-postgres-infra",
+      "path": ".github/workflows/deploy.yml",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "5e30e4c00163fbe9ddbb0dffa9494d61accee6fe"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": ".github/workflows/destroy.yml",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "81776f4d48423a7ef69806a1af1dc51ab9490374"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/backend.hcl.example",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "ef3cb76fe6f7d3d0c8670c5200f9f6253c7b2f8a"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "docs/seguranca.md",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "73e2d281320fe06cfa8d5a44baea4afef9215967"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": ".github/workflows/ci.yml",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "56047fc2de3beac7e40c15f95c1f43c3514c9171"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/README.md",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "a00ca63db7462c0b5f825980fd2113f20b9a6e93"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/main.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "c6050e37569f92de295b7d8dd7367222b3c6917c"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/terraform.tfvars.example",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "c2291a17d01b3edfefef4e2faa969e8e3514d97b"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/outputs.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "f3ee3f2b6e121b99c3763395efe4e446bcfffb08"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "README.md",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "75e50f18dc498e88c8bf529594c264e45a7406e3"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/variables.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "8c50cbe7c0e2546d4698ad3cedfadab42146fd65"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/hml/versions.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "b6eb5846408eccedd1b0bd6fba4cd2051af15a8e"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/main.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "af3ffee9afc8700b60a1a2d1c3f0d3ea0cbcf228"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/README.md",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "30a1ed0c94ef83226cbcbc5e6075c731e0779b95"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/backend.hcl.example",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "229f8b38e6cbfcd754153fc826e1592950f92ad9"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/versions.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "b6eb5846408eccedd1b0bd6fba4cd2051af15a8e"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/outputs.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "f3ee3f2b6e121b99c3763395efe4e446bcfffb08"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/terraform.tfvars.example",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "c2291a17d01b3edfefef4e2faa969e8e3514d97b"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "modules/postgresql/versions.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "67b7303794dadbf0ac2b5c90e443aac0febfa842"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "modules/postgresql/variables.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "66df7dd0a373e8d953c8db69e8c2e94c917d914c"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "environments/prod/variables.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "8c50cbe7c0e2546d4698ad3cedfadab42146fd65"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "modules/postgresql/outputs.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "d55b71124a4980610eec14a05f55a960401ae265"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "modules/postgresql/main.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "aaad4caf803a57e98e0323e534f9fa79ea5288f3"
+    },
+    {
+      "repo": "soat-postgres-infra",
+      "path": "versions.tf",
+      "ref": "6fb8d0b6c9de495fe93d1e5c053445b9085426ce",
+      "sha": "81d29bc17325f10dffbbcc96b1a5d7ae0c77c702"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": ".github/workflows/deploy.yml",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "e5323975cd04ea163ddd4d54bea10b5efa31dec1"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": ".github/workflows/ci.yml",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "7addf0cf171cb05260bab32cc7da2678f66edb36"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": ".github/workflows/observability.yml",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "e1c050f41df2da3b11291fcbe1d11d2c13c73688"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": ".github/workflows/destroy.yml",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "8330e3cadfd9a8259ba2f93673c8d30dfe788d82"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "README.md",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "9160c69d6b1406bf07aef0b63eb99c52f8f20548"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "docs/seguranca.md",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "a1af3efe0e2edf445a22f9385bec3a128f1ad2e9"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/README.md",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "9f4b94045b5f4c6d39798a73dfe0666028246d90"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": ".github/workflows/foundation.yml",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "3b6423ec8e860af21001f79c31ac736809f4d329"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/backend.hcl.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "5bd8b9823329eb6a3e7448be9ab16479602892c9"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/outputs.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "16d878362acb146a5bf207e0567c820a3d73c527"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/terraform.tfvars.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "ad9be7a4b4ca7f505d9eea158de09466e0bc083d"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/main.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "f07b980abb749718a0dcb019d058e36dee03596a"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "a469a59df8bc1ad423d4d7eb541e718b2bea8f7b"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/hml/variables.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "bcf2b65a8448767cec7dbc4fdcdee829f6c7dfe8"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/observability/main.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "21562ab6de6f848562b2c1ed4afa2927bb76b83e"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/observability/variables.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "83e1b1e16acef2f7a60470d33ad6414e39cde83e"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/observability/README.md",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "6287821eb2c2a3cd436d59050319bb4120881548"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/README.md",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "2d934fc82f7b75ddf1a54c48d8ab94db34dd299b"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/observability/versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "66230f209df8f09450d867444a5e9942a8246bc7"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/backend.hcl.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "4eb26cda2456a02a206c768ebf7cd17b4b2745ee"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/terraform.tfvars.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "fcc256c5e9eae3cf2398dbdeb96a29db79d753cf"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/main.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "946b6ecd3a2db8b49108f446c893b9910b5f8617"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/outputs.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "8e0f2cb980365c9b2a67613fbec00796512a42e6"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/backend.hcl.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "50892d8b95bebef8d72afdb141cd9111331c3fe7"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/main.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "996c3b484aaa4c2557368a5a35326abc51f1c08f"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "a469a59df8bc1ad423d4d7eb541e718b2bea8f7b"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/outputs.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "6d882a99263ae58c32e40b64f24a985c9cad3a52"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "environments/prod/variables.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "87f28c14ca7e0cb39ae1814c289f42a902a21497"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "b6eb5846408eccedd1b0bd6fba4cd2051af15a8e"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/terraform.tfvars.example",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "a62c8b06b282b1740ac6d1e2d94ceb2a9f2fd0f4"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "foundation/variables.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "50b47a62b120c1266ad033de23abfd4351afaade"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "modules/namespace/outputs.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "bcc0dabcf2b1405a726e395c08a098d2cd6b60e1"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "modules/namespace/main.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "33f8667157cb94d049da0c02a365d7a8296f0e10"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "81d29bc17325f10dffbbcc96b1a5d7ae0c77c702"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "modules/namespace/variables.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "90642a5ec6093767fe54523fcf89ebd86372c2c4"
+    },
+    {
+      "repo": "soat-aks-infra",
+      "path": "modules/namespace/versions.tf",
+      "ref": "72c008ab3812bb4107ec2eeac69f0b6a14956b01",
+      "sha": "78f41245291d6c81869c1112870a4d33684b1b49"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": ".github/workflows/ci.yml",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "3d33297f719e807b9781a945674c68b7b90016ae"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "README.md",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "51e52cfe10edde09ab936b999e8b1df59a4aa5e3"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": ".github/workflows/deploy.yml",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "9b9941345a9a3c5501d16c548cd71a87cb25864f"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "docs/seguranca.md",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "b7f48dc9670dfa33f145df553e307e9516df50ae"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "docs/observabilidade.md",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "230b24c82bf3e4deb13a29c1c6e5011d5333c05f"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "eslint.config.mjs",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "5b0bd5b4e58a339d377f3cb6c73d7f662bf4471e"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/backend.hcl.example",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "f311e7edf61a0c59a830da9829b2ca5f1de71ba7"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "host.json",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "3b0a36da369ec0b7ac7e0cb71fee50a126e68fa1"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/backend.hcl.example",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "c2edf81a5d7908ad46305f680bce8021d5e8dc73"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/variables.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "49ba955e064a6f63762d2a7b965c287511adafae"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/main.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "63489a76dfd54cf4f51e8610b0059c118e5d13b1"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/main.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "c2d26af98017b0a5b7042abe295d7a768e17802b"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/versions.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "9b6ba6e1db7280abe0ec6099505aa28360c4ae27"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/terraform.tfvars.example",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "699d11170b3e4a5672b1b58214c6ec599fdbfeb2"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/outputs.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "cffb728f1f97b4944175e311403961b14ac28e00"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/terraform.tfvars.example",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "699d11170b3e4a5672b1b58214c6ec599fdbfeb2"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/versions.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "9b6ba6e1db7280abe0ec6099505aa28360c4ae27"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/prod/variables.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "49ba955e064a6f63762d2a7b965c287511adafae"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/modules/function/main.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "7fc968c138fe77d01fdcf8374348031ae774eae4"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/modules/function/variables.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "cebc42f7a03b7dd97b0466c8a4b1404522827d24"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/versions.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "9b6ba6e1db7280abe0ec6099505aa28360c4ae27"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "jest.config.cjs",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "e3d1bf8aa34f6a1545b28385308364f052ba73cd"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/application/AutenticarClientePorCpf.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "4b0154674e30747a55075444e91223fe71438083"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "package.json",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "0851f4df1d15794d595ee41ba4ee8879e2c3760c"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/modules/function/outputs.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "a03049e8e12c2fcaabd97e330b774855046d5b5a"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "infra/environments/hml/outputs.tf",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "cffb728f1f97b4944175e311403961b14ac28e00"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/application/ports/ClienteAuthRepository.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "b312d1ffbbef264fdd914e5aa41e1930e41de0fd"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/application/ports/TokenService.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "c4c9fbdbe89b62429ebfc3a8742c093f0784ae92"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/domain/Cpf.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "115b83b8569dcf41547f72712a19802700beba9c"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/domain/Cpf.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "8dde7e7cbade8bb981ada3440599c489a68d3e31"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/application/tests/AutenticarClientePorCpf.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "ba827c0d7a7740e9c49446e5bcae7a391d61a260"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/index.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "c15ca71f5e633fe926d7ad2ffa5f1e65751c67c3"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/index.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "4506fad34eae8140fdef3b23a4ed8e819dfda153"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/config/AuthConfig.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "779fa09870669450b99bffe63c5c9e6300d76ad2"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/config/AuthConfig.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "bccb1e2cfcdbf16437097f66589de4c19b1bd293"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/database/PostgresClienteAuthRepository.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "0dae46e327870be2a5a003537e91f76f8a57cdba"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/security/JwtClienteTokenService.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "9640dff7bc431a3810a8c6f8ad1864d73cd72ae6"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/security/JwtClienteTokenService.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "83b5a7d5c9c9c12a65907dd112e6a4034b3b6e9a"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/observability/Instrumentation.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "917d9e6501bea60da392575f255c8625648c33b5"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/interfaces/http/AutenticarClienteHttpHandler.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "fe71a685824051f1ab2ae7c8da5e8cc860c6e9f0"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/infrastructure/database/PostgresClienteAuthRepository.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "90b34364a82255589a7a4a932b10e9064abc74a2"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "src/interfaces/http/tests/AutenticarClienteHttpHandler.spec.ts",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "16dc8138172b27b726824887c78957a3c6a6b602"
+    },
+    {
+      "repo": "soat-api",
+      "path": ".github/workflows/ci.yml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a13a874247c2f61957f6135520e281a325abfecb"
+    },
+    {
+      "repo": "soat-api",
+      "path": ".env.test.example",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f6ac558596e31a9cd426d40a9e747dce35ef3f48"
+    },
+    {
+      "repo": "soat-api",
+      "path": ".github/workflows/deploy.yml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5542a4e701284105a403343a7eba843bd12674b6"
+    },
+    {
+      "repo": "soat-api",
+      "path": "Dockerfile",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "30fd851ae2a411bfc89eeb3bc25ccf909e9a42c4"
+    },
+    {
+      "repo": "soat-auth-function",
+      "path": "tsconfig.json",
+      "ref": "4f3df7143e046967e27bd5baf57677fec5f22141",
+      "sha": "42c354e8d9a458a64c91d25de6583a86fa3704b6"
+    },
+    {
+      "repo": "soat-api",
+      "path": "README.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "048dafabaf31a029245d4255283c92e1889cc7da"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/base/deployment.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "86596108a219777ce2355d1a7a35c27f74be07ff"
+    },
+    {
+      "repo": "soat-api",
+      "path": ".env.example",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a6014af09c3eb26bb6a6460690bc720d27e3eaea"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/base/serviceaccount.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "34d21ca12cf374233b0923251c8b94d68b022926"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/base/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "02e592939f940591276254278265ac84b5354e77"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/base/secret-provider-class.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8361928a7197792e4197be3928330a914b25c41f"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/migration/base/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "04722c9e183160a9ca413d75c54d2d25b69886af"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/migration/base/job.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ad1ae9ad499792d4b83e03cf54ee9adecd0b49fe"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/migration/overlays/hml/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8521dafad6d03f5dbac635874bb01a848a73eddb"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/base/service.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "7b8044c67c798345af35cd6141026f9dc01f1e99"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/migration/overlays/prod/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f7bce41991f4599d5928ef30ad37bcf072d3d72a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/hml/deployment-patch.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bfd011421eb79832ee1621bcc74e7147b2295c3b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/hml/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4392a3e769636f63972b945603366062935d34b7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/prod/deployment-patch.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c803b5e6fd605055a220ef9d4599d2347021660c"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/prod/kustomization.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bce3cd7b8a50734931d1a70887017f355047f355"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/hml/ingress.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b8ef657fec8c598a7d973e45098abae10fed8e6d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docker-compose.test.yml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ad2c5d9bb1cddfb7cd7b7b92d8af17f198b8744b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/prod/pdb.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "98954545efd5013981f68d4326f5614ca0ad5d58"
+    },
+    {
+      "repo": "soat-api",
+      "path": "deploy/kustomize/overlays/prod/hpa.yaml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4d66f9f59591a885205fb3a8435a1845ca2b09d0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docker-compose.yml",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2a59eb1c1e07d0d9b82258b2501f3ff60b5ff922"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/README.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "7c99cb288ea1ec39242f87747f84ede4569b7266"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-002-kong-api-gateway.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ce710394c158a6c3fc066784bae13bf8fc7751fe"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-003-postgresql-gerenciado.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e1427d2e2737888347e675f869154e60153b6435"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-004-jwt-por-cpf.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "83e3b886617870f2b20a8479710c5426465d9f06"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/modelo-er-postgresql.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2e161421f3346c7aa9dbf46d6abd8fce8820c038"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-006-isolamento-de-ambientes.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b3a066aadc4155e55389cfed46e4fe1f1a74154d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-001-azure-e-terraform.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2b16ceaa6484d96df1fd29433a271675517f0970"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-007-hpa-e-disponibilidade.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4063c5c1fb2da9a912f8ecd9af9e7a6a83a3be30"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/rfcs/RFC-001-plataforma-cloud.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8da2656dee850d993058d6b2f2fc855d799d3e10"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/rfcs/RFC-002-banco-gerenciado.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "7508e488d6180b3fe4cd5e05c705969e6af0955a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/rfcs/RFC-003-autenticacao-cpf.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "41baf57953159a8c4f16fcb315eac83199fd6abd"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/architecture/adrs/ADR-005-historico-status-os.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a61dffa17df6f246746dd712077a2afb88eaa103"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/observabilidade.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8822176a2c7714a7498456905692ccc1601e71fb"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/modelagem-ddd-fase-2.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4699fdf3f7aef9ad7ceec98babe9c5096f5d1eb4"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/relatorio-vulnerabilidades.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "12135dcd870f81c9042001998081c03408ba2ec7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/deploy-api.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2279e390e9681426cd1aae435fae14d219705f9b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "docs/testes.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b7c16e8d318e7bd61ee9ec436e1ad0ebd1f212bd"
+    },
+    {
+      "repo": "soat-api",
+      "path": "eslint.config.mjs",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bd7e260ea3a9b84c5c8b05181f26a694d89cd8c7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "jest.config.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a446dc5ce48a4f07ca54285506502be7ed39b937"
+    },
+    {
+      "repo": "soat-api",
+      "path": "jest.e2e.config.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b7869d9e130615571eb63e89a169ff25300a79bb"
+    },
+    {
+      "repo": "soat-api",
+      "path": "nest-cli.json",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f9aa683b1ad5cffc76da9ad4b77c562ac4c2b399"
+    },
+    {
+      "repo": "soat-api",
+      "path": "package.json",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c6232ca12d195e49ff3fb3369a1e7f5d4dba2cfa"
+    },
+    {
+      "repo": "soat-api",
+      "path": "prisma/migrations/20260714100000_init/migration.sql",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "87546807c32dfcefe842a4a5f4aa8a305979089a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "prisma/migrations/20260909010000_validacao_documento_e_historico_append_only/migration.sql",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "364a16f3de9a057f4a32abe6cbead1f291da9bd9"
+    },
+    {
+      "repo": "soat-api",
+      "path": "prisma/migrations/20260909000000_fase_3_integridade_e_historico/migration.sql",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "62a5225f3757148dfbabf05f5b0d3ef6823b890e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "prisma/schema.prisma",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "3c855e037055569b61f4e162f3fba8d1299b2916"
+    },
+    {
+      "repo": "soat-api",
+      "path": "scripts/deploy-api.sh",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "0f8a5e10b3c7d5b42cc861fc95ecaa8f45ee5af7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "scripts/security/run-snyk-scan.mjs",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "3af13217b028a8989dd4d6ca437c0f5450df8bcd"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/app.controller.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "fd1780cabfbd8726e95cc5430742f77f68a64b0d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/app.module.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e57d830c1e87494779736af37516c47151246955"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/ports/output/NotificacaoPort.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "0cfbaba3c266b0920ca39f6e11f47e67ae58ce71"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/app.service.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "927d7cca0badb13577152bf8753ce3552358f53b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/ports/output/PortTokens.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "186db5c8a133d75351960de8d3c6e22603bb2570"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/ports/output/OrcamentoWebhookTokenPort.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "54948ecbb7d2ba01dea13c1177f200f37b65b7c5"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/AdicionarServicoOSUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "810ff563f41321009013a455ae9287b4cdfe6a2b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/ConsultarStatusOSUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "6b083a054146cc76ef77b1103eb7ab3707939b02"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/AprovarOrcamentoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b98106ad66b70b8047b9abeebb550187e4970a78"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/CriarOrdemDeServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "008d8df960688988866d81d6729c2f5ed15c2fe5"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/AdicionarPecaOSUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "fc71583d051584d15d3aabca210d72369a7e6c58"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/EntregarVeiculoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4b828499f4f54f2e6ef5161efcbc80acacc45f14"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/FinalizarServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e92278c4fd6db757fe90cf72368cd2363bcea6eb"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/EnviarOrcamentoParaAprovacaoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e0f7d055842071af2e71dacc488d90d5d86cc8b2"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/GerarOrcamentoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "70575b9f0dbcf35842b04638787570fab45a53bf"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/IniciarDiagnosticoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "11a4accbcd01352f6936884f9978977c32aea0ef"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/IniciarExecucaoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8fd4bd6b3808fee6fa7bce08ab32fac3f4155075"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/ObterTempoMedioExecucaoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c223e6bce26f4f8bea5e50edf9248ef8851e2f26"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/RecusarOrcamentoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b43b374f9e9881ef3ddbeaad2f40e93919ff4c0b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/auth/LoginUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "1ad8e73494ea4a63d37ec8956efd587117f52e8b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/BuscarClientePorDocumentoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "69e58ebe36bfecccc8f89b0f522d81f13b9e2ee5"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/AtualizarClienteUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "06a48bc9ef2b2a9ee8e697b080eb290fee783b53"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/BuscarClientePorIdUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "62359638ac8c682c142d95a273a645e9b8060503"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/CriarClienteUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c80c449d1e1fabb0d9f7913cb2ca9e01719f98d7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/ListarClientesUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "91760f8547f095b2409d538870b2176c577c0156"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/fakes/InMemoryClienteRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "15d27c3c1a5a8fba1fd09264016067de0162ae16"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/fakes/InMemoryOrdemDeServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "99a733044949efc1d6b60f28c7e1ff10e16d0a3a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/fakes/InMemoryServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c88fa4e5fc6bb5a8a46ce326045500e09ac265d3"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/fakes/InMemoryVeiculoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "262b6eafd01dab1ae424afd7b38732f4507b3ed0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/fakes/InMemoryPecaRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "360451dbeec416635a478bc7c6935c9f2a6cd938"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/ordem-servico/BuscarOrdemDeServicoPorIdUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8c5e42b3f65155932049adf64c6b5e56deb4ae99"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/cliente/RemoverClienteUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2eb441f8b4d80914c64a535940ccd33853413eb0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/AjustarEstoqueUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b325218e07074f5e6922789de922a5ec16a72394"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/AtualizarPecaUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "75f6380e09fd353a012a5413e8257526d793826b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/BuscarPecaPorIdUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "38cea2dd0ba481acbb4c39cfb394548431edb2d8"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/ordem-servico/ListarOrdensDeServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5644653f74b20cac005c330a103b554f48966045"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/CriarPecaUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ecdc4da4febbfb575a834b049adcae5f13284267"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/ListarPecasUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "13dff14d9356964cff9872a104b1bb9d7c46b9ad"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/peca/RemoverPecaUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "6ecc757cf673db65c781381e3f3a4ef49c96f924"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/servico/CriarServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b5de51ba7b38ebac876f7660fbfcfa9a4e1d2f37"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/servico/ListarServicosUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ce9c0f1eedb70b2cce7ff7ddc164a95df2be7b6b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/servico/AtualizarServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5e3531b82b858684b81d0f9eee440cafe0124639"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/servico/RemoverServicoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e500eaf1114714597a753374f3afbf4e34f3eead"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/servico/BuscarServicoPorIdUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d0881a9ed93e1f2dd0ca23dffdf9acfd8aa79b3a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/AtualizarVeiculoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e0cb0d0e5f34cfe0e3038b0e4e1f5b3fc8b76074"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/CriarVeiculoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5b50af98a5a97c6796d4e3cd388104e775d9cb4e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/tests/_helpers.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2f4adb02c2a37d188eeaac182d2243a798c911a9"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/ListarVeiculosUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bb917f9ce441ce1232ca2ffd4d299bb62c3cafc0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/BuscarVeiculoPorIdUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f4f9fc205d7d7c254b86cfe0ad54aca9847479cb"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/RemoverVeiculoUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "768fed09e7612f02778c461df259c4a1fe18365a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/application/use-cases/veiculo/ListarVeiculosPorClienteUseCase.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "50b173f6a8ca9cef62e37587546e2ea022c8e67b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/entities/Cliente.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "553fb924a1c077cb8e60670d12fadc49a0537540"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/entities/OrdemDeServico.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "17689042b540ba4f651b88c15cf152a29d9c3da9"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/CodigoAcompanhamentoInvalidoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ed2f0965b02642fce0b78d8bab50b16283429ab7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/enums/StatusOS.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "aed0a0a997b918d5ae2f249c6350f38c34292a69"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/entities/Veiculo.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "790bb50e788fd2fb7b99a42030cf330df16b301c"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/DocumentoInvalidoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "14f7d316cb6061322697aecbe41e7026343d202f"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/ClienteNaoEncontradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e314b651d4fcafcf1697d03092cae4376c4ef2a5"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/entities/Servico.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "80d1a7c3e4ddb1a679bc21d358ff3fce55b490be"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/entities/Peca.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "650e23a4cf3fc5aaf0e0eab9d75b2514557d6bb9"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/DocumentoJaCadastradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "16291147245fd54cc75daee7c8e16c892c42b01d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/OrcamentoNaoPodeSerGeradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "afaa15df3fd1a304a16cd62f1af09ab590c3817a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/EstoqueInsuficienteError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "02151ff21d071b71fec82b3a9d5c2a8940c85a3b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/OrcamentoNaoAprovadoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5762c68b66822e3a6a45382ffc62d24041140e99"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/ExecucaoNaoPodeSerIniciadaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "eb89d6da653b3b59a67fb9c3f8c5003092d4d968"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/OrcamentoNaoGeradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f0ba27919c4bb06944674acbd7a458dc9c6b910a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/EntidadeEmUsoNaoPodeSerRemovidaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "863a2a7e5592c84c64b4ff9438e7dc8415d50a51"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/EntidadeInativaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "4e367be0ca11c744fab4daf50c16f8f9a73ac5ac"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/PecaNaoEncontradaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e56cb1d1edcf391e3982b4f6910282aac661d1e5"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/OrdemDeServicoNaoEncontradaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "80498d171349c2019196f2411a6d4b2c8039332d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/PlacaJaCadastradaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "fe9335e820e1b6ce78c021529ba936e26ca713ad"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/PlacaVeiculoInvalidaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "af7300e556c2b7ee264c1be4e42947b2b3bd8fc9"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/QuantidadeInvalidaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "65233bc311d4afcb7194c4a63d88f38a79904159"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/QuantidadeEstoqueInvalidaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "91b733d3046ab5f70404f45093c35a4b10cab614"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/OrdemDeServicoSemServicoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5d8b44423eb6b36fcda2c481cd45576faa53b372"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/ServicoNaoEncontradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "21a0d6e75fa8073bc57815c68ec1633514f8c456"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/ValorMonetarioInvalidoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f9248ae56cb4536c22cf1bba8c477a7c2efc045d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/ClienteRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "64cae37af57168d06fd7fca3825ba3666453cd4b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/OrdemDeServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "cc1d58d9fb554e8dbaae7b68f13a20bc1370d290"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/TransicaoStatusInvalidaError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2b41c95825cddd98601620cb234e74ac456a5cbf"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/VeiculoNaoPertenceAoClienteError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ab95d5592e23347271ac6d09da961e2bba343f58"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/PecaRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "9db40c0701d2f159e35f58cbe28a78d497f4c149"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/ServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bc9fb7e0496e033150cf36de02de5275437ef8fe"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/errors/VeiculoNaoEncontradoError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "60b8177bc8de84ca4e4d31e33e042b85d85d978c"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/Documento.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d16de648eb18c6f79e2214a1bba4e3199ca17ec0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/VeiculoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "1e846a13dd6ad743451040087a9b9c48fe76a24b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/repositories/types.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "3375513b9d5b49b79f62cc133ca7b446272e7367"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/Dinheiro.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "9487fc591b75001ea76da9476b1a39647d116c49"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/CodigoAcompanhamento.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "51e2ca426e853bf0f8d3cc989d100b01d34688ad"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/PlacaVeiculo.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "32175b92e3460b1f106734c664a5a09dfc75234c"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/ItemServicoOS.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8023a762512400a3f699a7ee5d52a3cd82ec6104"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/ItemOS.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "73fe3732097d17fa1e5f5f77ea5712e43c6a6bb3"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/QuantidadeEstoque.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "11e085e8e39db19ea53b241941c8905b76eaee80"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/adapters/email/EmailAdapter.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e7ad6271ee99e82522f062970791e189959fb839"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/domain/value-objects/Quantidade.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "b6564b6124aef8bf003801b2bfea2784e7efaab6"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/adapters/email/README.md",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8deee947649e15abd35090af45b599f5d53a464d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/adapters/webhook/JwtOrcamentoWebhookTokenAdapter.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c8a8e178748131d823353286a91ea7fb6ce7c642"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/config/env.validation.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "262c1a156a0bcf5dcb8701fbeb1b718b3976f4c8"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/database/PrismaService.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "f80a88607bd431f3e41774072e68efaf31377e56"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/mappers/ClienteMapper.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "95dc8d119dd24b644faa78d8e003fe0971454907"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/mappers/ServicoMapper.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c599acaa4354b6d05329119dea587f712e980b1a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/mappers/PecaMapper.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "1b427bfb297484a925c943192e0b95e0d92c60b0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/mappers/VeiculoMapper.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "36d7b58624f0cb6c4463b2cf3b3f790812680f76"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/observability/ObservabilityService.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d8131d40eec185d9e35a7dd90fe7c816e343e17e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/repositories/PrismaClienteRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "da4725f9b36c8cd4af1f45adb275270cd436be99"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/repositories/PrismaOrdemDeServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ec0bddd259bcb6a2b5d6304f10015c1f820ff6f7"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/observability/instrumentation.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e716fbc48d36cb8f6d434af1c2dab477efc6ec94"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/mappers/OrdemDeServicoMapper.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "26ced23cc63638b695697eaa30bb3a3f481e6b3d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/repositories/PrismaServicoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "9851c5f81308255d2ceac7a3b87de2334a93a549"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/repositories/PrismaPecaRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "992ba675d32c167e71389353a4d6f5c3886abb40"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/infrastructure/repositories/PrismaVeiculoRepository.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "0879c6242240fe91b308b2ef98fda7413ad07cad"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/ClienteController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "af8611ad808d824fdc6073587231b9b6f0a4fc55"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/auth/AuthController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e7c295da88ef919ff9655a17e1e96e9d8264367d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/ServicoController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bf8ec18b8c71818981073df425be0c54312941ab"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/RelatorioController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "573f40aacb99d79f7b75915a5d421322af55fd90"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/OrdemDeServicoController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a8367891f6c81210d6486773808ec99c09d804e0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/VeiculoController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "011b416d768631ccaf5b60b567fc7d1703fc683d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/publico/WebhookOrcamentoController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "9800abd04a78fa281d1d9cb372ce978ef6cd3904"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/cliente/ClienteOrdemServicoController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e6d6617786f9b718248e516f94a02473a6067a13"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/controllers/admin/PecaController.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "863166bc6cc3c7fd39cbcb9dc677b043f304144f"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/ordem-servico/AdicionarServicoOSDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "278421ab32b0af05a162f842bf00e882e929e08e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/ordem-servico/AdicionarPecaOSDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d48040451f072070bea5ac23348c625167757acc"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/cliente/AtualizarClienteDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "284b1c69c7543b46ad5f756226741088572cd852"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/cliente/CriarClienteDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "648c702685c442ae3297215b3a58f3ff97eac1e0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/auth/LoginDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "91702147de6bfa074ac1ce3b7fde8d5949c63510"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/ordem-servico/CriarOrdemDeServicoDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "3caac4df1b5c0edfc24aad5d5ab146b2c882a53b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/peca/AtualizarPecaDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "1f65a74579e0edd4b2b159e4bf134f3ebf8b2b6d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/peca/AjustarEstoqueDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "52d3de0ff60759574a30bf2c20a74fef78133e5b"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/peca/CriarPecaDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d3dcbf68b3e2d464a701636051dc006b730f20d6"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/publico/ConsultaStatusOSResponseDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "dab033105b5c3bc8957cf5e6838c1e7c71d32e2d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/servico/CriarServicoDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "c002a2a1c10975395e013b9f6d5270941ea3f978"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/veiculo/AtualizarVeiculoDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ca030d017d6b10f3d04d0562a90b0c634577ea8a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/guards/JwtClienteAuthGuard.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "0a87c1b9a3edf7816f4269e5882bf3101cd916cf"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/guards/JwtAuthGuard.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2155290edea420d9d7e339f20679f3114d4c2d69"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/observability/CorrelationIdMiddleware.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "d39d1a62948aa71ac0d93fe5a02ed54c48727954"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/observability/HttpObservabilityInterceptor.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "df5ca4494027a38fc2880afa07286d47eb9b40df"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/strategies/JwtClienteStrategy.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "8c61249482f9f111d01a1b101a90ea5f3ecd440f"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/veiculo/CriarVeiculoDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "e71ae82141deaa638a96bb1b3d8c7e377dee6cde"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/strategies/JwtStrategy.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "9e8cdcfd04154145d78e22d48fd336f134cf8165"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/main.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "26b7a02405ed0a7e5dc29fd715358c30866fdbb8"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/modules/auth.module.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "6e55c86e900923004a2b4e7c2a76c19db5cd5de1"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/modules/publico.module.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "ae8cd150f11c801887f13980e921969c7e315a86"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/modules/repository.module.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "a055b758907039bd42aed305dcbbe7b19d0dba22"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/modules/relatorio.module.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "50a6784f3084a305f4de8a6595049257b3d704d8"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/shared/domain/DomainError.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "bcd99cbdc7fc991381f568a9f70b2a037566809e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/shared/domain/UniqueEntityId.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "843a724bb34554fc479d47be3977de013b266ad0"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/shared/domain/ValueObject.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "5f3b816c123a85a91b3da13d0315f61e055a9ef2"
+    },
+    {
+      "repo": "soat-api",
+      "path": "test/jest-e2e.setup.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "1e581816a0de921c76f23693a601321607ee0540"
+    },
+    {
+      "repo": "soat-api",
+      "path": "test/jest-e2e.json",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "72f13779e5ba434016a26a8c767d7e4e82764e7d"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/shared/domain/Entity.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "20d069fdac23967540c999090828cf2067937b62"
+    },
+    {
+      "repo": "soat-api",
+      "path": "src/interfaces/dtos/servico/AtualizarServicoDto.ts",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "46bcaabaa44aa50e24d2976bd2ee4c07cafd2a7a"
+    },
+    {
+      "repo": "soat-api",
+      "path": "tsconfig.json",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "484cb5a654568e9fe8636fbc1f32fffbbebeea3e"
+    },
+    {
+      "repo": "soat-api",
+      "path": "tsconfig.build.json",
+      "ref": "4eb05bcc7adb45ed794d5ae5707fca102a70f255",
+      "sha": "2fe1df273de6f4c070ddf8fc18b3c2388f23353b"
+    }
+  ],
+  "supplemental_sources": [
+    {
+      "kind": "github-file",
+      "repository": "JoaoGW/soat-aks-infra",
+      "ref": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+      "path": ".github/workflows/ci.yml",
+      "sha": "3c9e3bd67cb8ecf8bf360019a821527f435fbbb6"
+    },
+    {
+      "kind": "github-file",
+      "repository": "JoaoGW/soat-aks-infra",
+      "ref": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+      "path": ".github/workflows/observability.yml",
+      "sha": "729f51935eeae7cb06406f43061fa521d4f7e2f3"
+    },
+    {
+      "kind": "github-file",
+      "repository": "JoaoGW/soat-aks-infra",
+      "ref": "8266fe617a9f2770f28f0a0436abb8c07202daf1",
+      "path": "environments/observability/main.tf",
+      "sha": "9d438447428a6dc14ca989b72dcf6b6efe029e5d"
+    },
+    {
+      "kind": "pdf",
+      "path": "/Users/multscantec/Downloads/SOAT - Fase 4 - Tech challenge.pdf",
+      "pages": 7,
+      "requirements_pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "kind": "github-workflow-log",
+      "url": "https://github.com/JoaoGW/soat-api/actions/runs/35047107130/job/104639212063",
+      "unit_suites": 59,
+      "unit_tests": 215,
+      "integration_suites": 10,
+      "integration_tests": 51,
+      "coverage": {
+        "statements": 96.61,
+        "branches": 86.63,
+        "functions": 96.23,
+        "lines": 97.45
+      },
+      "coverage_scope": "domain and application as configured by Jest, including some helpers"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/docs/qr-code/overview",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/docs/qr-code/payment-processing",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/docs/qr-code/notifications",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/docs/qr-code/resources/status-order-transaction",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/reference/in-person-payments/qr-code/orders/cancel-order/post",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/reference/in-person-payments/qr-code/orders/refund-order/post",
+      "verified_date": "2026-10-30"
+    },
+    {
+      "kind": "official-docs-browser",
+      "url": "https://www.mercadopago.com.br/developers/pt/docs/qr-code/integration-configuration/qr-dynamic/integration",
+      "result": "Page indicates content no longer exists or moved"
+    },
+    {
+      "kind": "official-docs-github",
+      "url": "https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/service-bus-messaging/private-link-service.md",
+      "sha": "447bae7e332c7db3016b333e120bed6461a7475e"
+    },
+    {
+      "kind": "official-docs-github",
+      "url": "https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/service-bus-messaging/message-sessions.md",
+      "sha": "8febe68e09a5aefdf4444cdfee7564ce39d3041d"
+    },
+    {
+      "kind": "official-docs-github",
+      "url": "https://github.com/MicrosoftDocs/azure-docs/blob/main/articles/service-bus-messaging/duplicate-detection.md",
+      "sha": "acf6727408f6983b2792e2633db241b1539ce1c9"
+    },
+    {
+      "kind": "official-sdk-source",
+      "url": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/src/client/Item/Items.ts",
+      "sha": "c2eb6c1edaf2d163021caded1b2a27239fe22472"
+    },
+    {
+      "kind": "official-runtime-schedule",
+      "url": "https://github.com/nodejs/Release/blob/main/schedule.json",
+      "node20_end": "2026-04-30"
+    }
+  ],
+  "review": {
+    "version": 2,
+    "date": "2026-10-30",
+    "reference_heads_rechecked": true,
+    "reference_heads_changed": false,
+    "coverage": "R01-R43 retained; PDF pages 2-6 rechecked",
+    "scope_reductions": [
+      "Existing HML namespace and one environment",
+      "One Deployment per business service initially",
+      "No mandatory new PROD/HA/full branch administration/historical migration/DR program",
+      "No mandatory broker sessions/deduplication or formal AsyncAPI"
+    ],
+    "corrections": [
+      "Business reports and regression preservation",
+      "Separate new migrations and workloads before cutover",
+      "Saga cancellation fence and deferred financial facts",
+      "Producer-local aggregate versions",
+      "Financial and BDD gates before cutover",
+      "Function connectivity through existing HTTPS Kong"
+    ],
+    "implementation_guide": "inicio-implementacao-fase4.md",
+    "additional_primary_source": {
+      "sha": "9b4ce504b5d46e31d6522052da46398648e69eea",
+      "url": "https://github.com/MicrosoftDocs/azure-aks-docs/blob/main/articles/aks/concepts-network-azure-cni-overlay.md",
+      "path": "articles/aks/concepts-network-azure-cni-overlay.md"
+    }
+  },
+  "limits": [
+    "Cloud runtime not inspected; pipeline success is not proof of apply or healthy live deployment.",
+    "Branch protection detail denied HTTP 403 by integration; protected=true is visible.",
+    "PDF read and pages 2-6 visually checked."
+  ]
+}
